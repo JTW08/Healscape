@@ -1,0 +1,12 @@
+{
+  "name": "healscape",
+  "version": "1.0.0",
+  "description": "HealScape — a family wellness & gaming app featuring Milo the AI rabbit companion",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["wellness", "family", "tamagotchi", "firebase"],
+  "author": "Blake & Family",
+  "license": "ISC"
+}

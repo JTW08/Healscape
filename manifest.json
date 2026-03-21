@@ -1,5 +1,5 @@
 {
-  "name": "HealScape \u2014 Blake's Healing Realm",
+  "name": "HealScape",
   "short_name": "HealScape",
   "description": "A family wellness and healing companion app",
   "start_url": "/Healscape/",
@@ -8,29 +8,12 @@
   "orientation": "portrait",
   "background_color": "#1a1714",
   "theme_color": "#1a1714",
-  "categories": [
-    "health",
-    "lifestyle"
-  ],
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='44' fill='%231a1714'/><text y='135' x='96' font-size='110' text-anchor='middle'>🏰</text></svg>",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
-  ],
-  "prefer_related_applications": false
+  ]
 }

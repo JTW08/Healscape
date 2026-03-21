@@ -28,7 +28,7 @@
   --text:#f0dca0; --text2:rgba(200,170,100,0.65);
   --card-bg:rgba(38,28,4,.92); --card-border:rgba(200,150,10,.2);
   --input-bg:rgba(38,28,4,.9); --input-border:rgba(200,150,10,.25);
-  --radius:14px; --tab-h:60px; --hud-h:58px;
+  --radius:14px; --tab-h:clamp(56px,8.5vh,72px); --hud-h:clamp(54px,8vh,68px);
 }
 /* ── LIGHT REALM THEME ── */
 [data-theme="light"] {
@@ -276,7 +276,7 @@ body::before{
 }
 
 /* ── SCREENS ── */
-.screen{display:none;flex-direction:column;height:100dvh}
+.screen{display:none;flex-direction:column;height:100vh;height:100dvh}
 .screen.active{display:flex}
 
 /* ── BOOT ── */
@@ -336,7 +336,7 @@ body::before{
 .pin-lockout-bar{margin-top:14px;padding:12px 18px;border-radius:12px;background:rgba(239,83,80,.12);border:1px solid rgba(239,83,80,.35);color:#ff8a80;font-family:'Cinzel',serif;font-size:12px;text-align:center;letter-spacing:.4px;display:none}
 .pin-forgot-panel{margin-top:16px;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);display:none;flex-direction:column;gap:10px;width:100%;max-width:280px}
 .pin-forgot-label{font-family:'Cinzel',serif;font-size:11px;color:rgba(255,255,255,.55);letter-spacing:.6px;text-align:center}
-.pin-forgot-input{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:9px;padding:9px 12px;color:#fff;font-size:14px;font-family:inherit;outline:none;text-align:center;width:100%;box-sizing:border-box;letter-spacing:2px}
+.pin-forgot-input{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:9px;padding:9px 12px;color:#fff;font-size:16px;font-family:inherit;outline:none;text-align:center;width:100%;box-sizing:border-box;letter-spacing:2px}
 .pin-forgot-input:focus{border-color:rgba(245,200,66,.45)}
 .pin-forgot-error{font-size:10px;color:#ef5350;font-family:'Cinzel',serif;text-align:center;min-height:14px;letter-spacing:.3px}
 .pin-forgot-btns{display:flex;gap:8px}
@@ -428,9 +428,9 @@ body::before{
 [data-theme="light"] .hud-action-bar{background:var(--stone2);border-color:rgba(21,101,192,.1);}
 [data-theme="light"] .hud-act-mood{border-color:rgba(160,110,0,.4);color:#8a6100;}
 .tab-content{flex:1;overflow:hidden;position:relative;padding-top:5px}
-.tab-panel{display:none;height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px}
+.tab-panel{display:none;height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;padding:16px 16px 160px}
 .tab-panel.active{display:block}
-.tab-panel.farm-panel{padding:0;overflow:hidden;display:none;flex-direction:column}
+.tab-panel.farm-panel{padding:0;overflow:hidden;display:none;flex-direction:column;position:relative}
 .tab-panel.farm-panel.active{display:flex}
 .tab-panel.games-panel{padding:0;overflow:hidden;display:none;flex-direction:column}
 .tab-panel.games-panel.active{display:flex}
@@ -585,7 +585,7 @@ body::before{
 /* ════════════════════════════════════════════════════════════
    CROSSY ROAD VOXEL FARM SCENE
 ════════════════════════════════════════════════════════════ */
-.farm-scene{flex-shrink:0;height:clamp(180px,30vh,340px);position:relative;overflow:hidden;background:linear-gradient(180deg,#87ceeb 0%,#b2ebf2 45%,#c8f0c8 45%,#81c784 100%)}
+.farm-scene{flex-shrink:0;height:clamp(140px,22vh,240px);position:relative;overflow:hidden;background:linear-gradient(180deg,#87ceeb 0%,#b2ebf2 45%,#c8f0c8 45%,#81c784 100%)}
 .ac-cloud{position:absolute;top:0;animation:acCloudDrift linear infinite}
 .ac-cloud svg{display:block}
 .ac-tree{position:absolute;bottom:26px;transform-origin:bottom center;animation:acTreeSway 4.5s ease-in-out infinite}
@@ -618,7 +618,7 @@ body::before{
 .farm-sun-wrap{position:absolute;top:8px;right:16px}
 .farm-sun-core{font-size:32px;animation:bounce 4s ease-in-out infinite;filter:drop-shadow(0 0 8px rgba(255,220,50,.7))}
 .bg-animal{position:absolute;font-size:22px;bottom:4px;animation:bgwalk linear infinite;cursor:default;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3));user-select:none}
-.farm-ground-strip{flex-shrink:0;height:32px;background:linear-gradient(180deg,#6abf2e,#4a9a1a);position:relative;overflow:hidden;border-bottom:3px solid #3a8010}
+.farm-ground-strip{flex-shrink:0;height:24px;background:linear-gradient(180deg,#6abf2e,#4a9a1a);position:relative;overflow:hidden;border-bottom:3px solid #3a8010}
 .farm-fence{display:flex;align-items:flex-end;height:100%;padding:0 4px;position:relative}
 .farm-fence-post{width:14px;height:22px;background:#8B5E3C;border-radius:2px 2px 0 0;flex-shrink:0;border:1px solid rgba(0,0,0,.2);margin:0 calc((100% - 14px*20)/19/2)}
 .farm-fence-rail{position:absolute;top:6px;left:0;right:0;height:4px;background:#A0714F;border:1px solid rgba(0,0,0,.15)}
@@ -632,10 +632,10 @@ body::before{
 .farm-hud-lbl{font-size:8px;color:rgba(255,255,255,.45);letter-spacing:.3px}
 .slow-badge{font-size:9px;color:#ef5350;font-weight:800;background:rgba(239,83,80,.1);border:1px solid rgba(239,83,80,.3);border-radius:8px;padding:3px 6px;flex-shrink:0}
 .slow-mode-bar{height:3px;background:linear-gradient(90deg,#f5d020,#ef5350);transition:width 1s linear;flex-shrink:0}
-.farm-scroll{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
-.farm-section{padding:8px 10px}
+.farm-scroll{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:4px}
+.farm-section{padding:4px 8px}
 .farm-section-title{font-family:'Cinzel',serif;font-size:11px;color:rgba(255,255,255,.7);letter-spacing:.5px;margin-bottom:6px;display:flex;align-items:center;gap:6px}
-.farm-field{background:linear-gradient(180deg,#5a8f25,#4a7a1a);border-radius:12px;padding:8px;display:grid;grid-template-columns:repeat(5,1fr);gap:5px;border:2px solid rgba(100,180,30,.4);box-shadow:inset 0 2px 0 rgba(255,255,255,.08),0 4px 16px rgba(0,0,0,.35);position:relative}
+.farm-field{background:linear-gradient(180deg,#5a8f25,#4a7a1a);border-radius:12px;padding:6px;display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:4px;border:2px solid rgba(100,180,30,.4);box-shadow:inset 0 2px 0 rgba(255,255,255,.08),0 4px 16px rgba(0,0,0,.35);position:relative}
 .farm-field::before{content:'';position:absolute;inset:0;border-radius:11px;background:repeating-linear-gradient(90deg,transparent,transparent 19%,rgba(0,0,0,.04) 19%,rgba(0,0,0,.04) 20%);pointer-events:none}
 .f-plot{aspect-ratio:1;border-radius:8px;background:radial-gradient(ellipse at 40% 35%,#6b3f0a,#3d2006);border:1.5px solid rgba(100,60,10,.5);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;transition:transform .1s,border-color .2s;box-shadow:inset 0 2px 0 rgba(255,255,255,.06);-webkit-tap-highlight-color:transparent}
 .f-plot:active{transform:scale(.88)}
@@ -646,7 +646,7 @@ body::before{
 .f-plot.stage3{background:radial-gradient(ellipse at 50% 60%,#5ea81e,#3a7210)}
 .f-plot.ready{background:radial-gradient(ellipse at 50% 60%,#6bc422,#4a8e14);border-color:#a8e063;animation:readyshine 1.5s ease infinite}
 .f-plot.watered .water-shimmer{position:absolute;inset:0;background:linear-gradient(135deg,rgba(80,160,255,.15),transparent);pointer-events:none}
-.plot-emoji{font-size:22px;line-height:1;position:relative;z-index:2}
+.plot-emoji{font-size:20px;line-height:1;position:relative;z-index:2}
 .f-plot.ready .plot-emoji{animation:bounce .8s ease infinite}
 .f-plot.stage2 .plot-emoji,.f-plot.stage3 .plot-emoji{animation:sway 2s ease infinite}
 .plot-progress{position:absolute;bottom:3px;left:3px;right:3px;height:3px;background:rgba(0,0,0,.4);border-radius:2px;overflow:hidden}
@@ -655,8 +655,8 @@ body::before{
 .plot-ready-badge{position:absolute;top:-2px;left:50%;transform:translateX(-50%);background:#a8e063;color:#0a1800;font-size:7px;font-weight:900;padding:1px 5px;border-radius:4px;white-space:nowrap;letter-spacing:.3px}
 .farm-float{position:fixed;pointer-events:none;z-index:600;font-family:'Cinzel',serif;font-size:16px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,.5);animation:floatup 1.4s forwards}
 /* Animals */
-.barn-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:8px;background:rgba(0,0,0,.25);border-radius:10px;border:1px solid rgba(200,150,50,.2)}
-.animal-pen{border-radius:10px;border:1.5px solid rgba(255,255,255,.12);background:rgba(0,0,0,.3);padding:10px 6px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;position:relative;transition:all .14s;-webkit-tap-highlight-color:transparent}
+.barn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:5px;padding:5px;background:rgba(0,0,0,.25);border-radius:10px;border:1px solid rgba(200,150,50,.2)}
+.animal-pen{border-radius:10px;border:1.5px solid rgba(255,255,255,.12);background:rgba(0,0,0,.3);padding:6px 4px 5px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;position:relative;transition:all .14s;-webkit-tap-highlight-color:transparent}
 .animal-pen:active{transform:scale(.88)}
 .animal-pen.happy{border-color:rgba(168,224,99,.4)}
 .animal-pen.hungry{border-color:rgba(255,100,50,.5);animation:shake 2s ease infinite}
@@ -727,7 +727,7 @@ body::before{
 .nudge-body{font-size:10px;color:rgba(255,255,255,.65);line-height:1.3}
 .nudge-close{background:rgba(168,224,99,.12);border:1px solid rgba(168,224,99,.25);color:#a8e063;font-family:'Cinzel',serif;font-size:10px;padding:4px 9px;border-radius:6px;cursor:pointer;flex-shrink:0}
 /* Achievement pill */
-.farm-achievement{position:fixed;bottom:calc(var(--tab-h) + 12px);left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#c8960a,#f5c842);color:#0a0700;font-family:'Cinzel',serif;font-size:14px;padding:8px 20px;border-radius:20px;z-index:600;white-space:nowrap;box-shadow:0 4px 16px rgba(200,150,10,.5);animation:achievepop .5s ease;pointer-events:none}
+.farm-achievement{position:fixed;top:calc(env(safe-area-inset-top, 0px) + 12px);left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#c8960a,#f5c842);color:#0a0700;font-family:'Cinzel',serif;font-size:14px;padding:8px 20px;border-radius:20px;z-index:600;white-space:nowrap;box-shadow:0 4px 16px rgba(200,150,10,.5);animation:achievepop .5s ease;pointer-events:none}
 .farm-achievement.hidden{display:none}
 /* Farm keyframes */
 @keyframes bgwalk{0%{transform:translateX(-60px)}100%{transform:translateX(calc(100vw + 60px))}}
@@ -780,7 +780,7 @@ body::before{
 .circle-compose{flex-shrink:0;padding:7px 10px 10px;background:var(--stone3);border-top:1px solid rgba(255,255,255,.08)}
 .compose-label{font-size:10px;font-weight:800;color:var(--text2);letter-spacing:.5px;margin-bottom:6px}
 .compose-row{display:flex;align-items:flex-end;gap:8px}
-.compose-textarea{flex:1;padding:9px 12px;border-radius:14px;border:1.5px solid var(--input-border);background:var(--input-bg);color:var(--text);font-family:'Crimson Pro',serif;font-size:14px;resize:none;outline:none;line-height:1.4;min-height:38px;max-height:90px;-webkit-overflow-scrolling:touch}
+.compose-textarea{flex:1;padding:9px 12px;border-radius:14px;border:1.5px solid var(--input-border);background:var(--input-bg);color:var(--text);font-family:'Crimson Pro',serif;font-size:16px;resize:none;outline:none;line-height:1.4;min-height:38px;max-height:90px;-webkit-overflow-scrolling:touch}
 .compose-textarea:focus{border-color:var(--gold)}
 .compose-send{width:40px;height:40px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--gold),#a0720e);color:#1a1200;font-size:17px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:transform .12s}
 .compose-send:active{transform:scale(.87)}
@@ -940,14 +940,16 @@ body::before{
 .breath-instruction{font-size:13px;color:rgba(255,255,255,.5);font-style:italic}
 
 /* ── TOAST ── */
-.toast{position:fixed;bottom:calc(var(--tab-h) + 12px);left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:360px;background:var(--stone3);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px 16px;display:flex;gap:12px;align-items:center;z-index:200;box-shadow:0 8px 32px rgba(0,0,0,.6);animation:slideUp .3s cubic-bezier(.34,1.56,.64,1)}
-.toast.hiding{animation:slideDown .25s ease forwards}
-.toast-icon{font-size:22px;flex-shrink:0}
+.toast{position:fixed;top:8px;left:50%;transform:translateX(-50%) translateY(-120%);width:auto;max-width:calc(100% - 48px);background:rgba(15,20,12,.82);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:7px 14px;display:flex;gap:8px;align-items:center;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.4);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);touch-action:none;user-select:none;animation:toastSlideDown .28s cubic-bezier(.34,1.56,.64,1) forwards;will-change:transform}
+.toast.hiding{animation:toastSlideUp .22s ease forwards}
+.toast-icon{font-size:16px;flex-shrink:0;line-height:1}
 .toast-body{flex:1;min-width:0}
-.toast-title{font-family:'Cinzel',serif;font-size:13px;color:var(--text)}
-.toast-msg{font-size:11px;color:var(--text2);margin-top:2px}
+.toast-title{font-family:'Cinzel',serif;font-size:11px;color:rgba(255,255,255,.85);letter-spacing:.3px}
+.toast-msg{display:none}
 
 /* ── ANIMATIONS ── */
+@keyframes toastSlideDown{from{transform:translateX(-50%) translateY(-120%);opacity:0}to{transform:translateX(-50%) translateY(0);opacity:1}}
+@keyframes toastSlideUp{from{transform:translateX(-50%) translateY(0);opacity:1}to{transform:translateX(-50%) translateY(-120%);opacity:0}}
 @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
@@ -1347,7 +1349,7 @@ body {
 .milo-quick-chip{padding:5px 11px;border-radius:15px;border:1px solid rgba(255,200,100,.3);background:rgba(255,200,100,.07);color:rgba(255,220,150,.85);font-size:11px;font-family:Cinzel,serif;cursor:pointer;transition:all .12s;-webkit-tap-highlight-color:transparent}
 .milo-quick-chip:active{transform:scale(.92);background:rgba(255,200,100,.2)}
 .milo-chat-compose{display:flex;gap:7px;align-items:flex-end}
-.milo-chat-textarea{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:11px;padding:8px 11px;color:#fff;font-size:13px;font-family:inherit;resize:none;outline:none;min-height:36px;max-height:80px;line-height:1.4}
+.milo-chat-textarea{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:11px;padding:8px 11px;color:#fff;font-size:16px;font-family:inherit;resize:none;outline:none;min-height:36px;max-height:80px;line-height:1.4}
 .milo-chat-send{padding:0 13px;height:36px;min-width:40px;border-radius:10px;background:rgba(171,71,188,.3);border:1px solid rgba(171,71,188,.5);color:#ce93d8;font-family:Cinzel,serif;font-size:16px;cursor:pointer;flex-shrink:0}
 .milo-mood-row{display:flex;gap:5px;align-items:center;padding-bottom:6px}
 .milo-mood-lbl{font-size:9px;color:rgba(255,255,255,.3);font-family:Cinzel,serif;letter-spacing:.5px;flex-shrink:0;margin-right:2px}
@@ -1613,6 +1615,303 @@ body {
   0%,100% { opacity: .5; }
   50%      { opacity: .85; }
 }
+
+
+/* ── Farm streak fanfare ── */
+@keyframes farmStreakPop {
+  0%   { transform:translate(-50%,-50%) scale(0.4); opacity:0; }
+  100% { transform:translate(-50%,-50%) scale(1);   opacity:1; }
+}
+@keyframes farmStreakFade {
+  0%   { transform:translate(-50%,-50%) scale(1);    opacity:1; }
+  100% { transform:translate(-50%,-50%) scale(1.15); opacity:0; }
+}
+@keyframes farmStreakParticle {
+  0%   { transform:rotate(var(--angle)) translateX(0)            scale(1);   opacity:1; }
+  100% { transform:rotate(var(--angle)) translateX(var(--dist))  scale(0.3); opacity:0; }
+}
+
+
+
+/* ── Sheet close button ── */
+.seed-sheet-title{position:relative}
+.sheet-close-btn{
+  position:absolute;right:0;top:50%;transform:translateY(-50%);
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+  color:rgba(255,255,255,.7);font-size:13px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;line-height:1;
+  transition:background .15s,color .15s;
+  -webkit-tap-highlight-color:transparent;
+}
+.sheet-close-btn:active{background:rgba(255,255,255,.25);color:#fff}
+
+/* ── Animal sell / earn progress ── */
+.animal-sell-btn{
+  margin-top:4px;width:100%;
+  background:linear-gradient(135deg,#4caf50,#388e3c);
+  border:none;border-radius:8px;
+  color:#fff;font-family:Cinzel,serif;font-size:9px;font-weight:700;
+  padding:4px 0;cursor:pointer;letter-spacing:.3px;
+  -webkit-tap-highlight-color:transparent;
+}
+.animal-sell-btn:active{filter:brightness(1.2)}
+.animal-earn-wrap{
+  margin-top:4px;width:100%;height:4px;
+  background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden;
+  position:relative;
+}
+.animal-earn-fill{
+  height:100%;border-radius:2px;
+  background:linear-gradient(90deg,#f5c842,#c8960a);
+  transition:width .4s ease;
+}
+.animal-earn-lbl{
+  position:absolute;top:-14px;right:0;
+  font-size:8px;color:rgba(255,255,255,.4);
+  font-family:Cinzel,serif;white-space:nowrap;
+}
+
+/* ── Farm rain overlay ── */
+@keyframes farmRainDrop {
+  0%   { transform: translateY(-10px) scaleY(0.8); opacity: 0; }
+  15%  { opacity: 0.7; }
+  100% { transform: translateY(110px) scaleY(1.2); opacity: 0; }
+}
+.farm-rain-layer {
+  position:absolute;inset:0;pointer-events:none;z-index:20;overflow:hidden;
+}
+.farm-rain-drop {
+  position:absolute;top:0;
+  width:1.5px;border-radius:1px;
+  background:linear-gradient(180deg,rgba(150,200,255,0),rgba(150,200,255,0.7));
+  animation: farmRainDrop linear infinite;
+}
+
+/* ── Weather explain popup ── */
+@keyframes fadeInBg  { from{opacity:0} to{opacity:1} }
+@keyframes fadeOut   { from{opacity:1} to{opacity:0} }
+@keyframes popIn {
+  0%   {transform:scale(0.7);opacity:0}
+  100% {transform:scale(1);  opacity:1}
+}
+
+/* ── Milo action bar (matches farm action bar) ── */
+.milo-action-bar{
+  flex-shrink:0;display:flex;gap:6px;
+  padding:8px 10px;
+  background:rgba(0,0,0,.6);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border-top:1px solid rgba(245,200,66,.15);
+  z-index:30;
+}
+.milo-action-btn{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:8px 4px 7px;border-radius:10px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.06);
+  cursor:pointer;gap:3px;
+  transition:all .14s;
+  -webkit-tap-highlight-color:transparent;
+}
+.milo-action-btn:active{transform:scale(.9)}
+.milo-action-btn.active{
+  background:rgba(245,200,66,.15);
+  border-color:rgba(245,200,66,.45);
+}
+.milo-action-btn.disabled{opacity:.4;pointer-events:none}
+.milo-action-btn .fab-icon{font-size:22px;line-height:1}
+.milo-action-btn .fab-lbl{font-size:8px;font-weight:800;color:rgba(255,255,255,.5);letter-spacing:.3px}
+.milo-action-btn.active .fab-lbl{color:#f5c842}
+
+/* iPhone SE / small Android: extra space for FABs */
+@media (max-height: 667px) {
+  .tab-panel { padding-bottom: 180px !important; }
+}
+@media (min-height: 668px) and (max-height: 812px) {
+  .tab-panel { padding-bottom: 160px !important; }
+}
+@media (min-height: 813px) {
+  .tab-panel { padding-bottom: 140px !important; }
+}
+
+/* ── Daily journal shortcut card ── */
+.daily-journal-card{
+  background:rgba(171,71,188,.08);
+  border:1px solid rgba(171,71,188,.25);
+  border-radius:14px;
+  margin:0 0 12px;
+  overflow:hidden;
+}
+.daily-journal-hdr{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 14px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.daily-journal-title{
+  flex:1;font-family:Cinzel,serif;font-size:12px;
+  color:#ce93d8;letter-spacing:.4px;
+}
+.daily-journal-arrow{
+  color:#ce93d8;font-size:18px;
+  transition:transform .2s ease;display:inline-block;
+}
+.daily-journal-picker{padding:0 12px 12px}
+
+
+.daily-journal-or{
+  text-align:center;font-size:10px;
+  color:rgba(255,255,255,.25);margin-bottom:8px;
+}
+.daily-journal-open{
+  width:100%;padding:9px;border-radius:10px;
+  background:rgba(171,71,188,.15);
+  border:1px solid rgba(171,71,188,.35);
+  color:#ce93d8;font-family:Cinzel,serif;
+  font-size:11px;cursor:pointer;letter-spacing:.3px;
+  -webkit-tap-highlight-color:transparent;
+}
+.daily-journal-open:active{opacity:.7}
+
+/* ═══ Emotion dropdown system ═══ */
+.emo-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.emo-title{font-family:Cinzel,serif;font-size:16px;color:var(--gold-lt)}
+.emo-journal-btn{background:rgba(171,71,188,.15);border:1px solid rgba(171,71,188,.4);border-radius:8px;padding:4px 10px;cursor:pointer;font-size:11px;color:#ce93d8;font-family:Cinzel,serif}
+.emo-subtitle{font-size:11px;color:rgba(255,255,255,.45);margin-bottom:10px}
+
+.emo-dropdown{border-radius:14px;overflow:hidden;margin-bottom:8px;border:1px solid rgba(255,255,255,.1)}
+.emo-drop-trigger{width:100%;display:flex;align-items:center;gap:10px;padding:11px 14px;background:rgba(255,255,255,.05);border:none;cursor:pointer;-webkit-tap-highlight-color:transparent;text-align:left}
+.emo-drop-icon{font-size:18px;flex-shrink:0}
+.emo-drop-label{flex:1;font-family:Cinzel,serif;font-size:12px;color:rgba(255,255,255,.75);letter-spacing:.3px}
+.emo-drop-chevron{font-size:12px;color:rgba(255,255,255,.4);transition:transform .25s ease;flex-shrink:0}
+.emo-drop-panel{max-height:0;overflow:hidden;transition:max-height .3s cubic-bezier(.4,0,.2,1)}
+.emo-dropdown.open .emo-drop-trigger{background:rgba(255,255,255,.08)}
+
+.emo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:10px}
+.emo-grid-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .12s,background .12s}
+.emo-grid-item:active{transform:scale(.9)}
+.emo-grid-item.emo-grid-sel{background:color-mix(in srgb,var(--ec) 20%,transparent);border-color:var(--ec);transform:scale(1.04)}
+.emo-grid-emoji{font-size:22px;line-height:1}
+.emo-grid-lbl{font-size:9px;font-family:Cinzel,serif;color:rgba(255,255,255,.6);letter-spacing:.3px;text-align:center}
+.emo-grid-sel .emo-grid-lbl{color:var(--ec)}
+.emo-all-done{font-size:11px;color:rgba(255,255,255,.3);font-style:italic;padding:10px}
+
+.emo-sel-badge{display:flex;align-items:center;gap:6px;margin-bottom:10px;padding:6px 10px;background:rgba(255,255,255,.05);border-radius:10px}
+.emo-sel-label{font-size:10px;color:rgba(255,255,255,.45);font-family:Cinzel,serif;flex-shrink:0}
+.emo-sel-pill{display:inline-block;padding:2px 9px;border-radius:10px;border:1px solid;font-size:11px;font-weight:700}
+.emo-sel-clear{background:none;border:none;color:rgba(255,255,255,.3);font-size:16px;cursor:pointer;margin-left:auto;line-height:1;padding:0}
+.emo-sel-hint{font-size:11px;color:rgba(255,255,255,.3);font-style:italic;margin-bottom:10px;text-align:center;padding:4px 0}
+
+.emo-textarea{flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:var(--text);font-size:13px;resize:none;min-height:60px;font-family:inherit}
+.emo-release-btn{padding:10px 14px;border-radius:10px;border:none;background:linear-gradient(135deg,#ab47bc,#6a1b9a);color:#fff;font-size:13px;cursor:pointer;flex-shrink:0;align-self:flex-end}
+.emo-affirm{background:rgba(171,71,188,.1);border:1px solid rgba(171,71,188,.3);border-radius:10px;padding:12px;font-size:13px;color:#ce93d8;font-style:italic;text-align:center}
+.emo-reset-btn{font-size:11px;color:#ab47bc;background:none;border:1px solid #ab47bc;border-radius:8px;padding:4px 10px;cursor:pointer;margin-bottom:10px}
+
+/* ── Daily journal inline write area ── */
+.daily-journal-write{
+  padding:12px 12px 14px;
+  border-top:1px solid rgba(255,255,255,.07);
+  display:flex;flex-direction:column;gap:10px;
+  animation:fadeIn .2s ease;
+}
+.daily-journal-selected{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.daily-journal-textarea{
+  width:100%;box-sizing:border-box;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(171,71,188,.3);
+  border-radius:12px;padding:10px 12px;
+  color:var(--text);font-size:16px;
+  font-family:inherit;resize:none;
+  line-height:1.5;outline:none;
+  -webkit-appearance:none;
+}
+.daily-journal-textarea:focus{border-color:rgba(171,71,188,.7)}
+.daily-journal-actions{display:flex;gap:8px}
+.daily-journal-release{
+  flex:1;padding:10px;border-radius:10px;border:none;
+  background:linear-gradient(135deg,#ab47bc,#6a1b9a);
+  color:#fff;font-family:Cinzel,serif;font-size:12px;
+  font-weight:700;cursor:pointer;letter-spacing:.3px;
+  -webkit-tap-highlight-color:transparent;
+}
+.daily-journal-cancel{
+  padding:10px 16px;border-radius:10px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  color:rgba(255,255,255,.45);font-family:Cinzel,serif;
+  font-size:11px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.daily-journal-affirm{
+  padding:10px 14px;font-size:12px;font-style:italic;
+  color:#ce93d8;text-align:center;line-height:1.5;
+  transition:opacity .5s ease;opacity:1;
+}
+
+/* ═══ Daily Journal Card ═══ */
+.djc-wrap{border-radius:14px;overflow:hidden;margin:0 0 12px;border:1px solid rgba(171,71,188,.2);background:rgba(171,71,188,.06)}
+.djc-closed{display:flex;align-items:center;gap:8px;padding:10px 14px}
+.djc-feel-btn{flex:1;text-align:left;background:none;border:none;color:rgba(255,255,255,.7);font-family:Cinzel,serif;font-size:12px;cursor:pointer;padding:2px 0;letter-spacing:.3px;-webkit-tap-highlight-color:transparent}
+.djc-entries-btn{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;background:rgba(171,71,188,.12);border:1px solid rgba(171,71,188,.3);color:#ce93d8;font-size:10px;font-family:Cinzel,serif;cursor:pointer;flex-shrink:0;-webkit-tap-highlight-color:transparent}
+
+.djc-picker{padding:14px;position:relative;animation:fadeIn .18s ease}
+.djc-picker-title{font-family:Cinzel,serif;font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.5px;text-align:center;margin-bottom:10px}
+.djc-cats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.djc-cat{padding:18px 8px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);cursor:pointer;font-size:22px;line-height:1.6;-webkit-tap-highlight-color:transparent;transition:transform .12s,background .12s}
+.djc-cat span{display:block;font-family:Cinzel,serif;font-size:10px;color:rgba(255,255,255,.5);margin-top:4px;letter-spacing:.4px}
+.djc-cat-hard:active,.djc-cat-hard:hover{background:rgba(239,83,80,.12);border-color:rgba(239,83,80,.3)}
+.djc-cat-good:active,.djc-cat-good:hover{background:rgba(102,187,106,.12);border-color:rgba(102,187,106,.3)}
+.djc-close-btn{position:absolute;top:10px;right:10px;background:none;border:none;color:rgba(255,255,255,.3);font-size:16px;cursor:pointer;line-height:1;padding:4px}
+
+.djc-emotions{padding:10px 14px 14px;animation:fadeIn .18s ease}
+.djc-back-btn{background:none;border:none;color:#ce93d8;font-family:Cinzel,serif;font-size:11px;cursor:pointer;padding:0 0 8px;letter-spacing:.3px;-webkit-tap-highlight-color:transparent}
+.djc-emo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.djc-emo-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .12s,background .12s}
+.djc-emo-item:active{transform:scale(.88);background:color-mix(in srgb,var(--ec) 20%,transparent);border-color:var(--ec)}
+.djc-emo-emoji{font-size:24px;line-height:1}
+.djc-emo-lbl{font-size:9px;font-family:Cinzel,serif;color:rgba(255,255,255,.5);letter-spacing:.3px;text-align:center}
+
+.djc-write{padding:12px 14px 14px;display:flex;flex-direction:column;gap:10px;animation:fadeIn .18s ease}
+.djc-selected-badge{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.djc-textarea{width:100%;box-sizing:border-box;background:rgba(255,255,255,.05);border:1px solid rgba(171,71,188,.35);border-radius:12px;padding:10px 12px;color:var(--text);font-size:13px;font-family:inherit;resize:none;outline:none;line-height:1.55;min-height:70px;max-height:160px;overflow-y:auto;-webkit-appearance:none;transition:border-color .15s}
+.djc-textarea:focus{border-color:rgba(171,71,188,.75)}
+.djc-write-actions{display:flex;gap:8px}
+.djc-release{flex:1;padding:10px;border-radius:10px;border:none;background:linear-gradient(135deg,#ab47bc,#6a1b9a);color:#fff;font-family:Cinzel,serif;font-size:12px;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.djc-skip{padding:10px 14px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.4);font-family:Cinzel,serif;font-size:10px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+
+.djc-affirm{padding:14px;font-size:12px;font-style:italic;color:#ce93d8;text-align:center;line-height:1.55;animation:fadeIn .3s ease}
+
+/* ══ ONBOARDING ══ */
+#screen-onboard{flex-direction:column;align-items:center;justify-content:center;height:100dvh;padding:32px 24px;background:var(--stone1);overflow-y:auto;text-align:center}
+.ob-step{display:none;flex-direction:column;align-items:center;width:100%;max-width:380px;animation:fadeIn .3s ease}
+.ob-step.active{display:flex}
+.ob-progress{display:flex;gap:8px;margin-bottom:28px}
+.ob-pip{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.18);transition:background .25s,transform .25s}
+.ob-pip.cur{background:var(--gold-lt);transform:scale(1.3)}
+.ob-pip.done{background:rgba(168,224,99,.6)}
+.ob-crown{font-size:52px;margin-bottom:16px;line-height:1}
+.ob-title{font-family:'Cinzel',serif;font-size:22px;font-weight:700;color:var(--text);margin-bottom:10px;letter-spacing:.4px;line-height:1.25}
+.ob-sub{font-size:14px;color:var(--text2);line-height:1.65;margin-bottom:28px;max-width:320px}
+.ob-btn{width:100%;padding:15px;border-radius:14px;border:none;background:linear-gradient(135deg,#c8960a,#f5c842);color:#0a0700;font-family:'Cinzel',serif;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.4px;-webkit-tap-highlight-color:transparent;transition:opacity .15s,transform .1s;margin-top:8px}
+.ob-btn:active{transform:scale(.97);opacity:.9}
+.ob-btn:disabled{opacity:.4;cursor:default;transform:none}
+.ob-name-input{width:100%;box-sizing:border-box;padding:13px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.07);color:var(--text);font-size:16px;font-family:inherit;outline:none;-webkit-appearance:none;margin-bottom:8px;transition:border-color .2s}
+.ob-name-input:focus{border-color:rgba(245,200,66,.6)}
+.ob-avatar-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;width:100%;margin-bottom:20px}
+.ob-av-btn{aspect-ratio:1;border-radius:10px;border:2px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;transition:border-color .15s,background .15s,transform .1s}
+.ob-av-btn:active{transform:scale(.88)}
+.ob-av-btn.sel{border-color:#f5c842;background:rgba(245,200,66,.15);transform:scale(1.1)}
+.ob-focus-grid{display:flex;flex-direction:column;gap:10px;width:100%;margin-bottom:16px}
+.ob-focus-card{padding:14px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);cursor:pointer;text-align:left;-webkit-tap-highlight-color:transparent;transition:border-color .15s,background .15s}
+.ob-focus-card.sel{border-color:rgba(168,224,99,.5);background:rgba(168,224,99,.08)}
+.ob-focus-icon{font-size:22px;margin-bottom:4px}
+.ob-focus-title{font-family:'Cinzel',serif;font-size:13px;color:var(--text);font-weight:700;margin-bottom:2px}
+.ob-focus-desc{font-size:11px;color:var(--text2);line-height:1.5}
+.ob-skip{margin-top:12px;font-size:11px;color:rgba(255,255,255,.3);cursor:pointer;-webkit-tap-highlight-color:transparent;font-style:italic}
+.ob-skip:active{color:rgba(255,255,255,.6)}
 </style>
 
 
@@ -1928,6 +2227,19 @@ body {
     }
   }, 3000);
 </script>
+  <!-- EmailJS SDK for OTP email verification -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    // ── EmailJS config — fill in your IDs from emailjs.com ──
+    // 1. Create free account at emailjs.com
+    // 2. Add an Email Service (Gmail works)
+    // 3. Create a template with variables: {{to_email}}, {{otp_code}}, {{user_name}}
+    // 4. Replace the placeholder strings below
+    var EMAILJS_PUBLIC_KEY  = "YOUR_PUBLIC_KEY";   // Account > API Keys
+    var EMAILJS_SERVICE_ID  = "YOUR_SERVICE_ID";   // Email Services tab
+    var EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";  // Email Templates tab
+    if (typeof emailjs !== "undefined") emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+  </script>
 </head>
 <body>
 
@@ -2223,21 +2535,15 @@ body {
 <!-- BOX BREATHING (moved to CALM tab) -->
 <div id="breathOverlay" class="breath-overlay hidden" style="display:none"></div>
 
-<!-- TOAST -->
-<div id="toast" class="toast" style="display:none" onclick="toastTap()">
-  <div class="toast-icon" id="toastIcon"></div>
-  <div class="toast-body">
-    <div class="toast-title" id="toastTitle"></div>
-    <div class="toast-msg"   id="toastMsg"></div>
-  </div>
-  <div id="toastAction" style="display:none;flex-shrink:0;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.18);color:#fff;font-size:15px;display:none;align-items:center;justify-content:center;pointer-events:none">→</div>
-</div>
 
 <!-- EMOTION JOURNAL MODAL -->
-<div id="emotionJournalModal" style="display:none;position:fixed;inset:0;z-index:800;background:rgba(0,0,0,.75);backdrop-filter:blur(4px);align-items:flex-end;justify-content:center">
-  <div id="emotionJournalSheet" style="background:var(--stone2);border-radius:20px 20px 0 0;padding:20px 16px 32px;width:100%;max-width:min(430px,100vw);max-height:80dvh;display:flex;flex-direction:column">
+<div id="emotionJournalModal" style="display:none;position:fixed;inset:0;z-index:9100;background:rgba(0,0,0,.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:16px">
+  <div id="emotionJournalSheet" style="background:var(--stone2);border-radius:20px;padding:20px 16px 24px;width:100%;max-width:min(430px,100vw);max-height:78dvh;display:flex;flex-direction:column;box-shadow:0 24px 60px rgba(0,0,0,.7)">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-shrink:0">
-      <div style="font-family:Cinzel,serif;font-size:16px;color:var(--gold-lt)">📓 Emotion Journal</div>
+      <div>
+        <div style="font-family:Cinzel,serif;font-size:16px;color:var(--gold-lt)">📓 Emotion Journal</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.3);letter-spacing:.5px;margin-top:1px">🔒 PRIVATE · only you can see this</div>
+      </div>
       <button onclick="closeEmotionJournal()" style="background:none;border:none;color:var(--text2);font-size:24px;cursor:pointer;line-height:1">×</button>
     </div>
     <div id="emotionJournalEntries" style="overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:10px;padding-right:4px"></div>
@@ -2293,6 +2599,7 @@ const ROLES = [
   {id:'sibling2', icon:'🌪️',color:'#ffca28', cls:'Storm Companion',    name:'Brett',  roleType:'sibling'},
   {id:'sibling3', icon:'👑', color:'#c8921a', cls:'Sovereign Warrior',  name:'David',  roleType:'sibling'},
   {id:'sibling4', icon:'👸', color:'#d63384', cls:'Royal Heir',         name:'Charley', roleType:'sibling'},
+  {id:'guest',    icon:'🌿', color:'#78909c', cls:'Visitor',             name:'Guest',   roleType:'guest'},
 ];
 
 
@@ -2412,6 +2719,7 @@ function getDailies(rid) {
 }
 
 function saveState() {
+  if (typeof isGuest==='function' && isGuest()) return;
   try {
     const serial = {};
     for (const [k,v] of Object.entries(state.profiles)) serial[k] = v;
@@ -2440,6 +2748,7 @@ function saveState() {
     const avatar = (state.profiles[rid] && state.profiles[rid].avatar) || '';
     window.FB.setPlayerXP(rid, xp); // keep legacy node in sync
     var _p2 = state.profiles[rid] || {};
+    if (typeof isGuest === 'function' && isGuest()) return;
     window.FB.setPlayerScores(rid, { xp, farmLvl, farmCoins, farmHarvests, memBest,
       tttWins: _p2.tttWins||0, c4Wins: _p2.c4Wins||0, gamesXP: _p2.gamesXP||0,
       displayName, avatar });
@@ -2491,6 +2800,213 @@ function simpleHash(s) {
 //  BOOT SEQUENCE
 // ═══════════════════════════════════════════════════════════════════
 
+// ══════════════════════════════════════════════════════════════════
+//  EMAIL OTP VERIFICATION  (EmailJS — no backend required)
+// ══════════════════════════════════════════════════════════════════
+
+var _otpCode       = null;   // current 6-digit code
+var _otpExpiry     = 0;      // timestamp when code expires (5 min)
+var _otpRoleId     = null;   // which profile is being verified
+var _otpPurpose    = null;   // 'firstlogin' | 'reset'
+var _otpSending    = false;
+var OTP_TTL_MS     = 5 * 60 * 1000; // 5 minutes
+
+// ── Generate a cryptographically-good 6-digit code ───────────────────────────
+function generateOTP() {
+  var arr = new Uint32Array(1);
+  window.crypto.getRandomValues(arr);
+  return String(100000 + (arr[0] % 900000));
+}
+
+// ── Check if EmailJS is properly configured ───────────────────────────────────
+function emailjsConfigured() {
+  return typeof emailjs !== 'undefined'
+    && EMAILJS_PUBLIC_KEY  !== 'YOUR_PUBLIC_KEY'
+    && EMAILJS_SERVICE_ID  !== 'YOUR_SERVICE_ID'
+    && EMAILJS_TEMPLATE_ID !== 'YOUR_TEMPLATE_ID';
+}
+
+// ── Send OTP email ────────────────────────────────────────────────────────────
+function sendOTP(roleId, purpose, onSent, onError) {
+  if (_otpSending) return;
+  var profile = state.profiles[roleId];
+  var role    = ROLES.find(function(r){ return r.id === roleId; });
+  if (!profile || !profile.email) { onError('no_email'); return; }
+  if (!emailjsConfigured()) { onError('not_configured'); return; }
+
+  _otpCode    = generateOTP();
+  _otpExpiry  = Date.now() + OTP_TTL_MS;
+  _otpRoleId  = roleId;
+  _otpPurpose = purpose;
+  _otpSending = true;
+
+  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+    to_email:  profile.email,
+    user_name: role ? role.name : roleId,
+    otp_code:  _otpCode,
+    purpose:   purpose === 'reset' ? 'PIN Reset' : 'First Login',
+  })
+  .then(function() {
+    _otpSending = false;
+    onSent();
+  })
+  .catch(function(err) {
+    _otpSending = false;
+    _otpCode = null;
+    onError(err);
+  });
+}
+
+// ── Verify submitted OTP ──────────────────────────────────────────────────────
+function verifyOTP(submitted) {
+  if (!_otpCode) return 'expired';
+  if (Date.now() > _otpExpiry) { _otpCode = null; return 'expired'; }
+  if (submitted.trim() === _otpCode) { _otpCode = null; return 'ok'; }
+  return 'wrong';
+}
+
+// ── Show OTP entry screen ─────────────────────────────────────────────────────
+function showOTPScreen(roleId, purpose, onVerified) {
+  var role    = ROLES.find(function(r){ return r.id === roleId; });
+  var profile = state.profiles[roleId];
+
+  // If no email set or EmailJS not configured, skip OTP entirely
+  if (!profile.email || !emailjsConfigured()) {
+    onVerified();
+    return;
+  }
+
+  var overlay = document.createElement('div');
+  overlay.id  = 'otpOverlay';
+  overlay.style.cssText = 'position:fixed;inset:0;z-index:9500;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.75);backdrop-filter:blur(8px)';
+
+  function render(state) {
+    overlay.innerHTML =
+      '<div style="background:linear-gradient(160deg,#1a1410,#0a0806);border:1px solid rgba(245,200,66,.3);border-radius:20px;padding:28px 24px;max-width:320px;width:calc(100vw - 48px);text-align:center">'
+      + '<div style="font-size:40px;margin-bottom:10px">📧</div>'
+      + '<div style="font-family:Cinzel,serif;font-size:15px;color:#f5c842;font-weight:700;margin-bottom:6px;letter-spacing:.3px">'
+      + (purpose === 'reset' ? 'PIN Reset Verification' : 'Verify Your Identity') + '</div>'
+      + '<div style="font-size:12px;color:rgba(255,255,255,.55);line-height:1.6;margin-bottom:20px">'
+      + (state === 'sending'
+          ? 'Sending a 6-digit code to<br><strong style="color:#f5c842">' + profile.email + '</strong>…'
+          : state === 'sent'
+          ? 'Enter the 6-digit code sent to<br><strong style="color:#f5c842">' + profile.email + '</strong>'
+          : state === 'wrong'
+          ? '<span style="color:#ef5350">Wrong code — try again</span>'
+          : state === 'expired'
+          ? '<span style="color:#ef5350">Code expired — tap Resend</span>'
+          : 'Something went wrong. Try again.')
+      + '</div>'
+      + (state !== 'sending'
+        ? '<input id="otpInput" type="number" inputmode="numeric" maxlength="6"'
+          + ' placeholder="000000" autocomplete="one-time-code"'
+          + ' style="width:100%;text-align:center;font-size:28px;font-family:Cinzel,serif;'
+          + 'color:#f5c842;background:rgba(0,0,0,.4);border:1px solid rgba(245,200,66,.3);'
+          + 'border-radius:12px;padding:10px 0;outline:none;letter-spacing:6px;margin-bottom:14px;'
+          + '-webkit-appearance:none;appearance:none"'
+          + ' oninput="if(this.value.length>6)this.value=this.value.slice(0,6)">'
+          + '<button onclick="otpSubmit()" style="width:100%;background:linear-gradient(135deg,#c8960a,#f5c842);'
+          + 'border:none;border-radius:12px;color:#0a0700;font-family:Cinzel,serif;'
+          + 'font-size:13px;font-weight:700;padding:12px 0;cursor:pointer;margin-bottom:8px">Verify ✓</button>'
+          + '<div style="display:flex;gap:8px">'
+          + '<button onclick="otpResend()" style="flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);'
+          + 'border-radius:10px;color:rgba(255,255,255,.55);font-family:Cinzel,serif;font-size:11px;padding:8px 0;cursor:pointer">Resend</button>'
+          + '<button onclick="otpCancel()" style="flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);'
+          + 'border-radius:10px;color:rgba(255,255,255,.55);font-family:Cinzel,serif;font-size:11px;padding:8px 0;cursor:pointer">Cancel</button>'
+          + '</div>'
+        : '<div style="color:rgba(255,255,255,.4);font-size:12px;margin-top:8px">Please wait…</div>')
+      + '</div>';
+    if (state !== 'sending') {
+      var inp = document.getElementById('otpInput');
+      if (inp) setTimeout(function(){ inp.focus(); }, 80);
+    }
+  }
+
+  // Store callbacks on window for inline handlers
+  window._otpVerifiedCb = onVerified;
+  window._otpRenderFn   = render;
+
+  window.otpSubmit = function() {
+    var val = (document.getElementById('otpInput') || {}).value || '';
+    var result = verifyOTP(val);
+    if (result === 'ok') {
+      overlay.remove();
+      window._otpVerifiedCb();
+    } else {
+      render(result);
+    }
+  };
+  window.otpResend = function() {
+    render('sending');
+    sendOTP(roleId, purpose,
+      function() { render('sent'); },
+      function()  { render('error'); }
+    );
+  };
+  window.otpCancel = function() {
+    overlay.remove();
+    _otpCode = null;
+    showScreen('profiles');
+  };
+
+  document.body.appendChild(overlay);
+  render('sending');
+  sendOTP(roleId, purpose,
+    function() { render('sent'); },
+    function()  { render('error'); }
+  );
+}
+
+// ── Email setup screen — shown when no email is saved for a profile ───────────
+function showEmailSetupScreen(roleId, purpose, onDone) {
+  var role = ROLES.find(function(r){ return r.id === roleId; });
+  if (!role) { onDone(); return; }
+
+  var overlay = document.createElement('div');
+  overlay.id  = 'emailSetupOverlay';
+  overlay.style.cssText = 'position:fixed;inset:0;z-index:9500;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.75);backdrop-filter:blur(8px)';
+
+  overlay.innerHTML =
+    '<div style="background:linear-gradient(160deg,#1a1410,#0a0806);border:1px solid rgba(245,200,66,.3);border-radius:20px;padding:28px 24px;max-width:320px;width:calc(100vw - 48px);text-align:center">'
+    + '<div style="font-size:40px;margin-bottom:10px">🔐</div>'
+    + '<div style="font-family:Cinzel,serif;font-size:15px;color:#f5c842;font-weight:700;margin-bottom:6px">Secure Your Account</div>'
+    + '<div style="font-size:12px;color:rgba(255,255,255,.55);line-height:1.65;margin-bottom:18px">'
+    + 'Add an email to enable OTP verification for logins and PIN resets. This keeps ' + role.name + '\u2019s account safe.'
+    + '</div>'
+    + '<input id="emailSetupInput" type="email" inputmode="email" placeholder="your@email.com" autocomplete="email"'
+    + ' style="width:100%;text-align:center;font-size:15px;font-family:Cinzel,serif;'
+    + 'color:#f5c842;background:rgba(0,0,0,.4);border:1px solid rgba(245,200,66,.3);'
+    + 'border-radius:12px;padding:10px 0;outline:none;margin-bottom:14px;box-sizing:border-box">'
+    + '<div id="emailSetupError" style="color:#ef5350;font-size:11px;min-height:16px;margin-bottom:8px"></div>'
+    + '<button onclick="emailSetupSubmit()" style="width:100%;background:linear-gradient(135deg,#c8960a,#f5c842);'
+    + 'border:none;border-radius:12px;color:#0a0700;font-family:Cinzel,serif;'
+    + 'font-size:13px;font-weight:700;padding:12px 0;cursor:pointer;margin-bottom:8px">Save Email ✓</button>'
+    + '<button onclick="emailSetupSkip()" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.13);'
+    + 'border-radius:12px;color:rgba(255,255,255,.45);font-family:Cinzel,serif;font-size:11px;padding:10px 0;cursor:pointer">'
+    + 'Skip for now (less secure)</button>'
+    + '</div>';
+
+  window.emailSetupSubmit = function() {
+    var val = (document.getElementById('emailSetupInput') || {}).value || '';
+    var errEl = document.getElementById('emailSetupError');
+    if (!val || !val.includes('@') || !val.includes('.')) {
+      if (errEl) errEl.textContent = 'Please enter a valid email address';
+      return;
+    }
+    state.profiles[roleId].email = val.trim().toLowerCase();
+    saveState();
+    overlay.remove();
+    onDone();
+  };
+  window.emailSetupSkip = function() {
+    overlay.remove();
+    onDone();
+  };
+
+  document.body.appendChild(overlay);
+  setTimeout(function(){ var i = document.getElementById('emailSetupInput'); if(i) i.focus(); }, 80);
+}
+
 function boot() {
   // Apply saved theme immediately
   try {
@@ -2507,7 +3023,7 @@ function boot() {
 
   // Check for saved session
   const lastProfile = localStorage.getItem('hs_last_profile');
-  const sessionTs   = parseInt(localStorage.getItem('hs_session_ts') || '0');
+  const sessionTs   = parseInt(localStorage.getItem('hs_session_ts', 10) || '0');
   const sessionAge  = Date.now() - sessionTs;
   const SESSION_TTL = 8 * 60 * 60 * 1000; // 8 hours
 
@@ -2652,10 +3168,11 @@ function buildProfiles() {
     tile.style.background = hexAlpha(role.color, 0.18);
     tile.style.borderColor = hexAlpha(role.color, 0.35);
     tile.innerHTML = `
-      ${firstLogin ? '<div class="first-login-badge">Set PIN ✦</div>' : ''}
+      ${(firstLogin && role.roleType !== 'guest') ? '<div class="first-login-badge">Set PIN ✦</div>' : ''}
       <div class="p-icon">${role.icon}</div>
       <div class="p-name">${role.name}</div>
-      <div class="p-class">${role.cls}</div>`;
+      <div class="p-class">${role.cls}</div>
+      ${role.roleType === 'guest' ? '<div style="font-size:9px;color:rgba(255,255,255,.4);margin-top:3px;font-family:Cinzel,serif;letter-spacing:1px">No PIN · Resets each visit</div>' : ''}`;
     tile.addEventListener('click', () => openPin(role));
     grid.appendChild(tile);
   }
@@ -2745,6 +3262,15 @@ function _updatePinAttemptsWarn(roleId) {
 }
 
 function openPin(role) {
+  // Guest: skip PIN entirely — reset state and enter directly
+  if (role.roleType === 'guest') {
+    state.profiles['guest'] = { xp:0, pinHash:'', firstLogin:false, displayName:'Guest' };
+    state.donePermanent['guest'] = new Set();
+    state.doneToday['guest']     = new Set();
+    _chatUnlocked = true;
+    enterGame(role);
+    return;
+  }
   pinRole = role;
   pinBuffer = '';
   const p = state.profiles[role.id] || {};
@@ -2826,28 +3352,36 @@ function confirmPinReset() {
     return;
   }
 
-  // Password correct — do the reset
-  if (!state.profiles[pinRole.id]) state.profiles[pinRole.id] = { xp: 0 };
-  state.profiles[pinRole.id].pinHash    = '';
-  state.profiles[pinRole.id].firstLogin = true;
-  // Also clear any lockout for this user
-  _pinAttempts[pinRole.id]  = 0;
-  delete _pinLockUntil[pinRole.id];
-  if (_pinLockTimer) { clearInterval(_pinLockTimer); _pinLockTimer = null; }
-  var raw = {};
-  for (var k in state.profiles) raw[k] = state.profiles[k];
-  localStorage.setItem(PREFS_KEY, JSON.stringify(raw));
-
-  // Close panel and switch to create mode
-  cancelPinReset();
-  _clearPinLockUI(pinRole.id);
-  pinMode = 'create';
-  pinFirstHash = null;
-  pinBuffer = '';
-  document.getElementById('pinPrompt').textContent = 'Create a new 4-digit PIN';
-  document.getElementById('forgotPinBtn').style.display = 'none';
-  refreshDots();
-  showToast('🔑', 'PIN reset', 'Create a new 4-digit PIN below.');
+  // Password correct — require OTP if email on file and EmailJS configured
+  var _resetRole = pinRole;
+  function _doReset() {
+    if (!state.profiles[_resetRole.id]) state.profiles[_resetRole.id] = { xp: 0 };
+    state.profiles[_resetRole.id].pinHash    = '';
+    state.profiles[_resetRole.id].firstLogin = true;
+    _pinAttempts[_resetRole.id]  = 0;
+    delete _pinLockUntil[_resetRole.id];
+    if (_pinLockTimer) { clearInterval(_pinLockTimer); _pinLockTimer = null; }
+    var _raw = {};
+    for (var k in state.profiles) _raw[k] = state.profiles[k];
+    localStorage.setItem(PREFS_KEY, JSON.stringify(_raw));
+    cancelPinReset();
+    _clearPinLockUI(_resetRole.id);
+    pinMode = 'create';
+    pinFirstHash = null;
+    pinBuffer = '';
+    document.getElementById('pinPrompt').textContent = 'Create a new 4-digit PIN';
+    document.getElementById('forgotPinBtn').style.display = 'none';
+    refreshDots();
+    showToast('🔑', 'PIN reset', 'Create a new 4-digit PIN below.');
+  }
+  var _rp = state.profiles[_resetRole.id];
+  if (_rp && _rp.email && emailjsConfigured()) {
+    // Close the panel first so OTP screen sits cleanly on top
+    cancelPinReset();
+    showOTPScreen(_resetRole.id, 'reset', _doReset);
+  } else {
+    _doReset();
+  }
 }
 
 function resetThisPin() {
@@ -2857,6 +3391,15 @@ function resetThisPin() {
 // resetAllPins / doResetAllPins removed — admin PIN management moved to Settings
 
 // ─── Admin: reset another member's PIN ────────────────────────────────────
+function adminResetEmail(roleId, roleName) {
+  if (!confirm('Remove ' + roleName + "'s verification email? They will need to add a new one on next login.")) return;
+  if (!state.profiles[roleId]) state.profiles[roleId] = { xp: 0 };
+  state.profiles[roleId].email = '';
+  saveState();
+  renderSettings();
+  showToast('📧', 'Email removed', roleName + "'s verification email has been cleared.");
+}
+
 function adminResetPin(roleId, roleName, roleIcon) {
   var existing = document.getElementById('adminPinResetModal');
   if (existing) { existing.remove(); return; }
@@ -3079,11 +3622,13 @@ function miloFastForward() {
 function miloTick(silent) {
   if (!_miloState) return;
   var sleeping = _miloState.mood === 'sleeping';
-  _miloState.hunger    = Math.max(0, _miloState.hunger    - (sleeping ? 0.15 : 0.4));
-  _miloState.happiness = Math.max(0, _miloState.happiness - (sleeping ? 0.05 : 0.25));
+  // Offline: decay 3× slower so Milo doesn't starve while you're away
+  var _miloOfflineMult = (typeof navigator !== 'undefined' && !navigator.onLine) ? 3 : 1;
+  _miloState.hunger    = Math.max(0, _miloState.hunger    - (sleeping ? 0.15 : 0.4)  / _miloOfflineMult);
+  _miloState.happiness = Math.max(0, _miloState.happiness - (sleeping ? 0.05 : 0.25) / _miloOfflineMult);
   _miloState.energy    = sleeping ? Math.min(100,_miloState.energy+3) : Math.max(0,_miloState.energy-0.2);
   if (_miloState.hunger < 20 || _miloState.happiness < 15)
-    _miloState.health = Math.max(0, _miloState.health - 0.15);
+    _miloState.health = Math.max(0, _miloState.health - 0.15 / _miloOfflineMult);
   else _miloState.health = Math.min(100, _miloState.health + 0.2);
   _miloState.age = Math.floor((Date.now() - _miloState.bornAt) / 86400000);
   if (!silent) {
@@ -3463,6 +4008,9 @@ function enterGame(role) {
   buildCircleTab();
   setTab('QUESTS');
   showScreen('game');
+  var _gTabs = ['GAMES','HEROES','CALM','CIRCLE'];
+  _gTabs.forEach(function(t){ var b=document.getElementById('tb-'+t); if(b) b.style.display=isGuest()?'none':''; });
+  if (isGuest()) { var _rb=document.getElementById('hudRealm'); if(_rb){_rb.textContent='GUEST';_rb.style.background='rgba(120,144,156,.2)';_rb.style.color='#b0bec5';} }
   // Request native notification permission so alerts work when app is backgrounded
   requestNotifPermission();
   // Start online heartbeat (marks online every 60s)
@@ -3540,6 +4088,9 @@ function buildHUD() {
   refreshHudRealm();
   updateCrisisBtn();
 }
+
+function isGuest() { return !!(state.activeProfile && state.activeProfile.roleType === 'guest'); }
+function isAdmin() { var id = state.activeProfile && state.activeProfile.id; return id === 'blake' || id === 'jordan'; }
 
 function canSwitchRealm() {
   return (state.activeProfile && state.activeProfile.id) === 'blake' || (state.activeProfile && state.activeProfile.id) === 'jordan';
@@ -3735,7 +4286,51 @@ function buildDailyTab() {
   const allDone = dailies.every(d => doneSet.has(d.id));
 
   panel.innerHTML = `
-    ${buildCalendarSection()}
+    <div id="dailyCalWrap">${buildCalendarSection()}</div>
+    <!-- Emotion Journal Shortcut -->
+    <div class="djc-wrap" id="dailyJournalCard">
+  <!-- State 1: collapsed shortcut -->
+  <div class="djc-closed" id="djcClosed">
+    <button class="djc-feel-btn" onclick="djcOpen()">
+      <span>💭</span> How are you feeling?
+    </button>
+    <button class="djc-entries-btn" id="djcEntriesBtn" onclick="openEmotionJournal()" style="display:none">
+      📓 <span id="djcCount">0</span> entries
+    </button>
+  </div>
+  <!-- State 2: category picker -->
+  <div class="djc-picker" id="djcPicker" style="display:none">
+    <div class="djc-picker-title">What kind of feeling?</div>
+    <div class="djc-cats">
+      <button class="djc-cat djc-cat-hard" onclick="djcShowEmotions('hard')">
+        🌧️<br><span>Difficult</span>
+      </button>
+      <button class="djc-cat djc-cat-good" onclick="djcShowEmotions('good')">
+        🌈<br><span>Positive</span>
+      </button>
+    </div>
+    <button class="djc-close-btn" onclick="djcClose()">✕</button>
+  </div>
+  <!-- State 3: emotion grid for chosen category -->
+  <div class="djc-emotions" id="djcEmotions" style="display:none">
+    <button class="djc-back-btn" onclick="djcShowPicker()">‹ Back</button>
+    <div class="djc-emo-grid" id="djcEmoGrid"></div>
+  </div>
+  <!-- State 4: write area (emotion selected) -->
+  <div class="djc-write" id="djcWrite" style="display:none">
+    <div class="djc-selected-badge" id="djcBadge"></div>
+    <textarea class="djc-textarea" id="djcTextarea"
+      placeholder="Write it out… this is private, just for you. 🔒"
+      rows="3" maxlength="1000"
+      oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+    <div class="djc-write-actions">
+      <button class="djc-release" onclick="djcRelease()">Release 🕊️</button>
+      <button class="djc-skip" onclick="djcRelease(true)">Skip & Save</button>
+    </div>
+  </div>
+  <!-- State 5: affirm flash -->
+  <div class="djc-affirm" id="djcAffirm" style="display:none"></div>
+</div>
     <div class="daily-header">
       <div class="daily-title">🌅 Today's Dailies</div>
       <div class="daily-sub">Small consistent actions compound into transformation</div>
@@ -3761,6 +4356,7 @@ function buildDailyTab() {
   });
 
   updateStreakHint();
+  setTimeout(djcInit, 50);
 }
 
 function completeDaily(daily) {
@@ -3778,7 +4374,7 @@ function completeDaily(daily) {
   if (el) { el.classList.add('done'); el.querySelector('.daily-check').textContent = '✓'; }
   updateXPDisplay(p.xp);
   refreshHudDots();
-  sfxDailyDone(); showToast('📅', `+${daily.xp} XP`, daily.text.substring(0, 50) + '…');
+  sfxDailyDone(); /* suppressed: daily XP toast */
 
   // Check all done
   const dailies = getDailies(rid);
@@ -4565,7 +5161,7 @@ function renderLBRows() {
 // ═══════════════════════════════════════════════════════════════════
 
 function checkAssessment() {
-  const last = parseInt(localStorage.getItem(ASSESS_KEY) || '0');
+  const last = parseInt(localStorage.getItem(ASSESS_KEY, 10) || '0');
   if (Date.now() - last > ASSESS_INTERVAL) triggerAssessment();
 }
 
@@ -4743,6 +5339,7 @@ let toastTimer = null;
 const toastQueue = [];
 
 function showToast(icon, title, msg, onTap) {
+  if (toastQueue.length >= 3) toastQueue.splice(1, toastQueue.length - 2);
   toastQueue.push({icon, title, msg: msg || '', onTap: onTap || null});
   if (toastQueue.length === 1) processToastQueue();
 }
@@ -4763,6 +5360,32 @@ function processToastQueue() {
   if (!toastQueue.length) return;
   var item = toastQueue[0];
   var el = document.getElementById('toast');
+  if (!el._swipeInit) {
+    el._swipeInit = true;
+    var _sy = 0, _dragging = false;
+    el.addEventListener('touchstart', function(e) { _sy = e.touches[0].clientY; _dragging = true; }, {passive:true});
+    el.addEventListener('touchmove', function(e) {
+      if (!_dragging) return;
+      var dy = e.touches[0].clientY - _sy;
+      if (dy < 0) { el.style.transform = 'translateX(-50%) translateY('+Math.max(dy,-120)+'px)'; e.preventDefault(); }
+    }, {passive:false});
+    el.addEventListener('touchend', function(e) {
+      if (!_dragging) return; _dragging = false;
+      var dy = e.changedTouches[0].clientY - _sy;
+      if (dy < -50) {
+        el.style.transform = 'translateX(-50%) translateY(-120%)';
+        el.style.transition = 'transform .2s ease';
+        setTimeout(function() { el.style.display='none'; el.style.transform=''; el.style.transition='';
+          if (toastTimer) { clearTimeout(toastTimer); toastTimer=null; }
+          toastQueue.shift(); window._toastOnTap=null;
+          if (toastQueue.length) setTimeout(processToastQueue,100); }, 200);
+      } else {
+        el.style.transform = 'translateX(-50%) translateY(0)';
+        el.style.transition = 'transform .2s cubic-bezier(.34,1.56,.64,1)';
+        setTimeout(function() { el.style.transition=''; }, 220);
+      }
+    }, {passive:true});
+  }
   document.getElementById('toastIcon').textContent  = item.icon;
   document.getElementById('toastTitle').textContent = item.title;
   document.getElementById('toastMsg').textContent   = item.msg;
@@ -4786,7 +5409,7 @@ function processToastQueue() {
       window._toastOnTap = null;
       if (toastQueue.length) setTimeout(processToastQueue, 150);
     }, 250);
-  }, 6000);
+  }, 2000);
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -4978,7 +5601,10 @@ const FRIENDS_QUEST_SECS = [
 function getQuestsForRole(rid) {
   var g = getRoleGroup(rid);
   if (g === 'friend') return FRIENDS_QUEST_SECS;
+  // Blake's personal sections are private — not shown in his quest tab
+  var BLAKE_PRIVATE_SECS = ['healing','affirm','trauma','recovery','courage'];
   return ALL_QUEST_SECS.filter(function(s) {
+    if (rid === 'blake' && BLAKE_PRIVATE_SECS.indexOf(s.id) >= 0) return false;
     if (s.roles === 'all') return true;
     if (Array.isArray(s.roles) && s.roles.includes(rid)) return true;
     // Group mapping: jordan is a parent, sibling2-4 are siblings
@@ -5146,7 +5772,7 @@ function checkJournalAchievements(count) {
       p.xp = (p.xp || 0) + m.xp;
       saveState();
       updateXPDisplay(p.xp);
-      setTimeout(function(){ showToast(m.icon, m.title + ' +' + m.xp + ' XP', m.msg); }, 400);
+      setTimeout(function(){ /* suppressed: milestone XP */ }, 400);
     }
   });
 }
@@ -5715,7 +6341,7 @@ function groundingNext() {
       localStorage.setItem(key, '1');
       var p = state.profiles[rid];
       if (p) { p.xp = (p.xp||0)+60; saveState(); updateXPDisplay(p.xp); }
-      showToast('🌿', '+60 XP', 'Grounding complete — you are present and safe.');
+      /* suppressed: calm XP */
     }
     renderCalmTab();
   }
@@ -5813,7 +6439,7 @@ function bsLoop() {
           localStorage.setItem(key, '1');
           var p = state.profiles[rid];
           if (p) { p.xp=(p.xp||0)+70; saveState(); updateXPDisplay(p.xp); }
-          showToast('🧘', '+70 XP', 'Body scan complete — well done.');
+          /* suppressed: calm XP */
         }
         renderCalmTab();
         return;
@@ -5955,7 +6581,7 @@ function spNextLine() {
       localStorage.setItem(key, '1');
       var p = state.profiles[rid];
       if (p) { p.xp=(p.xp||0)+50; saveState(); updateXPDisplay(p.xp); }
-      showToast('🏡', '+50 XP', 'Visualisation complete — your mind knows the way.');
+      /* suppressed: calm XP */
     }
     sfxTone(528,'sine',0.1,0.2,0,0.01,0.1);
     sfxTone(660,'sine',0.08,0.18,0.15,0.01,0.1);
@@ -5977,40 +6603,87 @@ function renderEmotion(s, isDark) {
   var hardBubbles = emotionBubbles.filter(function(b){return b.cat==='hard';});
   var goodBubbles = emotionBubbles.filter(function(b){return b.cat==='good';});
 
-  function bubbleBtn(b) {
+  // Build emoji grid items for each dropdown
+  function emojiGridItem(b) {
     var isSel = _selectedEmotion && _selectedEmotion.id === b.id;
-    return '<button onclick="selectEmotionBubble(' + b.id + ')" style="padding:7px 12px;border-radius:20px;border:2px solid ' + b.c + (isSel?'':' 66') + ';background:' + (isSel ? b.c : b.bg) + ';color:' + (isSel ? '#fff' : b.c) + ';font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;transform:' + (isSel?'scale(1.08)':'scale(1)') + '">' + b.text + '</button>';
+    var parts = b.text.split(' ');
+    var emoji = parts[0];
+    var label = parts.slice(1).join(' ');
+    return '<button onclick="selectEmotionBubble(' + b.id + ');toggleEmoDropdown(null)" class="emo-grid-item' + (isSel?' emo-grid-sel':'') + '" style="--ec:' + b.c + '">' +
+      '<span class="emo-grid-emoji">' + emoji + '</span>' +
+      '<span class="emo-grid-lbl">' + label + '</span>' +
+    '</button>';
   }
 
-  var hardHTML = hardBubbles.length > 0
-    ? hardBubbles.map(bubbleBtn).join('')
-    : '<span style="font-size:11px;color:' + (isDark?'rgba(255,255,255,.3)':'#aaa') + ';font-style:italic">All released 💛</span>';
-  var goodHTML = goodBubbles.length > 0
-    ? goodBubbles.map(bubbleBtn).join('')
-    : '<span style="font-size:11px;color:' + (isDark?'rgba(255,255,255,.3)':'#aaa') + ';font-style:italic">All celebrated ✨</span>';
+  var hardGrid  = hardBubbles.length > 0 ? hardBubbles.map(emojiGridItem).join('') : '<span class="emo-all-done">All released 💛</span>';
+  var goodGrid  = goodBubbles.length > 0 ? goodBubbles.map(emojiGridItem).join('') : '<span class="emo-all-done">All celebrated ✨</span>';
 
-  var selTag = _selectedEmotion
-    ? '<div style="margin-bottom:8px;font-size:12px;color:' + (isDark?'rgba(255,255,255,.6)':'#555') + '">Feeling: <span style="display:inline-block;padding:2px 10px;border-radius:12px;background:' + _selectedEmotion.c + '22;border:1px solid ' + _selectedEmotion.c + ';color:' + _selectedEmotion.c + ';font-weight:700">' + _selectedEmotion.text + '</span></div>'
-    : '<div style="margin-bottom:8px;font-size:11px;color:' + (isDark?'rgba(255,255,255,.3)':'#aaa') + ';font-style:italic">Tap an emotion above to tag your entry</div>';
+  var selBadge = _selectedEmotion
+    ? '<div class="emo-sel-badge"><span class="emo-sel-label">Feeling:</span><span class="emo-sel-pill" style="background:' + _selectedEmotion.c + '22;border-color:' + _selectedEmotion.c + ';color:' + _selectedEmotion.c + '">' + _selectedEmotion.text + '</span><button onclick="_selectedEmotion=null;renderCalmTab()" class="emo-sel-clear">×</button></div>'
+    : '<div class="emo-sel-hint">✨ Pick a feeling to tag your entry</div>';
+
+  var hardDropLabel = hardBubbles.length > 0 ? '😔 Difficult feelings' : '💛 All released!';
+  var goodDropLabel = goodBubbles.length > 0 ? '😊 Positive feelings' : '✨ All celebrated!';
 
   return '<div style="' + s + '">' +
-    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">' +
-      '<div style="font-family:Cinzel,serif;font-size:16px;color:' + (isDark?'#f5c842':'#1565c0') + '">💭 Emotion Release</div>' +
-      '<button onclick="openEmotionJournal()" style="background:rgba(171,71,188,.15);border:1px solid rgba(171,71,188,.4);border-radius:8px;padding:4px 10px;cursor:pointer;font-size:11px;color:#ce93d8;font-family:Cinzel,serif">📓' + (journalCount > 0 ? ' ' + journalCount : '') + '</button>' +
+    '<div class="emo-header">' +
+      '<div class="emo-title">💭 Emotion Release</div>' +
+      '<button onclick="openEmotionJournal()" class="emo-journal-btn">📓' + (journalCount > 0 ? ' ' + journalCount : '') + '</button>' +
     '</div>' +
-    '<div style="font-size:11px;color:' + (isDark?'rgba(255,255,255,.45)':'#666') + ';margin-bottom:10px">Tap a feeling, write it out, release it.</div>' +
-    '<div style="font-size:10px;color:' + (isDark?'rgba(255,255,255,.35)':'#888') + ';letter-spacing:.8px;font-family:Cinzel,serif;margin-bottom:6px">DIFFICULT</div>' +
-    '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">' + hardHTML + '</div>' +
-    '<div style="font-size:10px;color:' + (isDark?'rgba(255,255,255,.35)':'#888') + ';letter-spacing:.8px;font-family:Cinzel,serif;margin-bottom:6px">POSITIVE</div>' +
-    '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px">' + goodHTML + '</div>' +
-    (emotionBubbles.length === 0 ? '<button onclick="resetEmotions()" style="font-size:11px;color:#ab47bc;background:none;border:1px solid #ab47bc;border-radius:8px;padding:4px 10px;cursor:pointer;margin-bottom:10px">↺ Reset All</button>' : '') +
-    selTag +
+    '<div class="emo-subtitle">Pick a feeling, write it out, let it go.</div>' +
+
+    // Difficult dropdown
+    '<div class="emo-dropdown" id="emoDropHard">' +
+      '<button class="emo-drop-trigger" onclick="toggleEmoDropdown(this.parentElement)">' +
+        '<span class="emo-drop-icon">🌧️</span>' +
+        '<span class="emo-drop-label">' + hardDropLabel + '</span>' +
+        '<span class="emo-drop-chevron">▾</span>' +
+      '</button>' +
+      '<div class="emo-drop-panel">' +
+        '<div class="emo-grid">' + hardGrid + '</div>' +
+      '</div>' +
+    '</div>' +
+
+    // Positive dropdown
+    '<div class="emo-dropdown" id="emoDropGood">' +
+      '<button class="emo-drop-trigger" onclick="toggleEmoDropdown(this.parentElement)">' +
+        '<span class="emo-drop-icon">🌈</span>' +
+        '<span class="emo-drop-label">' + goodDropLabel + '</span>' +
+        '<span class="emo-drop-chevron">▾</span>' +
+      '</button>' +
+      '<div class="emo-drop-panel">' +
+        '<div class="emo-grid">' + goodGrid + '</div>' +
+      '</div>' +
+    '</div>' +
+
+    (emotionBubbles.length === 0 ? '<button onclick="resetEmotions()" class="emo-reset-btn">↺ Reset All</button>' : '') +
+
+    selBadge +
     '<div style="display:flex;gap:8px;margin-bottom:10px">' +
-      '<textarea id="emotionTextArea" placeholder="Write it out... saved to your private journal." style="flex:1;padding:10px;border-radius:10px;border:1px solid ' + (isDark?'rgba(255,255,255,.2)':'#c5cae9') + ';background:' + (isDark?'rgba(255,255,255,.06)':'#fff') + ';color:' + (isDark?'var(--text)':'#1a1a2e') + ';font-size:13px;resize:none;min-height:60px;font-family:inherit">' + emotionText + '</textarea>' +
-      '<button onclick="releaseEmotion()" style="padding:10px 14px;border-radius:10px;border:none;background:linear-gradient(135deg,#ab47bc,#6a1b9a);color:#fff;font-size:13px;cursor:pointer;flex-shrink:0;align-self:flex-end">Release 🕊️</button>' +
+      '<textarea id="emotionTextArea" placeholder="Write it out... saved to your private journal." class="emo-textarea">' + emotionText + '</textarea>' +
+      '<button onclick="releaseEmotion()" class="emo-release-btn">Release 🕊️</button>' +
     '</div>' +
-    (emotionAffirm ? '<div style="background:rgba(171,71,188,.1);border:1px solid rgba(171,71,188,.3);border-radius:10px;padding:12px;font-size:13px;color:' + (isDark?'#ce93d8':'#6a1b9a') + ';font-style:italic;text-align:center">' + emotionAffirm + '</div>' : '') +
+    (emotionAffirm ? '<div class="emo-affirm">' + emotionAffirm + '</div>' : '') +
   '</div>';
+}
+
+function toggleEmoDropdown(target) {
+  var all = document.querySelectorAll('.emo-dropdown');
+  all.forEach(function(el) {
+    var panel   = el.querySelector('.emo-drop-panel');
+    var chevron = el.querySelector('.emo-drop-chevron');
+    var isTarget = target && (el === target || el.id === target);
+    if (isTarget) {
+      var opening = !el.classList.contains('open');
+      el.classList.toggle('open', opening);
+      if (panel) panel.style.maxHeight = opening ? panel.scrollHeight + 'px' : '0';
+      if (chevron) chevron.style.transform = opening ? 'rotate(180deg)' : '';
+    } else {
+      el.classList.remove('open');
+      if (panel) panel.style.maxHeight = '0';
+      if (chevron) chevron.style.transform = '';
+    }
+  });
 }
 
 function selectEmotionBubble(id) {
@@ -6059,6 +6732,190 @@ function resetEmotions() {
   _selectedEmotion = null;
   renderCalmTab();
 }
+// ── Daily tab journal shortcut ─────────────────────────────────────────────
+function toggleDailyJournalPicker() {
+  var picker = document.getElementById('dailyJournalPicker');
+  var arrow  = document.getElementById('dailyJournalArrow');
+  if (!picker) return;
+  var open = picker.style.display !== 'none';
+  picker.style.display = open ? 'none' : 'block';
+  if (arrow) arrow.style.transform = open ? '' : 'rotate(90deg)';
+}
+
+// ── Daily Journal Card (5 states) ────────────────────────────────────────────
+var _djcEmotion = null;
+
+function djcInit() {
+  var count = loadEmotionJournal().length;
+  var btn = document.getElementById('djcEntriesBtn');
+  var cnt = document.getElementById('djcCount');
+  if (cnt) cnt.textContent = count;
+  if (btn) btn.style.display = count > 0 ? 'inline-flex' : 'none';
+}
+
+function djcOpen() {
+  document.getElementById('djcClosed').style.display = 'none';
+  document.getElementById('djcPicker').style.display = 'block';
+  document.getElementById('djcEmotions').style.display = 'none';
+  document.getElementById('djcWrite').style.display = 'none';
+  document.getElementById('djcAffirm').style.display = 'none';
+}
+
+function djcClose() {
+  document.getElementById('djcClosed').style.display = 'flex';
+  document.getElementById('djcPicker').style.display = 'none';
+  document.getElementById('djcEmotions').style.display = 'none';
+  document.getElementById('djcWrite').style.display = 'none';
+  document.getElementById('djcAffirm').style.display = 'none';
+  _djcEmotion = null;
+}
+
+
+
+function djcShowPicker() {
+  document.getElementById('djcClosed').style.display = 'none';
+  document.getElementById('djcPicker').style.display = 'block';
+  document.getElementById('djcEmotions').style.display = 'none';
+  document.getElementById('djcWrite').style.display = 'none';
+}
+
+function djcShowEmotions(cat) {
+  var grid = document.getElementById('djcEmoGrid');
+  if (!grid) return;
+  var emotions = EMOTION_INIT.filter(function(e){ return e.cat === cat; });
+  grid.innerHTML = emotions.map(function(e) {
+    var parts = e.text.split(' '); var emoji = parts[0]; var lbl = parts.slice(1).join(' ');
+    return '<button class="djc-emo-item" style="--ec:' + e.c + '" onclick="djcSelectEmotion(' + e.id + ')">'
+      + '<span class="djc-emo-emoji">' + emoji + '</span>'
+      + '<span class="djc-emo-lbl">' + lbl + '</span>'
+      + '</button>';
+  }).join('');
+  document.getElementById('djcPicker').style.display = 'none';
+  document.getElementById('djcEmotions').style.display = 'block';
+}
+
+function djcSelectEmotion(id) {
+  _djcEmotion = EMOTION_INIT.find(function(e){ return e.id === id; });
+  if (!_djcEmotion) return;
+  var badge = document.getElementById('djcBadge');
+  if (badge) badge.innerHTML =
+    '<span style="padding:3px 12px;border-radius:20px;background:' + _djcEmotion.c + '22;'
+    + 'border:1px solid ' + _djcEmotion.c + '55;color:' + _djcEmotion.c + ';font-size:12px;font-weight:700">'
+    + _djcEmotion.text + '</span>'
+    + '<span style="font-size:10px;color:rgba(255,255,255,.3);margin-left:8px">🔒 private</span>';
+  document.getElementById('djcEmotions').style.display = 'none';
+  document.getElementById('djcPicker').style.display = 'none';
+  document.getElementById('djcWrite').style.display = 'block';
+  var ta = document.getElementById('djcTextarea');
+  if (ta) { ta.value = ''; setTimeout(function(){ ta.focus(); }, 80); }
+}
+
+function toggleDailyEmoDrop(target) {
+  ['dailyEmoDropHard','dailyEmoDropGood'].forEach(function(did) {
+    var el = document.getElementById(did);
+    if (!el) return;
+    var panel   = el.querySelector('.emo-drop-panel');
+    var chevron = el.querySelector('.emo-drop-chevron');
+    var isTarget = target && el === target;
+    if (isTarget) {
+      var opening = !el.classList.contains('open');
+      el.classList.toggle('open', opening);
+      if (panel) panel.style.maxHeight = opening ? panel.scrollHeight + 'px' : '0';
+      if (chevron) chevron.style.transform = opening ? 'rotate(180deg)' : '';
+    } else {
+      el.classList.remove('open');
+      if (panel) panel.style.maxHeight = '0';
+      if (chevron) chevron.style.transform = '';
+    }
+  });
+}
+
+function djcRelease(skipText) {
+  var ta   = document.getElementById('djcTextarea');
+  var text = (skipText || !ta) ? '' : ta.value.trim();
+  if (text || _djcEmotion) {
+    var now = new Date();
+    var entry = {
+      text: text,
+      emotion: _djcEmotion ? {text:_djcEmotion.text, c:_djcEmotion.c, bg:_djcEmotion.bg} : null,
+      ts:   now.getTime(),
+      date: now.toLocaleDateString([], {weekday:'short', month:'short', day:'numeric'}),
+      time: now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}),
+    };
+    if (_djcEmotion) {
+      emotionBubbles = emotionBubbles.filter(function(b){ return b.id !== _djcEmotion.id; });
+    }
+    var entries = loadEmotionJournal();
+    entries.unshift(entry);
+    saveEmotionJournal(entries);
+    checkJournalAchievements(entries.length);
+  }
+  _djcEmotion = null;
+  // Show affirm briefly then return to closed state
+  var affirm = document.getElementById('djcAffirm');
+  var affirmList = typeof AFFIRMS !== 'undefined' ? AFFIRMS : ['You released something real. 💜'];
+  var msg = affirmList[Math.floor(Math.random() * affirmList.length)];
+  document.getElementById('djcWrite').style.display = 'none';
+  document.getElementById('djcPicker').style.display = 'none';
+  document.getElementById('djcEmotions').style.display = 'none';
+  if (affirm) { affirm.textContent = msg; affirm.style.display = 'block'; }
+  document.getElementById('djcClosed').style.display = 'none';
+  setTimeout(function() {
+    if (affirm) affirm.style.display = 'none';
+    document.getElementById('djcClosed').style.display = 'flex';
+    djcInit();
+  }, 2800);
+}
+
+// Legacy — keep for backward compat with any remaining calls
+function quickJournalEmotion(emotionId) { djcSelectEmotion(emotionId); }
+
+function dailyReleaseEntry() {
+  var ta   = document.getElementById('dailyJournalTextarea');
+  var text = ta ? ta.value.trim() : '';
+  if (!text && !_selectedEmotion) { dailyCancelEntry(); return; }
+  var now = new Date();
+  var entry = {
+    text: text,
+    emotion: _selectedEmotion ? {text:_selectedEmotion.text, c:_selectedEmotion.c, bg:_selectedEmotion.bg} : null,
+    ts:   now.getTime(),
+    date: now.toLocaleDateString([], {weekday:'short', month:'short', day:'numeric'}),
+    time: now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}),
+  };
+  // Remove bubble from calm tab emotion pool if emotion selected
+  if (_selectedEmotion) {
+    emotionBubbles = emotionBubbles.filter(function(b){ return b.id !== _selectedEmotion.id; });
+  }
+  var entries = loadEmotionJournal();
+  entries.unshift(entry);
+  saveEmotionJournal(entries);
+  checkJournalAchievements(entries.length);
+  var affirmList = typeof AFFIRMS !== 'undefined' ? AFFIRMS : ['You released something real. That takes courage. 💜'];
+  emotionAffirm = affirmList[Math.floor(Math.random() * affirmList.length)];
+  _selectedEmotion = null;
+  // Show affirm in card, hide write area
+  var write = document.getElementById('dailyJournalWrite');
+  if (write) write.style.display = 'none';
+  var card = document.getElementById('dailyJournalCard');
+  if (card) {
+    var affirm = document.createElement('div');
+    affirm.className = 'daily-journal-affirm';
+    affirm.textContent = emotionAffirm;
+    card.appendChild(affirm);
+    setTimeout(function(){ affirm.style.opacity = '0'; }, 3000);
+    setTimeout(function(){ if (affirm.parentNode) affirm.remove(); }, 3500);
+  }
+  showToast('🕊️', 'Entry saved', '');
+}
+
+function dailyCancelEntry() {
+  _selectedEmotion = null;
+  var write = document.getElementById('dailyJournalWrite');
+  if (write) write.style.display = 'none';
+  var ta = document.getElementById('dailyJournalTextarea');
+  if (ta) ta.value = '';
+}
+
 function openEmotionJournal() {
   var modal = document.getElementById('emotionJournalModal');
   if (!modal) return;
@@ -6149,7 +7006,7 @@ function completeQuest(questId, xp, sectionId) {
   // Check if player crossed a milestone XP (every 500 XP)
   var prevXP = (p.xp || 0) - xp;
   if (Math.floor(p.xp / 500) > Math.floor(prevXP / 500)) { setTimeout(sfxXPLevelUp, 300); }
-  showToast('⭐', '+' + xp + ' XP', 'Quest complete!');
+  /* suppressed: quest XP toast */
   setTimeout(function(){ try{ miloBoostFromQuest(xp); }catch(e){} }, 600);
   // Star burst particles
   if (item) {
@@ -6416,6 +7273,72 @@ function loadGFarmFromFirebase(rid) {
 // Throttle Firebase farm writes — at most once every 30 seconds
 var _farmFbLastWrite = 0;
 
+// ── Farm streak fanfare ──────────────────────────────────────────────────────
+function farmShowStreakFanfare(streak) {
+  // Only show for streak milestones or any streak > 0
+  if (!streak || streak < 1) return;
+  var isMilestone = [3,7,14,30,60,100].indexOf(streak) >= 0;
+  var msg, emoji, color;
+  if      (streak >= 100) { msg = '100-Day Legend!';   emoji = '🌟'; color = '#f5c842'; }
+  else if (streak >= 60)  { msg = '60-Day Champion!';  emoji = '🏆'; color = '#f5c842'; }
+  else if (streak >= 30)  { msg = '30-Day Master!';    emoji = '💎'; color = '#42a5f5'; }
+  else if (streak >= 14)  { msg = '2-Week Warrior!';   emoji = '🔥'; color = '#ff7043'; }
+  else if (streak >= 7)   { msg = 'Week Streak!';      emoji = '🔥'; color = '#ff7043'; }
+  else if (streak >= 3)   { msg = streak + '-Day Streak!'; emoji = '🔥'; color = '#ffa726'; }
+  else                    { msg = 'Day ' + streak + '!';   emoji = '✨'; color = 'rgba(255,255,255,.8)'; }
+
+  // Remove any existing fanfare
+  var old = document.getElementById('farmStreakFanfare');
+  if (old) old.remove();
+
+  var el = document.createElement('div');
+  el.id = 'farmStreakFanfare';
+  el.style.cssText = [
+    'position:fixed',
+    'top:50%',
+    'left:50%',
+    'transform:translate(-50%,-50%) scale(0.4)',
+    'z-index:9000',
+    'display:flex',
+    'flex-direction:column',
+    'align-items:center',
+    'gap:8px',
+    'pointer-events:none',
+    'animation:farmStreakPop .55s cubic-bezier(.34,1.56,.64,1) forwards',
+  ].join(';');
+
+  // Confetti burst (emoji particles)
+  var confetti = ['⭐','🌟','✨','💫','🔥','🎉','🌸'];
+  var particles = '';
+  for (var i = 0; i < 12; i++) {
+    var angle = (i / 12) * 360;
+    var dist  = 60 + Math.random() * 40;
+    var size  = 14 + Math.floor(Math.random() * 10);
+    var delay = (Math.random() * 0.3).toFixed(2);
+    var emo   = confetti[Math.floor(Math.random() * confetti.length)];
+    particles += '<span style="position:absolute;font-size:' + size + 'px;'
+      + 'animation:farmStreakParticle .8s ease ' + delay + 's forwards;'
+      + '--angle:' + angle + 'deg;--dist:' + dist + 'px;opacity:0">' + emo + '</span>';
+  }
+
+  el.innerHTML =
+    '<div style="position:relative;width:120px;height:120px;display:flex;align-items:center;justify-content:center">'
+    + particles
+    + '<span style="font-size:56px;filter:drop-shadow(0 0 16px ' + color + ')">' + emoji + '</span>'
+    + '</div>'
+    + '<div style="font-family:Cinzel,serif;font-size:' + (isMilestone ? '20' : '17') + 'px;font-weight:700;color:' + color + ';text-shadow:0 0 20px ' + color + ';letter-spacing:.5px;text-align:center">'
+    + msg + '</div>'
+    + '<div style="font-family:Cinzel,serif;font-size:11px;color:rgba(255,255,255,.5);letter-spacing:1px">FARM STREAK</div>';
+
+  document.body.appendChild(el);
+
+  // Auto-dismiss after 2.8s with fade out
+  setTimeout(function() {
+    el.style.animation = 'farmStreakFade .5s ease forwards';
+    setTimeout(function() { if (el.parentNode) el.remove(); }, 500);
+  }, 2800);
+}
+
 function saveGFarm(f) {
   try { localStorage.setItem(FARM_KEY2(), JSON.stringify({...f, lastSave:Date.now()})); } catch(e) {}
 
@@ -6460,7 +7383,8 @@ function gAdvanceCrops(farm) {
     const perStage = growMs / 3;
     const waterBonus = (p.wateredAt && (now - p.wateredAt) < perStage * 2) ? 0.7 : 1;
     const fertBonus = p.fertilized ? 0.5 : 1;
-    const effMs = perStage * waterBonus * fertBonus;
+    const offlineCropMult = (typeof navigator !== 'undefined' && !navigator.onLine) ? 3 : 1;
+    const effMs = perStage * waterBonus * fertBonus * offlineCropMult;
     const elapsed = now - (p.plantedAt || now);
     const newStage = Math.min(3, Math.floor(elapsed / effMs));
     if (newStage !== p.stage) { changed = true; return {...p, stage:newStage}; }
@@ -6638,7 +7562,7 @@ function farmTapPlot(idx) {
       farmRenderPlots();
       // Water nudge: max 3 times per day
       var _wKey = 'hs_water_nudge_' + new Date().toDateString();
-      var _wCount = parseInt(localStorage.getItem(_wKey) || '0');
+      var _wCount = parseInt(localStorage.getItem(_wKey, 10) || '0');
       if (_wCount < 3) {
         localStorage.setItem(_wKey, _wCount + 1);
         setTimeout(() => farmNudge('water'), 800);
@@ -6682,6 +7606,21 @@ function farmHarvest(idx) {
   gFarm.stats.harvests++;
   gFarm.stats.totalCoins += coins;
   gFarm.inv[p.crop] = (gFarm.inv[p.crop] || 0) + 1;
+
+  // ── Auto-stock Milo's treat inventory from farm harvests ──
+  // Carrots and berries map directly to Milo treats
+  if (typeof MILO_TREATS !== 'undefined' && MILO_TREATS[p.crop]) {
+    if (typeof _miloState !== 'undefined' && _miloState) {
+      if (!_miloState.inv) _miloState.inv = {};
+      _miloState.inv[p.crop] = (_miloState.inv[p.crop] || 0) + 1;
+      miloSave && miloSave();
+      // Show a friendly toast so player knows it went to Milo
+      var _treatDef = MILO_TREATS[p.crop];
+      setTimeout(function() {
+        farmFloat(_treatDef.emoji + ' → Milo got a ' + _treatDef.name + '!', '#f5c842', 50, 260);
+      }, 400);
+    }
+  }
 
   sfxHarvest();
   farmEarnXp(xp);
@@ -6731,7 +7670,8 @@ function farmCollectAnimal(id) {
   const def = GANIMALS[a.type];
   const now = Date.now();
   if ((now - (a.lastCollect || 0)) >= def.produceTime * 1000) {
-    gFarm.animals[id] = {...a, lastCollect:now};
+    const _earned = (a.totalEarned || 0) + def.giveCoins;
+    gFarm.animals[id] = {...a, lastCollect:now, totalEarned:_earned};
     gFarm.coins += def.giveCoins;
     gFarm.stats.totalCoins += def.giveCoins;
     farmEarnXp(8);
@@ -6746,7 +7686,8 @@ function farmTapAnimal(id) {
   const a = gFarm.animals[id]; if (!a) return;
   const def = GANIMALS[a.type];
   const now = Date.now();
-  const isHungry = !a.fedAt || (now - a.fedAt > def.produceTime * 2000);
+  const _animalOfflineMult = (typeof navigator !== 'undefined' && !navigator.onLine) ? 3 : 1;
+  const isHungry = !a.fedAt || (now - a.fedAt > def.produceTime * 2000 * _animalOfflineMult);
   const canCollect = (now - (a.lastCollect || 0)) >= def.produceTime * 1000;
   if (canCollect) farmCollectAnimal(id);
   else if (isHungry) farmFeedAnimal(id);
@@ -6778,6 +7719,26 @@ function farmBuyShopItem(itemId) {
   farmHideShopSheet();
 }
 
+function farmSellAnimal(id) {
+  const a = gFarm.animals[id]; if (!a) return;
+  const def = GANIMALS[a.type];
+  const earned    = a.totalEarned || 0;
+  const threshold = def.cost * 4;   // must earn 4x purchase price
+  const salePrice = def.cost * 2;   // sells for 2x purchase price
+  if (earned < threshold) {
+    farmFloat('Not yet! Needs to earn ' + threshold + '💰 first', '#ef5350');
+    return;
+  }
+  if (!confirm('Sell ' + def.name + ' for ' + salePrice + '💰?')) return;
+  delete gFarm.animals[id];
+  gFarm.coins += salePrice;
+  gFarm.stats.totalCoins += salePrice;
+  saveGFarm(gFarm);
+  sfxCoins(false);
+  farmFloat('Sold ' + def.icon + ' +' + salePrice + '💰', '#a8e063');
+  farmRender();
+}
+
 function farmBuyAnimal(type) {
   if (!gFarm.owned.includes('barn')) { farmFloat('Build Barn first!', '#ef5350'); return; }
   if (Object.keys(gFarm.animals).length >= 6) { farmFloat('Barn is full!', '#ef5350'); return; }
@@ -6794,6 +7755,9 @@ function farmBuyAnimal(type) {
 }
 
 // ── Tool setter ───────────────────────────────────────────────
+
+
+
 function farmSetTool(t) {
   gFarmTool = t;
   document.querySelectorAll('.farm-action-btn').forEach(b => {
@@ -6907,6 +7871,7 @@ function farmRenderShopContent() {
 
 // ── Visual effects ────────────────────────────────────────────
 function farmFloat(text, color, x, y) {
+  if (typeof isGuest === 'function' && isGuest()) return;
   const el = document.createElement('div');
   el.className = 'farm-float';
   el.style.cssText = `left:${x||Math.random()*60+20}%;top:${y||220}px;color:${color}`;
@@ -6946,6 +7911,8 @@ function buildFarmTab() {
   // Start voxel scene after render
   setTimeout(buildFarmScene, 100);
   setTimeout(showFarmSeasonPopup, 350);
+  // Fetch live weather and apply rain watering
+  setTimeout(function() { farmFetchWeather(function() { farmRefreshWeatherBadge(); }); }, 800);
 }
 
 function farmRender() {
@@ -6974,14 +7941,58 @@ function farmRender() {
     <!-- Achievement pill -->
     <div id="farmAchBar" class="farm-achievement hidden"></div>
 
+    <!-- Voxel 3D Scene -->
+    <div class="farm-scene" id="farmSceneWrap">
+      <div id="farmSeasonPopup" style="position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:30;pointer-events:none"></div>
+      ${farmSceneSkyHTML()}
+      <!-- Rain layer (shown when weather is rainy) -->
+      ${(function(){
+        if (!_farmWeather.isRain) return "";
+        var drops = "";
+        for (var _d=0;_d<28;_d++) {
+          var _left = (_d * 3.7 + Math.random()*3).toFixed(1);
+          var _dur  = (0.55 + Math.random()*0.35).toFixed(2);
+          var _del  = (Math.random()*0.6).toFixed(2);
+          var _h    = (10 + Math.floor(Math.random()*14));
+          drops += '<div class="farm-rain-drop" style="left:'+_left+'%;height:'+_h+'px;animation-duration:'+_dur+'s;animation-delay:'+_del+'s"></div>';
+        }
+        return '<div class="farm-rain-layer">' + drops + '</div>';
+      })()}
+      <!-- Stat overlays -->
+      <div style="position:absolute;top:8px;left:8px;z-index:25;display:flex;gap:5px;align-items:center">
+        <div style="background:rgba(0,0,0,.42);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:20px;padding:3px 9px;display:flex;align-items:center;gap:5px;border:1px solid rgba(255,255,255,.12)">
+          <span style="font-family:Cinzel,serif;font-size:11px;font-weight:700;color:#f5c842">Lv.${gFarm.lvl}</span>
+          <div style="width:44px;height:3px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden"><div style="height:100%;border-radius:2px;background:linear-gradient(90deg,#f5c842,#c8960a);width:${xpPct}%"></div></div>
+        </div>
+      </div>
+      <div style="position:absolute;top:8px;right:8px;z-index:25;display:flex;gap:5px;align-items:center">
+        <div style="background:rgba(0,0,0,.42);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:20px;padding:3px 10px;display:flex;align-items:center;gap:4px;border:1px solid rgba(255,255,255,.12)">
+          <span style="font-size:12px">💰</span>
+          <span style="font-family:Cinzel,serif;font-size:11px;color:#f5c842;font-weight:700" id="farmCoins">${gFarm.coins||0}</span>
+        </div>
+        <div style="background:rgba(0,0,0,.42);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:20px;padding:3px 10px;display:flex;align-items:center;gap:4px;border:1px solid rgba(255,255,255,.12)">
+          <span style="font-size:12px">🌾</span>
+          <span id="farmHarvests" style="font-family:Cinzel,serif;font-size:11px;color:rgba(255,255,255,.8);font-weight:700">${(gFarm.stats&&gFarm.stats.harvests)||0}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3D Voxel Fence Strip -->
+    <div class="farm-ground-strip">
+      <div class="farm-fence-wrap">
+        ${Array.from({length:14}, () => '<div class="fence-post-3d"><div class="fence-body"></div></div>').join('')}
+        <div class="farm-fence-rail" style="top:6px"></div>
+        <div class="farm-fence-rail" style="top:14px"></div>
+      </div>
+    </div>
+
+
+    
     <!-- Scrollable content -->
     <div class="farm-scroll" id="farmScroll">
 
       <!-- Plots -->
-      <div class="farm-section">
-        <div class="farm-section-title">🌿 Your Farm
-          <span style="font-size:9px;color:rgba(255,255,255,.3);font-weight:400">${gFarm.plots.filter(p=>p.crop).length}/${plotCount} plots used</span>
-        </div>
+      <div class="farm-section" style="padding:4px 8px 2px">
         <div class="farm-field" id="farmPlotsGrid">
           ${farmPlotsHTML(plotCount)}
         </div>
@@ -6989,43 +8000,15 @@ function farmRender() {
 
       <!-- Animals (only if barn owned) -->
       ${gFarm.owned.includes('barn') ? `
-      <div class="farm-section">
-        <div class="farm-section-title">🐄 Animals</div>
+      <div class="farm-section" style="padding:4px 8px 2px">
         <div class="barn-grid" id="farmAnimalsGrid">
           ${farmAnimalsHTML()}
         </div>
       </div>` : ''}
 
-      <!-- Decorations -->
-      ${(gFarm.owned.includes('fence')||gFarm.owned.includes('fountain')||gFarm.owned.includes('scarecrow')||gFarm.owned.includes('greenhouse')||gFarm.owned.includes('mill')||gFarm.owned.includes('market')||gFarm.owned.includes('well')) ? `
-      <div class="farm-section">
-        <div class="farm-section-title">🎨 Decorations</div>
-        <div class="deco-row">
-          ${gFarm.owned.includes('scarecrow')?'<span style="font-size:36px;animation:sway 3s ease infinite;display:inline-block">🪆</span>':''}
-          ${gFarm.owned.includes('fence')?'<span style="font-size:20px;opacity:.8">🪨🪨🪨🪨</span>':''}
-          ${gFarm.owned.includes('fountain')?'<span style="font-size:36px">⛲</span>':''}
-          ${gFarm.owned.includes('greenhouse')?'<span style="font-size:32px">🏠</span>':''}
-          ${gFarm.owned.includes('mill')?'<span style="font-size:32px;animation:sway 1.5s ease infinite;display:inline-block">⚙️</span>':''}
-          ${gFarm.owned.includes('market')?'<span style="font-size:32px">🏪</span>':''}
-          ${gFarm.owned.includes('well')?'<span style="font-size:32px">💧</span>':''}
-        </div>
-      </div>` : ''}
-
-      <!-- Stats -->
-      <div class="farm-stats-card">
-        <div class="farm-stats-title">📊 FARM STATS</div>
-        <div class="farm-stats-grid">
-          <span>Harvests: ${gFarm.stats.harvests}</span>
-          <span>Day Streak: ${gFarm.streak} 🔥</span>
-          <span>Coins Earned: ${gFarm.stats.totalCoins}</span>
-          <span>Farm Level: ${gFarm.lvl}</span>
-          <span>Animals: ${Object.keys(gFarm.animals).length}</span>
-          <span>Buildings: ${gFarm.owned.filter(id=>!['fence','scarecrow','fountain'].includes(id)).length}</span>
-        </div>
-      </div>
-
-      <div style="height:80px"></div>
+      <div style="height:8px"></div>
     </div>
+
 
     <!-- Action bar -->
     <div class="farm-action-bar">
@@ -7049,6 +8032,10 @@ function farmRender() {
       </div>
     </div>
   `;
+
+  // Re-build the voxel scene and fire season popup
+  setTimeout(buildFarmScene, 80);
+  setTimeout(showFarmSeasonPopup, 400);
 
   // Re-apply active tool
   farmSetTool(gFarmTool);
@@ -7201,9 +8188,47 @@ function _miloProcessSprite(src, onDone) {
       ctx.drawImage(img, 0, 0);
       var id = ctx.getImageData(0, 0, c.width, c.height);
       var d = id.data;
-      for (var i = 0; i < d.length; i += 4) {
-        if (d[i] < 30 && d[i+1] < 30 && d[i+2] < 30) d[i+3] = 0;
+      var W = c.width, H = c.height;
+
+      // ── Flood-fill from all four edges to find only the TRUE background ──
+      // This preserves dark internal pixels (eyes, crown, fur shadows)
+      // while removing the pure black background outside the rabbit.
+      var BG_THRESHOLD = 38; // pixels darker than this on ALL channels = candidate bg
+      var visited = new Uint8Array(W * H);
+      var queue = [];
+
+      // Seed from all border pixels that look like background
+      function isBg(idx) {
+        return d[idx] < BG_THRESHOLD && d[idx+1] < BG_THRESHOLD && d[idx+2] < BG_THRESHOLD;
       }
+      function seed(x, y) {
+        var p = y * W + x;
+        if (!visited[p] && isBg(p * 4)) { visited[p] = 1; queue.push(p); }
+      }
+      for (var x = 0; x < W; x++) { seed(x, 0); seed(x, H-1); }
+      for (var y = 1; y < H-1; y++) { seed(0, y); seed(W-1, y); }
+
+      // BFS flood fill through connected background pixels
+      var qi = 0;
+      while (qi < queue.length) {
+        var p = queue[qi++];
+        var px = p % W, py = Math.floor(p / W);
+        var neighbours = [];
+        if (px > 0)   neighbours.push(p - 1);
+        if (px < W-1) neighbours.push(p + 1);
+        if (py > 0)   neighbours.push(p - W);
+        if (py < H-1) neighbours.push(p + W);
+        for (var ni = 0; ni < neighbours.length; ni++) {
+          var nb = neighbours[ni];
+          if (!visited[nb] && isBg(nb * 4)) { visited[nb] = 1; queue.push(nb); }
+        }
+      }
+
+      // Make all flood-filled (background) pixels transparent
+      for (var i = 0; i < W * H; i++) {
+        if (visited[i]) d[i * 4 + 3] = 0;
+      }
+
       ctx.putImageData(id, 0, 0);
       _miloProcessedSrcs[src] = c.toDataURL('image/png');
     } catch(e) {
@@ -8328,25 +9353,25 @@ function miloFarmRender(panel) {
       '</div>' +
       // Stats
       
-      // Care buttons
-      '<div class="milo-care-row">' +
-        '<div id="miloBtnFeed" class="milo-care-btn' + (sl ? ' disabled' : '') + (s.hunger < 35 ? ' pulse' : '') + '" onclick="miloOpenTreatPicker()">' +
-          '<div class="milo-care-icon">\uD83E\uDD55</div><div class="milo-care-lbl">FEED</div></div>' +
-        // Inventory button — shows stock badge if any treat is low
+      // Action bar — matches farm tool bar position/style
+      '<div class="milo-action-bar">' +
+        '<div id="miloBtnFeed" class="milo-action-btn' + (sl ? ' disabled' : '') + (s.hunger < 35 ? ' active' : '') + '" onclick="miloOpenTreatPicker()">' +
+          '<div class="fab-icon">\uD83E\uDD55</div><div class="fab-lbl">FEED</div></div>' +
         (function(){
           var inv = s.inv || {}; var low = Object.keys(inv).some(function(k){ return (inv[k]||0) <= 3; });
-          return '<div class="milo-care-btn' + (low ? ' pulse' : '') + '" onclick="miloShowInventory()" style="' + (low ? 'border-color:rgba(255,160,60,.4)' : '') + '">' +
-            '<div class="milo-care-icon" style="position:relative">\uD83D\uDED2' + (low ? '<span style="position:absolute;top:-4px;right:-6px;font-size:7px;background:rgba(220,80,60,.9);color:#fff;border-radius:6px;padding:1px 3px;font-family:Cinzel,serif">LOW</span>' : '') + '</div>' +
-            '<div class="milo-care-lbl">BAG</div>' +
-          '</div>';
+          return '<div class="milo-action-btn' + (low ? ' active' : '') + '" onclick="miloShowInventory()" style="' + (low ? 'border-color:rgba(255,160,60,.45)' : '') + '">' +
+            '<div class="fab-icon" style="position:relative">\uD83D\uDED2' + (low ? '<span style="position:absolute;top:-4px;right:-6px;font-size:7px;background:rgba(220,80,60,.9);color:#fff;border-radius:6px;padding:1px 3px;font-family:Cinzel,serif">LOW</span>' : '') + '</div>' +
+            '<div class="fab-lbl">BAG</div></div>';
         })() +
-        '<div id="miloBtnPet" class="milo-care-btn' + (sl ? ' disabled' : '') + '" onclick="miloFarmPet()">' +
-          '<div class="milo-care-icon">\uD83E\uDD17</div><div class="milo-care-lbl">PET</div></div>' +
-        '<div id="miloBtnPlay" class="milo-care-btn' + (sl ? ' disabled' : '') + '" onclick="miloFarmPlay()">' +
-          '<div class="milo-care-icon">\uD83C\uDF89</div><div class="milo-care-lbl">PLAY</div></div>' +
-        '<div id="miloBtnSleep" class="milo-care-btn" onclick="miloFarmToggleSleep()">' +
-          '<div class="milo-care-icon" id="miloBtnSleepIcon">' + (sl ? '\u2600\uFE0F' : '\uD83C\uDF19') + '</div>' +
-          '<div class="milo-care-lbl" id="miloBtnSleepLbl">' + (sl ? 'WAKE' : 'SLEEP') + '</div></div>' +
+        '<div id="miloBtnPet" class="milo-action-btn' + (sl ? ' disabled' : '') + '" onclick="miloFarmPet()">' +
+          '<div class="fab-icon">\uD83E\uDD17</div><div class="fab-lbl">PET</div></div>' +
+        '<div id="miloBtnPlay" class="milo-action-btn' + (sl ? ' disabled' : '') + '" onclick="miloFarmPlay()">' +
+          '<div class="fab-icon">\uD83C\uDF89</div><div class="fab-lbl">PLAY</div></div>' +
+        '<div id="miloBtnSleep" class="milo-action-btn" onclick="miloFarmToggleSleep()">' +
+          '<div class="fab-icon" id="miloBtnSleepIcon">' + (sl ? '\u2600\uFE0F' : '\uD83C\uDF19') + '</div>' +
+          '<div class="fab-lbl" id="miloBtnSleepLbl">' + (sl ? 'WAKE' : 'SLEEP') + '</div></div>' +
+        '<div class="milo-action-btn" onclick="miloToggleChat()">' +
+          '<div class="fab-icon">\uD83D\uDCAC</div><div class="fab-lbl">CHAT</div></div>' +
       '</div>' +
       '<div class="milo-extra-section">' +
         // Growth now shown as scene overlay at top
@@ -8362,8 +9387,7 @@ function miloFarmRender(panel) {
         '</div>' +
         // Back to Farm — see discreet overlay in scene-wrap
       '</div>' +
-      // ── Milo AI Chat (floating panel) ─────────────────────────
-      '<button class="milo-chat-fab" id="miloChatFab" onclick="miloToggleChat()" title="Talk to Milo" style="display:' + (_miloChatOpen ? 'none' : 'flex') + '">\uD83D\uDCAC</button>' +
+      // ── Milo AI Chat (floating panel — opened via action bar CHAT button) ─
       '<div class="milo-chat-float' + (_miloChatOpen ? ' open' : '') + '" id="miloChatFloat">' +
         '<div class="milo-chat-float-drag"></div>' +
         '<div class="milo-chat-float-hdr">' +
@@ -9206,9 +10230,14 @@ function farmAnimalsHTML() {
   return [
     ...entries.map(([id, a]) => {
       const def = GANIMALS[a.type]; if (!def) return '';
-      const isHungry = !a.fedAt || (now - a.fedAt > def.produceTime * 2000);
+      const _animalOfflineMult = (typeof navigator !== 'undefined' && !navigator.onLine) ? 3 : 1;
+  const isHungry = !a.fedAt || (now - a.fedAt > def.produceTime * 2000 * _animalOfflineMult);
       const canCollect = (now - (a.lastCollect || 0)) >= def.produceTime * 1000;
       const pct = Math.min(100, Math.round((now - (a.lastCollect||0)) / (def.produceTime*1000) * 100));
+      const totalEarned = a.totalEarned || 0;
+      const sellable    = totalEarned >= def.cost * 4;
+      const salePrice   = def.cost * 2;
+      const earnPct     = Math.min(100, Math.round(totalEarned / (def.cost * 4) * 100));
       return `<div class="animal-pen ${isHungry?'hungry':'happy'}" onclick="farmTapAnimal('${id}')">
         <div class="animal-status-dot ${isHungry?'hungry':'happy'}"></div>
         <div class="animal-emoji">${def.icon}</div>
@@ -9216,6 +10245,10 @@ function farmAnimalsHTML() {
         <div class="animal-bar-wrap"><div class="animal-bar-fill" style="width:${pct}%"></div></div>
         ${canCollect?`<div class="animal-ready-badge">${def.gives} Ready!</div>`:''}
         ${isHungry?'<div class="animal-ready-badge" style="background:#ef5350;color:#fff">Hungry!</div>':''}
+        ${sellable
+          ? `<button class="animal-sell-btn" onclick="event.stopPropagation();farmSellAnimal('${id}')">Sell ${salePrice}💰</button>`
+          : `<div class="animal-earn-wrap"><div class="animal-earn-fill" style="width:${earnPct}%"></div><span class="animal-earn-lbl">${totalEarned}/${def.cost*4}💰</span></div>`
+        }
       </div>`;
     }),
     ...Array(empties).fill(0).map(() =>
@@ -9233,6 +10266,7 @@ function farmRenderPlots() {
   const plotCount = gFarm.owned.includes('silo') ? 15 : 5;
   grid.innerHTML = farmPlotsHTML(plotCount);
 }
+
 
 function farmRenderAnimals() {
   const grid = document.getElementById('farmAnimalsGrid');
@@ -9333,6 +10367,91 @@ function buildThemePickerHTML() {
   }).join('');
 }
 
+// ── Settings email management ─────────────────────────────────────────────────
+function closeNewEmailOverlay() { var el = document.getElementById('newEmailOverlay'); if (el) el.remove(); }
+
+function settingsChangeEmail() {
+  var r = state.activeProfile;
+  if (!r) return;
+  var p = state.profiles[r.id] || {};
+
+  // If they already have an email, require OTP on current email first
+  function _doShowInput() {
+    var overlay = document.createElement('div');
+    overlay.id = 'newEmailOverlay';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:9500;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.75);backdrop-filter:blur(8px)';
+    overlay.innerHTML =
+      '<div style="background:linear-gradient(160deg,#1a1410,#0a0806);border:1px solid rgba(245,200,66,.3);border-radius:20px;padding:28px 24px;max-width:320px;width:calc(100vw - 48px);text-align:center">'
+      + '<div style="font-size:36px;margin-bottom:10px">📧</div>'
+      + '<div style="font-family:Cinzel,serif;font-size:14px;color:#f5c842;font-weight:700;margin-bottom:8px">'
+      + (p.email ? 'Update Email Address' : 'Add Email Address') + '</div>'
+      + '<div style="font-size:12px;color:rgba(255,255,255,.5);margin-bottom:16px;line-height:1.5">'
+      + 'Enter your new email address. A verification code will be sent to confirm it.' + '</div>'
+      + '<input id="newEmailInp" type="email" inputmode="email" placeholder="new@email.com" autocomplete="email"'
+      + ' style="width:100%;text-align:center;font-size:15px;font-family:Cinzel,serif;color:#f5c842;'
+      + 'background:rgba(0,0,0,.4);border:1px solid rgba(245,200,66,.3);border-radius:12px;'
+      + 'padding:10px 0;outline:none;margin-bottom:10px;box-sizing:border-box">'
+      + '<div id="newEmailErr" style="color:#ef5350;font-size:11px;min-height:16px;margin-bottom:8px"></div>'
+      + '<button onclick="newEmailSubmit()" style="width:100%;background:linear-gradient(135deg,#c8960a,#f5c842);'
+      + 'border:none;border-radius:12px;color:#0a0700;font-family:Cinzel,serif;font-size:13px;font-weight:700;padding:12px 0;cursor:pointer;margin-bottom:8px">Send Verification Code</button>'
+      + '<button onclick="closeNewEmailOverlay()" style="width:100%;background:rgba(255,255,255,.06);'
+      + 'border:1px solid rgba(255,255,255,.12);border-radius:12px;color:rgba(255,255,255,.45);'
+      + 'font-family:Cinzel,serif;font-size:11px;padding:10px 0;cursor:pointer">Cancel</button>'
+      + '</div>';
+
+    window.newEmailSubmit = function() {
+      var val = (document.getElementById('newEmailInp') || {}).value || '';
+      var err = document.getElementById('newEmailErr');
+      if (!val || !val.includes('@') || !val.includes('.')) {
+        if (err) err.textContent = 'Please enter a valid email address.'; return;
+      }
+      var newEmail = val.trim().toLowerCase();
+      overlay.remove();
+
+      // Temporarily set new email so OTP goes there
+      var oldEmail = p.email;
+      state.profiles[r.id].email = newEmail;
+
+      if (emailjsConfigured()) {
+        showOTPScreen(r.id, 'firstlogin', function() {
+          // OTP verified — save permanently
+          saveState();
+          var msg = document.getElementById('emailChangeMsg');
+          if (msg) { msg.textContent = '✦ Email updated to ' + newEmail; msg.style.display = 'block'; }
+          renderSettings();
+        });
+      } else {
+        // EmailJS not configured — save without OTP
+        saveState();
+        var msg = document.getElementById('emailChangeMsg');
+        if (msg) { msg.textContent = '✦ Email saved (OTP not configured).'; msg.style.display = 'block'; }
+        renderSettings();
+      }
+    };
+
+    document.body.appendChild(overlay);
+    setTimeout(function(){ var i = document.getElementById('newEmailInp'); if(i) i.focus(); }, 80);
+  }
+
+  // If existing email + OTP configured, verify old email first
+  if (p.email && emailjsConfigured()) {
+    showOTPScreen(r.id, 'reset', _doShowInput);
+  } else {
+    _doShowInput();
+  }
+}
+
+function settingsRemoveEmail() {
+  var r = state.activeProfile;
+  if (!r) return;
+  if (!confirm('Remove your verification email? Your account will be less secure without it.')) return;
+  state.profiles[r.id].email = '';
+  saveState();
+  var msg = document.getElementById('emailChangeMsg');
+  if (msg) { msg.textContent = '✦ Email removed.'; msg.style.display = 'block'; msg.style.color = '#ffa726'; }
+  renderSettings();
+}
+
 function renderSettings() {
   const r = state.activeProfile;
   const p = state.profiles[(r && r.id)] || {};
@@ -9354,6 +10473,7 @@ function renderSettings() {
   const _adminPill = canSwitchRealm() ? `<button class="set-pill${_settingsSection==='admin'?' active':''}" onclick="_settingsSection='admin';renderSettings()">Admin</button>` : '';
 
   panel.innerHTML = `
+    ${!isGuest() ? `
     <div class="section-label">Settings</div>
     <div class="settings-pills">
       <button class="set-pill${_settingsSection==='personal'?' active':''}" onclick="_settingsSection='personal';renderSettings()">Personal</button>
@@ -9420,6 +10540,23 @@ function renderSettings() {
       <div style="font-size:12px;color:var(--text2);margin-bottom:10px">Your 4-digit PIN secures your profile on this device.</div>
       <button class="set-savebtn" onclick="startChangePIN()">🔐 Change My PIN</button>
       <div id="pinChangeMsg" style="font-size:12px;color:#81c784;margin-top:8px;display:none">✦ PIN updated successfully!</div>
+    </div>
+
+    <!-- Email / OTP Security -->
+    <div class="set-section">
+      <div class="set-section-title">📧 VERIFICATION EMAIL</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:10px">
+        Used to verify your identity on first login and PIN resets.
+        ${p.email
+          ? `<span style="color:#a8e063">✓ ${p.email}</span>`
+          : '<span style="color:rgba(255,255,255,.35)">No email set — your account is less secure.</span>'
+        }
+      </div>
+      <button class="set-savebtn" onclick="settingsChangeEmail()">
+        ${p.email ? '✏️ Change Email' : '📧 Add Email'}
+      </button>
+      ${p.email ? `<button class="set-savebtn" onclick="settingsRemoveEmail()" style="margin-top:6px;background:rgba(239,83,80,.15);border-color:rgba(239,83,80,.35);color:#ef9a9a">🗑️ Remove Email</button>` : ''}
+      <div id="emailChangeMsg" style="font-size:12px;color:#81c784;margin-top:8px;display:none"></div>
     </div>
 
     <!-- Install App (in Personal tab) -->
@@ -9550,30 +10687,39 @@ function renderSettings() {
       })()}
     </div>
 
-    <!-- PIN Management -->
+    <!-- PIN & Email Management (Admin) -->
     <div class="set-section" style="border-color:rgba(245,200,66,.2)">
-      <div class="set-section-title" style="color:#ffe082">🔐 PIN MANAGEMENT</div>
-      <div style="font-size:11px;color:var(--text2);margin-bottom:14px;line-height:1.5">Reset a family member's PIN. They'll be prompted to create a new one on their next login.</div>
-      ${ROLES.filter(r => r.id !== state.activeProfile.id).map(r => {
+      <div class="set-section-title" style="color:#ffe082">🔐 FAMILY ACCOUNTS</div>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:14px;line-height:1.5">View emails, reset PINs, and manage verification emails for family members.</div>
+      ${ROLES.filter(r => r.roleType !== 'guest').map(r => {
         const p = state.profiles[r.id] || {};
         const hasPin = p.pinHash && !p.firstLogin;
-        return '<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05)">' +
-          '<span style="font-size:22px;width:32px;text-align:center">' + r.icon + '</span>' +
-          '<div style="flex:1">' +
-            '<div style="font-family:Cinzel,serif;font-size:12px;color:var(--text)">' + r.name + '</div>' +
-            '<div style="font-size:10px;color:var(--text2)">' + (hasPin ? 'PIN set' : 'No PIN yet') + '</div>' +
+        const email = p.email || '';
+        return '<div style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05)">' +
+          '<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">' +
+            '<span style="font-size:22px;width:32px;text-align:center">' + r.icon + '</span>' +
+            '<div style="flex:1">' +
+              '<div style="font-family:Cinzel,serif;font-size:12px;color:var(--text)">' + r.name + '</div>' +
+              '<div style="font-size:10px;color:' + (email ? '#a8e063' : 'rgba(255,255,255,.35)') + '">' +
+                (email ? '📧 ' + email : '⚠️ No email set') + '</div>' +
+              '<div style="font-size:10px;color:var(--text2)">' + (hasPin ? '🔐 PIN set' : '⬜ No PIN') + '</div>' +
+            '</div>' +
           '</div>' +
-          '<button onclick="adminResetPin(\'' + r.id + '\',\'' + r.name + '\',\'' + r.icon + '\')" ' +
-            'style="padding:7px 12px;border-radius:9px;border:1px solid rgba(245,200,66,.3);background:rgba(245,200,66,.08);color:#f5c842;font-family:Cinzel,serif;font-size:10px;cursor:pointer;letter-spacing:.3px">' +
-            'Reset PIN' +
-          '</button>' +
+          '<div style="display:flex;gap:6px;padding-left:42px">' +
+            '<button onclick="adminResetPin(\'' + r.id + '\',\'' + r.name + '\',\'' + r.icon + '\')" ' +
+              'style="flex:1;padding:6px 4px;border-radius:8px;border:1px solid rgba(245,200,66,.3);background:rgba(245,200,66,.08);color:#f5c842;font-family:Cinzel,serif;font-size:9px;cursor:pointer">Reset PIN</button>' +
+            '<button onclick="adminResetEmail(\'' + r.id + '\',\'' + r.name + '\')" ' +
+              'style="flex:1;padding:6px 4px;border-radius:8px;border:1px solid rgba(100,180,255,.25);background:rgba(100,180,255,.08);color:#90caf9;font-family:Cinzel,serif;font-size:9px;cursor:pointer">Reset Email</button>' +
+          '</div>' +
         '</div>';
       }).join('')}
     </div>
 
     ` : ''/* end admin */}
+    ` : ''}
 
-    <!-- Account — always visible -->
+        <!-- Account — always visible -->
+    ${isGuest() ? `<div style="text-align:center;padding:24px 16px 8px;color:rgba(255,255,255,.4);font-size:12px;line-height:1.6">🌿 Guest account<br><span style="font-size:10px">No settings — your session resets on logout</span></div>` : ''}
     <div class="set-section" style="border-color:rgba(239,83,80,0.3)">
       <div class="set-section-title" style="color:#ef5350">⚠️ ACCOUNT</div>
       <button class="set-dangerbtn" onclick="logoutConfirm()">🚪 Log Out / Switch Profile</button>
@@ -10177,6 +11323,275 @@ function updateSceneAnimals(W) {
 let sceneRafId = null;
 let sceneLastRender = 0;
 const SCENE_FPS = 22;
+
+// ══════════════════════════════════════════════════════════════════
+//  FARM WEATHER SYSTEM
+//  Uses browser geolocation + Open-Meteo (free, no API key)
+//  WMO code 51-67, 80-82 = rain/drizzle/showers → auto-water crops
+// ══════════════════════════════════════════════════════════════════
+
+var _farmWeather = {
+  code: null,        // WMO weather code
+  temp: null,
+  desc: '',
+  icon: '☁️',
+  isRain: false,
+  lastFetch: 0,
+  fetchInterval: 30 * 60 * 1000,  // refresh every 30 min
+  lat: null,
+  lon: null,
+};
+
+var _WMO_RAIN_CODES = [51,53,55,56,57,61,63,65,66,67,80,81,82,95,96,99];
+var _WMO_MAP = {
+  0:'☀️',1:'🌤️',2:'⛅',3:'☁️',
+  45:'🌫️',48:'🌫️',
+  51:'🌦️',53:'🌦️',55:'🌧️',56:'🌨️',57:'🌨️',
+  61:'🌧️',63:'🌧️',65:'🌧️',66:'🌨️',67:'🌨️',
+  71:'🌨️',73:'🌨️',75:'❄️',77:'❄️',
+  80:'🌦️',81:'🌧️',82:'⛈️',
+  85:'🌨️',86:'🌨️',
+  95:'⛈️',96:'⛈️',99:'⛈️',
+};
+var _WMO_DESC = {
+  0:'Clear sky',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',
+  45:'Foggy',48:'Icy fog',
+  51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',56:'Freezing drizzle',57:'Heavy freezing drizzle',
+  61:'Light rain',63:'Rain',65:'Heavy rain',66:'Freezing rain',67:'Heavy freezing rain',
+  71:'Light snow',73:'Snow',75:'Heavy snow',77:'Snow grains',
+  80:'Rain showers',81:'Heavy showers',82:'Violent showers',
+  85:'Snow showers',86:'Heavy snow showers',
+  95:'Thunderstorm',96:'Thunderstorm w/ hail',99:'Thunderstorm w/ heavy hail',
+};
+
+function farmFetchWeather(onDone) {
+  var now = Date.now();
+  if (_farmWeather.lastFetch && now - _farmWeather.lastFetch < _farmWeather.fetchInterval) {
+    if (onDone) onDone(_farmWeather);
+    return;
+  }
+
+  // If no geolocation support at all, go straight to seasonal fallback
+  if (!navigator.geolocation) {
+    farmWeatherSeasonalFallback();
+    if (onDone) onDone(_farmWeather);
+    return;
+  }
+
+  // Check if user has previously denied — don't re-prompt, just use fallback
+  var _deniedKey = 'hs_weather_denied';
+  if (localStorage.getItem(_deniedKey) === '1') {
+    farmWeatherSeasonalFallback();
+    if (onDone) onDone(_farmWeather);
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    // ── SUCCESS: real weather ─────────────────────────────────────────────
+    function(pos) {
+      // Clear any previous denial flag on success
+      try { localStorage.removeItem('hs_weather_denied'); } catch(e) {}
+      _farmWeather.lat = pos.coords.latitude.toFixed(4);
+      _farmWeather.lon = pos.coords.longitude.toFixed(4);
+      var url = 'https://api.open-meteo.com/v1/forecast'
+        + '?latitude=' + _farmWeather.lat
+        + '&longitude=' + _farmWeather.lon
+        + '&current_weather=true'
+        + '&hourly=precipitation_probability'
+        + '&forecast_days=1';
+      fetch(url)
+        .then(function(r){ return r.json(); })
+        .then(function(data) {
+          var cw = data.current_weather || {};
+          var code = cw.weathercode != null ? cw.weathercode : 3;
+          _farmWeather.code    = code;
+          _farmWeather.temp    = cw.temperature != null ? Math.round(cw.temperature) : null;
+          _farmWeather.icon    = _WMO_MAP[code] || '☁️';
+          _farmWeather.desc    = _WMO_DESC[code] || 'Unknown';
+          _farmWeather.isRain  = _WMO_RAIN_CODES.indexOf(code) >= 0;
+          _farmWeather.synced  = true;
+          _farmWeather.lastFetch = Date.now();
+          farmApplyWeather();
+          if (onDone) onDone(_farmWeather);
+        })
+        .catch(function() {
+          farmWeatherSeasonalFallback();
+          if (onDone) onDone(_farmWeather);
+        });
+    },
+    // ── DENIED / ERROR: seasonal fallback + friendly explanation ─────────
+    function(err) {
+      try { localStorage.setItem('hs_weather_denied', '1'); } catch(e) {}
+      _farmWeather.synced = false;
+      farmWeatherSeasonalFallback();
+      // Show the friendly popup only once per session, with a delay
+      // so it doesn't interrupt the farm loading experience
+      if (!_farmWeather._explainedThisSession) {
+        _farmWeather._explainedThisSession = true;
+        setTimeout(farmShowWeatherExplainPopup, 3500);
+      }
+      if (onDone) onDone(_farmWeather);
+    },
+    {timeout: 8000, maximumAge: 1800000}
+  );
+}
+
+// ── Seasonal rain fallback ────────────────────────────────────────────────────
+// Rainy seasons: spring (Mar-May) and autumn (Sep-Nov) have higher rain chance
+// Summer = low, winter = snow not rain (treated as dry for watering)
+function farmWeatherSeasonalFallback() {
+  var month = new Date().getMonth(); // 0-11
+  var hour  = new Date().getHours();
+  // Rain probability by season: spring 35%, summer 12%, autumn 30%, winter 8%
+  var rainChance;
+  if      ([2,3,4].indexOf(month) >= 0)  rainChance = 0.35;  // spring
+  else if ([5,6,7].indexOf(month) >= 0)  rainChance = 0.12;  // summer
+  else if ([8,9,10].indexOf(month) >= 0) rainChance = 0.30;  // autumn
+  else                                    rainChance = 0.08;  // winter
+  // Also slightly higher chance in afternoon (weather-typical hours)
+  if (hour >= 13 && hour <= 18) rainChance *= 1.25;
+  // Use a deterministic seed so rain doesn't flicker on re-render
+  // Same result for the entire hour
+  var seed   = new Date().getFullYear() * 100000 + month * 1000 + new Date().getDate() * 10 + Math.floor(hour / 3);
+  var pseudo = ((seed * 9301 + 49297) % 233280) / 233280;
+  var isRain = pseudo < rainChance;
+  // Pick a plausible icon / description for the season
+  var seasonalIcons = {
+    spring: isRain ? ['🌧️','🌦️'] : ['⛅','🌤️','🌸'],
+    summer: isRain ? ['🌦️'] : ['☀️','🌤️','☀️'],
+    autumn: isRain ? ['🌧️','🌦️','⛈️'] : ['☁️','⛅','🍂'],
+    winter: isRain ? ['🌨️'] : ['❄️','☁️','🌥️'],
+  };
+  var sKey = [2,3,4].indexOf(month)>=0 ? 'spring'
+           : [5,6,7].indexOf(month)>=0 ? 'summer'
+           : [8,9,10].indexOf(month)>=0 ? 'autumn' : 'winter';
+  var icons = seasonalIcons[sKey];
+  var iconSeed = Math.floor(pseudo * 1000) % icons.length;
+  _farmWeather.code    = isRain ? 61 : 2;
+  _farmWeather.icon    = icons[iconSeed];
+  _farmWeather.desc    = isRain ? 'Seasonal rain' : 'Seasonal weather';
+  _farmWeather.temp    = null;
+  _farmWeather.isRain  = isRain;
+  _farmWeather.lastFetch = Date.now();
+  farmApplyWeather();
+}
+
+// ── Friendly location explanation popup ──────────────────────────────────────
+function farmShowWeatherExplainPopup() {
+  // Don't show if already dismissed this session
+  var key = 'hs_weather_explain_shown';
+  try { if (localStorage.getItem(key) === '1') return; } catch(e) {}
+
+  var popup = document.createElement('div');
+  popup.id  = 'farmWeatherExplainPopup';
+  popup.style.cssText = [
+    'position:fixed','inset:0','z-index:8000',
+    'display:flex','align-items:center','justify-content:center',
+    'background:rgba(0,0,0,.55)','backdrop-filter:blur(6px)',
+    '-webkit-backdrop-filter:blur(6px)',
+    'animation:fadeInBg .3s ease',
+  ].join(';');
+
+  popup.innerHTML =
+    '<div style="'
+    + 'background:linear-gradient(160deg,#1a2e12,#0e1a09);'
+    + 'border:1px solid rgba(168,224,99,.3);border-radius:20px;'
+    + 'padding:28px 24px;max-width:320px;width:calc(100vw - 48px);'
+    + 'text-align:center;position:relative;'
+    + 'animation:popIn .38s cubic-bezier(.34,1.56,.64,1)">'
+    + '<div style="font-size:48px;margin-bottom:12px">🌦️</div>'
+    + '<div style="font-family:Cinzel,serif;font-size:16px;color:#a8e063;font-weight:700;margin-bottom:10px;letter-spacing:.3px">Weather Sync</div>'
+    + '<div style="font-size:13px;color:rgba(255,255,255,.72);line-height:1.65;margin-bottom:20px">'
+    + 'Share your location to sync <strong style="color:#a8e063">real weather</strong> with your farm — '
+    + "when it's actually raining where you are, your crops get watered automatically! 🌱"
+    + '<br><br>'
+    + '<span style="color:rgba(255,255,255,.45);font-size:11px">'
+    + 'For now, your farm uses <em>seasonal weather patterns</em> instead.'
+    + '</span>'
+    + '</div>'
+    + '<div style="display:flex;flex-direction:column;gap:10px">'
+    + '<button onclick="farmWeatherExplainAllow()" style="'
+    + 'background:linear-gradient(135deg,#4caf50,#2e7d32);border:none;border-radius:12px;'
+    + 'color:#fff;font-family:Cinzel,serif;font-size:13px;font-weight:700;'
+    + 'padding:12px 0;cursor:pointer;letter-spacing:.3px">🌍 Allow Location</button>'
+    + '<button onclick="farmWeatherExplainDismiss()" style="'
+    + 'background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:12px;'
+    + 'color:rgba(255,255,255,.55);font-family:Cinzel,serif;font-size:12px;'
+    + 'padding:10px 0;cursor:pointer">Keep Seasonal Weather</button>'
+    + '</div></div>';
+
+  document.body.appendChild(popup);
+  try { localStorage.setItem(key, '1'); } catch(e) {}
+}
+
+function farmWeatherExplainAllow() {
+  var el = document.getElementById('farmWeatherExplainPopup');
+  if (el) el.remove();
+  // Clear denial flag and retry
+  try { localStorage.removeItem('hs_weather_denied'); } catch(e) {}
+  _farmWeather.lastFetch = 0;
+  _farmWeather._explainedThisSession = false;
+  farmFetchWeather(function() { farmRefreshWeatherBadge(); });
+}
+
+function farmWeatherExplainDismiss() {
+  var el = document.getElementById('farmWeatherExplainPopup');
+  if (el) { el.style.animation = 'fadeOut .25s ease forwards'; setTimeout(function(){ el.remove(); }, 250); }
+}
+
+function farmApplyWeather() {
+  if (!_farmWeather.isRain || !gFarm) return;
+  var now = Date.now();
+  var watered = false;
+  gFarm.plots = gFarm.plots.map(function(p) {
+    if (p.crop && p.stage < 3 && (!p.wateredAt || now - p.wateredAt > 60000)) {
+      watered = true;
+      return Object.assign({}, p, {wateredAt: now, weatherWatered: true});
+    }
+    return p;
+  });
+  if (watered) {
+    saveGFarm(gFarm);
+    farmRenderPlots();
+    farmFloat('🌧️ Rain watered your crops!', '#60c0ff');
+  }
+}
+
+function farmWeatherOverlayHTML() {
+  if (!_farmWeather.icon || _farmWeather.code === null) return '';
+  var tempStr = _farmWeather.temp !== null ? ' ' + _farmWeather.temp + '°' : '';
+  var rainTip = _farmWeather.isRain
+    ? '<span style="font-size:9px;color:#60c0ff;margin-left:4px">💧 auto-watering</span>'
+    : '';
+  return '<div id="farmWeatherBadge" style="'
+    + 'position:absolute;bottom:8px;right:8px;z-index:25;'
+    + 'background:rgba(0,0,0,.4);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);'
+    + 'border-radius:20px;padding:3px 10px;border:1px solid rgba(255,255,255,.12);'
+    + 'display:flex;align-items:center;gap:4px;cursor:pointer;'
+    + '" onclick="farmShowWeatherToast()">'
+    + '<span style="font-size:16px">' + _farmWeather.icon + '</span>'
+    + '<span style="font-family:Cinzel,serif;font-size:10px;color:rgba(255,255,255,.8)">'
+    + _farmWeather.desc + tempStr + '</span>'
+    + rainTip
+    + '</div>';
+}
+
+function farmShowWeatherToast() {
+  if (_farmWeather.code === null) return;
+  var msg = _farmWeather.icon + ' ' + _farmWeather.desc
+    + (_farmWeather.temp !== null ? '  ' + _farmWeather.temp + '°C' : '');
+  if (_farmWeather.isRain) msg += ' — Crops auto-watered 💧';
+  farmFloat(msg, _farmWeather.isRain ? '#60c0ff' : '#f5c842');
+}
+
+function farmRefreshWeatherBadge() {
+  var scene = document.getElementById('farmSceneWrap');
+  if (!scene) return;
+  var old = document.getElementById('farmWeatherBadge');
+  if (old) old.remove();
+  var html = farmWeatherOverlayHTML();
+  if (html) scene.insertAdjacentHTML('beforeend', html);
+}
 
 function buildFarmScene() {
   const owned = Object.entries(gFarm.animals || {});
@@ -11434,7 +12849,7 @@ function memWeekKey() {
 
 function getMemWeekBest() {
   var k = memWeekKey();
-  return parseInt(localStorage.getItem(k) || '0');
+  return parseInt(localStorage.getItem(k, 10) || '0');
 }
 
 function setMemWeekBest(moves) {
@@ -11798,7 +13213,7 @@ function bmToggleCell(trackId, step) {
 }
 
 function bmSetBpm(val) {
-  bmBpm = parseInt(val) || BM_DEFAULT_BPM;
+  bmBpm = parseInt(val, 10) || BM_DEFAULT_BPM;
   renderCalmTab();
 }
 
@@ -12506,7 +13921,7 @@ function closeMoodCheckin() {
 }
 
 function updateMoodPreview(val) {
-  val = parseInt(val);
+  val = parseInt(val, 10);
   var emojiEl   = document.getElementById('moodEmoji');
   var labelEl   = document.getElementById('moodLabel');
   var supportEl = document.getElementById('moodSupportCard');
@@ -13970,6 +15385,7 @@ function tttInit() { initTTTListener(); }
 
 // ── Open game from hub ────────────────────────────────────────────
 function tttOpenLobby() {
+  _tttResultRecorded = false;
   var r = state.activeProfile;
   if (!r) return;
   initTTTListener();
@@ -14285,7 +15701,7 @@ function memoryStartSolo() {
   var board = _memShuffle(pairs).map(function(e) {
     return { emoji: e, matched: false, flippedBy: null };
   });
-  var best = parseInt(localStorage.getItem('mem_solo_best') || '0', 10) || null;
+  var best = parseInt(localStorage.getItem('mem_solo_best', 10) || '0', 10) || null;
   _memState = {
     phase: 'playing',
     solo: true,
@@ -16199,6 +17615,7 @@ function _circleFabScheduleHide() {
 }
 
 function openCirclePopup() {
+  if (typeof isGuest === 'function' && isGuest()) return;
   if (!_chatUnlocked) { showChatLock('circle'); return; }
   _circlePopupOpen = true;
   _circleUnread = 0;
@@ -16883,6 +18300,7 @@ function _dmFabScheduleHide() {
 var _dmPickerOpen = false;
 
 function openDMPicker() {
+  if (typeof isGuest === 'function' && isGuest()) return;
   if (!_chatUnlocked) { showChatLock('dm-picker'); return; }
   _dmPickerOpen = true;
   if (_dmFabTimer) { clearTimeout(_dmFabTimer); _dmFabTimer = null; }
@@ -17667,9 +19085,20 @@ function formatCalTime(t) {
   return h + ':' + m + ' ' + ampm;
 }
 
-function calSelectDate(ds) { _calendarSelDate = ds; buildDailyTab(); }
-function calNavWeek(dir) { _calWeekOffset += dir; buildDailyTab(); }
-function calNavMonth(dir) { _calMonthOffset += dir; buildDailyTab(); }
+function calSelectDate(ds) { _calendarSelDate = ds; var wrap = document.getElementById('dailyCalWrap');
+  if (wrap) { wrap.innerHTML = buildCalendarSection(); } else { buildDailyTab(); } }
+function calNavWeek(dir) {
+  _calWeekOffset += dir;
+  var wrap = document.getElementById('dailyCalWrap');
+  if (wrap) { wrap.innerHTML = buildCalendarSection(); return; }
+  buildDailyTab();
+}
+function calNavMonth(dir) {
+  _calMonthOffset += dir;
+  var wrap = document.getElementById('dailyCalWrap');
+  if (wrap) { wrap.innerHTML = buildCalendarSection(); return; }
+  buildDailyTab();
+}
 function calToggleExpand() {
   _calExpanded = !_calExpanded;
   if (_calExpanded) {
@@ -17679,7 +19108,8 @@ function calToggleExpand() {
     var now = new Date();
     _calMonthOffset = (ref.getFullYear() - now.getFullYear()) * 12 + (ref.getMonth() - now.getMonth());
   }
-  buildDailyTab();
+  var wrap = document.getElementById('dailyCalWrap');
+  if (wrap) { wrap.innerHTML = buildCalendarSection(); } else { buildDailyTab(); }
 }
 
 function calAddEvent(defaultDate) {
@@ -17974,7 +19404,7 @@ function memoryFlip(idx) {
         var solPhase = matchedPairs === MEM_MATCH_EMOJIS.length ? 'done' : 'playing';
         _memState = Object.assign({}, gs, { board: solBoard, flipped: [], moves: newMoves, phase: solPhase, lockUntil: 0 });
         if (solPhase === 'done') {
-          var prev = parseInt(localStorage.getItem('mem_solo_best') || '0', 10);
+          var prev = parseInt(localStorage.getItem('mem_solo_best', 10) || '0', 10);
           if (!prev || newMoves < prev) localStorage.setItem('mem_solo_best', String(newMoves));
           sfxTone(523,'sine',0.12,0.2,0,0.01,0.08);
           sfxTone(659,'sine',0.10,0.18,0.1,0.01,0.08);
@@ -18100,7 +19530,7 @@ function renderMemoryPanel(panel, r, isDark) {
     (gs.flipped || []).forEach(function(i) { flippedSetS[i] = true; });
 
     if (gs.phase === 'done') {
-      var bestS = parseInt(localStorage.getItem('mem_solo_best') || '0', 10) || gs.moves;
+      var bestS = parseInt(localStorage.getItem('mem_solo_best', 10) || '0', 10) || gs.moves;
       var isNewBest = bestS > 0 && gs.moves === bestS;
       panel.innerHTML = _memHeader('memoryQuit()') +
         '<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;gap:18px;text-align:center">' +
@@ -18203,6 +19633,15 @@ function renderMemoryPanel(panel, r, isDark) {
   }
 
   if (gs.phase === 'done') {
+    if (!_memResultRecorded) {
+      _memResultRecorded = true;
+      var s1m = gs.scores && gs.p1 ? (gs.scores[gs.p1.id] || 0) : 0;
+      var s2m = gs.scores && gs.p2 ? (gs.scores[gs.p2.id] || 0) : 0;
+      var myMScore = gs.scores ? (gs.scores[myId] || 0) : 0;
+      var oppMScore = gs.scores ? (s1m + s2m - myMScore) : 0;
+      var memRes = myMScore > oppMScore ? 'win' : myMScore < oppMScore ? 'loss' : 'draw';
+      recordGameResult('memory', memRes);
+    }
     var s1 = gs.scores[gs.p1.id] || 0, s2 = gs.scores[gs.p2.id] || 0;
     var winText = gs.winner === 'draw' ? "It's a draw! 🤝" : (gs.winner === myId ? 'You win! 🎉' : ((gs.winner === gs.p1.id ? gs.p1.name : gs.p2.name) || 'Opponent') + ' wins!');
     var canRematch = myId === gs.p1.id || myId === gs.p2.id;
@@ -18914,10 +20353,10 @@ function renderMoodMirrorPanel(panel, r, isDark) {
 }
 </script>
 <!-- FARM SEED SHEET -->
-<div id="farmSeedOverlay" class="seed-sheet-bg hidden">
-  <div class="seed-sheet">
+<div id="farmSeedOverlay" class="seed-sheet-bg hidden" onclick="farmHideSeedSheet()">
+  <div class="seed-sheet" onclick="event.stopPropagation()">
     <div class="seed-sheet-handle"></div>
-    <div class="seed-sheet-title">🌱 Choose a Seed</div>
+    <div class="seed-sheet-title">🌱 Choose a Seed<button class="sheet-close-btn" onclick="farmHideSeedSheet()">✕</button></div>
     <div class="seed-sheet-sub"></div>
     <div class="seed-grid"></div>
     <button onclick="farmHideSeedSheet()" style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(168,224,99,.3);background:transparent;color:rgba(168,224,99,.7);font-family:Cinzel,serif;font-size:13px;cursor:pointer;margin-top:4px">Cancel</button>
@@ -18925,10 +20364,10 @@ function renderMoodMirrorPanel(panel, r, isDark) {
 </div>
 
 <!-- FARM SHOP SHEET -->
-<div id="farmShopOverlay" class="seed-sheet-bg hidden">
-  <div class="seed-sheet">
+<div id="farmShopOverlay" class="seed-sheet-bg hidden" onclick="farmHideShopSheet()">
+  <div class="seed-sheet" onclick="event.stopPropagation()">
     <div class="seed-sheet-handle"></div>
-    <div class="seed-sheet-title">🏪 Farm Shop</div>
+    <div class="seed-sheet-title">🏪 Farm Shop<button class="sheet-close-btn" onclick="farmHideShopSheet()">✕</button></div>
     <div class="seed-sheet-sub" id="farmShopSub"></div>
     <div style="display:flex;gap:6px;margin-bottom:12px">
       <button class="shop-tab act" data-tab="build" onclick="farmSetShopTab('build')" style="flex:1;padding:8px;border-radius:10px;border:1px solid rgba(168,224,99,.3);background:rgba(168,224,99,.15);color:#a8e063;font-family:Cinzel,serif;font-size:11px;cursor:pointer">🏗️ Build</button>
@@ -18941,10 +20380,10 @@ function renderMoodMirrorPanel(panel, r, isDark) {
 </div>
 
 <!-- FARM ANIMAL SHEET -->
-<div id="farmAnimalOverlay" class="seed-sheet-bg hidden">
-  <div class="seed-sheet">
+<div id="farmAnimalOverlay" class="seed-sheet-bg hidden" onclick="farmHideAnimalSheet()">
+  <div class="seed-sheet" onclick="event.stopPropagation()">
     <div class="seed-sheet-handle"></div>
-    <div class="seed-sheet-title">🐄 Animals</div>
+    <div class="seed-sheet-title">🐄 Animals<button class="sheet-close-btn" onclick="farmHideAnimalSheet()">✕</button></div>
     <div class="seed-sheet-sub"></div>
     <div id="farmAnimalBody"></div>
     <button onclick="farmHideAnimalSheet()" style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(168,224,99,.3);background:transparent;color:rgba(168,224,99,.7);font-family:Cinzel,serif;font-size:13px;cursor:pointer;margin-top:8px">Close</button>
@@ -19341,6 +20780,8 @@ function updateDailyStreak() {
   streak.count = (streak.lastDate === yesterday) ? streak.count + 1 : 1;
   streak.lastDate = today;
   saveStreak(streak);
+  // Show farm streak fanfare
+  setTimeout(function() { if (typeof farmShowStreakFanfare === 'function') farmShowStreakFanfare(streak.count); }, 600);
   var coins = 0, msg = '';
   if      (streak.count >= 30) { coins = 100; msg = '30-day streak!'; }
   else if (streak.count >= 14) { coins = 60;  msg = '2-week streak!'; }
@@ -19533,6 +20974,16 @@ function showMiloSeasonPopup() {
       <button class="tut-next" id="tutNextBtn" onclick="tutNext()">Next</button>
     </div>
   </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast" style="display:none" onclick="toastTap()">
+  <div class="toast-icon" id="toastIcon"></div>
+  <div class="toast-body">
+    <div class="toast-title" id="toastTitle"></div>
+    <div class="toast-msg"   id="toastMsg"></div>
+  </div>
+  <div id="toastAction" style="display:none;flex-shrink:0;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.18);color:#fff;font-size:15px;align-items:center;justify-content:center;pointer-events:none">›</div>
 </div>
 </body>
 </html>

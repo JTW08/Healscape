@@ -1,0 +1,245 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Deep warm night sky -->
+    <radialGradient id="sky" cx="50%" cy="30%" r="75%">
+      <stop offset="0%" stop-color="#1e2a45"/>
+      <stop offset="60%" stop-color="#111820"/>
+      <stop offset="100%" stop-color="#080c12"/>
+    </radialGradient>
+
+    <!-- Moon glow -->
+    <radialGradient id="moon" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"  stop-color="#fff9e8"/>
+      <stop offset="50%" stop-color="#f5d87a"/>
+      <stop offset="100%" stop-color="rgba(245,210,100,0)"/>
+    </radialGradient>
+
+    <!-- Horizon ground glow -->
+    <radialGradient id="groundGlow" cx="50%" cy="0%" r="100%">
+      <stop offset="0%"  stop-color="rgba(245,200,66,0.22)"/>
+      <stop offset="100%" stop-color="rgba(245,200,66,0)"/>
+    </radialGradient>
+
+    <!-- Castle stone silhouette - very dark with slight warm undertone -->
+    <linearGradient id="stone" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#1c1610"/>
+      <stop offset="100%" stop-color="#0a0806"/>
+    </linearGradient>
+
+    <!-- Moon halo filter -->
+    <filter id="moonBloom" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Soft glow on Milo -->
+    <filter id="miloGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Clip to rounded square -->
+    <clipPath id="sq">
+      <rect x="0" y="0" width="512" height="512" rx="114" ry="114"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#sq)">
+
+    <!-- ── NIGHT SKY BACKGROUND ── -->
+    <rect x="0" y="0" width="512" height="512" fill="url(#sky)"/>
+
+    <!-- Moon — upper left, large and atmospheric -->
+    <circle cx="128" cy="128" r="72" fill="url(#moon)" filter="url(#moonBloom)" opacity="0.85"/>
+    <!-- Moon disc crisp centre -->
+    <circle cx="128" cy="128" r="46" fill="#fff9e8" opacity="0.7"/>
+    <!-- Moon subtle craters -->
+    <circle cx="112" cy="118" r="8"  fill="rgba(200,175,90,0.15)"/>
+    <circle cx="138" cy="148" r="5"  fill="rgba(200,175,90,0.12)"/>
+
+    <!-- Stars -->
+    <circle cx="340" cy="68"  r="2.2" fill="rgba(255,248,210,0.9)"/>
+    <circle cx="390" cy="44"  r="1.6" fill="rgba(255,248,210,0.7)"/>
+    <circle cx="420" cy="88"  r="1.4" fill="rgba(255,248,210,0.6)"/>
+    <circle cx="460" cy="55"  r="1.8" fill="rgba(255,248,210,0.8)"/>
+    <circle cx="308" cy="42"  r="1.3" fill="rgba(255,248,210,0.6)"/>
+    <circle cx="470" cy="120" r="1.5" fill="rgba(255,248,210,0.5)"/>
+    <circle cx="290" cy="95"  r="1.2" fill="rgba(255,248,210,0.5)"/>
+    <circle cx="448" cy="168" r="1.4" fill="rgba(255,248,210,0.45)"/>
+    <!-- Star twinkle cross on brightest star -->
+    <line x1="340" y1="63" x2="340" y2="73" stroke="rgba(255,248,210,0.5)" stroke-width="1"/>
+    <line x1="335" y1="68" x2="345" y2="68" stroke="rgba(255,248,210,0.5)" stroke-width="1"/>
+
+    <!-- Ground horizon glow -->
+    <rect x="0" y="398" width="512" height="114" fill="url(#groundGlow)"/>
+
+    <!-- Ground -->
+    <rect x="0" y="420" width="512" height="92" fill="#0a0806"/>
+
+    <!-- ── CASTLE SILHOUETTE (all one dark colour, very traditional) ── -->
+    <g fill="url(#stone)">
+
+      <!-- === LEFT OUTER TOWER === -->
+      <!-- Tower body -->
+      <rect x="56" y="230" width="80" height="200"/>
+      <!-- Battlements (merlons) — 5 teeth -->
+      <rect x="56"  y="208" width="14" height="28" rx="1"/>
+      <rect x="76"  y="208" width="14" height="28" rx="1"/>
+      <rect x="96"  y="208" width="14" height="28" rx="1"/>
+      <rect x="116" y="208" width="14" height="28" rx="1"/>
+      <!-- Arrow slit windows -->
+      <rect x="86"  y="258" width="9" height="22" rx="4.5" fill="#0e1a2e"/>
+      <rect x="86"  y="310" width="9" height="22" rx="4.5" fill="#0e1a2e"/>
+      <!-- Lit window (warm glow) -->
+      <rect x="86" y="258" width="9" height="22" rx="4.5" fill="#f5c842" opacity="0.13"/>
+      <rect x="86" y="310" width="9" height="22" rx="4.5" fill="#f5c842" opacity="0.10"/>
+
+      <!-- === RIGHT OUTER TOWER === -->
+      <rect x="376" y="230" width="80" height="200"/>
+      <rect x="376" y="208" width="14" height="28" rx="1"/>
+      <rect x="396" y="208" width="14" height="28" rx="1"/>
+      <rect x="416" y="208" width="14" height="28" rx="1"/>
+      <rect x="436" y="208" width="14" height="28" rx="1"/>
+      <rect x="417" y="258" width="9" height="22" rx="4.5" fill="#0e1a2e"/>
+      <rect x="417" y="310" width="9" height="22" rx="4.5" fill="#0e1a2e"/>
+      <rect x="417" y="258" width="9" height="22" rx="4.5" fill="#f5c842" opacity="0.13"/>
+      <rect x="417" y="310" width="9" height="22" rx="4.5" fill="#f5c842" opacity="0.10"/>
+
+      <!-- === CURTAIN WALL (connecting towers) === -->
+      <rect x="136" y="308" width="240" height="122"/>
+      <!-- Wall battlements -->
+      <rect x="136" y="288" width="14" height="26" rx="1"/>
+      <rect x="158" y="288" width="14" height="26" rx="1"/>
+      <rect x="180" y="288" width="14" height="26" rx="1"/>
+      <rect x="202" y="288" width="14" height="26" rx="1"/>
+      <!-- Gate gap -->
+      <!-- right of gate -->
+      <rect x="292" y="288" width="14" height="26" rx="1"/>
+      <rect x="314" y="288" width="14" height="26" rx="1"/>
+      <rect x="336" y="288" width="14" height="26" rx="1"/>
+      <rect x="358" y="288" width="14" height="26" rx="1"/>
+
+      <!-- === GATEWAY ARCH === -->
+      <!-- Gate surround (slightly taller than wall) -->
+      <rect x="216" y="296" width="80" height="134"/>
+      <!-- Arch cutout -->
+      <path d="M 222 430 L 222 350 Q 256 318 290 350 L 290 430 Z" fill="#0e1a2e"/>
+      <!-- Portcullis bars -->
+      <line x1="236" y1="351" x2="236" y2="430" stroke="rgba(245,200,66,0.2)" stroke-width="2.5"/>
+      <line x1="249" y1="351" x2="249" y2="430" stroke="rgba(245,200,66,0.2)" stroke-width="2.5"/>
+      <line x1="263" y1="351" x2="263" y2="430" stroke="rgba(245,200,66,0.2)" stroke-width="2.5"/>
+      <line x1="276" y1="351" x2="276" y2="430" stroke="rgba(245,200,66,0.2)" stroke-width="2.5"/>
+      <line x1="222" y1="376" x2="290" y2="376" stroke="rgba(245,200,66,0.15)" stroke-width="2"/>
+      <line x1="222" y1="400" x2="290" y2="400" stroke="rgba(245,200,66,0.15)" stroke-width="2"/>
+
+      <!-- === CENTRE KEEP (tallest) === -->
+      <rect x="178" y="158" width="156" height="158"/>
+      <!-- Keep battlements — 7 merlons -->
+      <rect x="178" y="136" width="16" height="28" rx="1"/>
+      <rect x="202" y="136" width="16" height="28" rx="1"/>
+      <rect x="226" y="136" width="16" height="28" rx="1"/>
+      <rect x="250" y="136" width="16" height="28" rx="1"/>
+      <rect x="274" y="136" width="16" height="28" rx="1"/>
+      <rect x="298" y="136" width="16" height="28" rx="1"/>
+      <rect x="316" y="136" width="18" height="28" rx="1"/>
+
+      <!-- Keep large arched window (lit warm) -->
+      <rect x="228" y="192" width="56" height="70" rx="28" fill="#0e1a2e"/>
+      <rect x="232" y="196" width="48" height="62" rx="24" fill="#f5c842" opacity="0.18"/>
+      <!-- Window tracery cross -->
+      <line x1="256" y1="196" x2="256" y2="258" stroke="rgba(20,14,6,0.8)" stroke-width="3"/>
+      <line x1="228" y1="232" x2="284" y2="232" stroke="rgba(20,14,6,0.8)" stroke-width="3"/>
+
+      <!-- Keep arrow slits -->
+      <rect x="198" y="220" width="8" height="20" rx="4" fill="#0e1a2e"/>
+      <rect x="198" y="260" width="8" height="20" rx="4" fill="#0e1a2e"/>
+      <rect x="328" y="220" width="8" height="20" rx="4" fill="#0e1a2e"/>
+      <rect x="328" y="260" width="8" height="20" rx="4" fill="#0e1a2e"/>
+
+    </g><!-- end castle fill group -->
+
+    <!-- Flagpole on keep -->
+    <line x1="256" y1="136" x2="256" y2="80"
+          stroke="#c8960a" stroke-width="4" stroke-linecap="round"/>
+    <!-- Flag - flowing right -->
+    <path d="M 256 80 L 310 94 L 256 108 Z" fill="#f5c842" opacity="0.95"/>
+    <!-- Flag ripple line -->
+    <path d="M 256 80 Q 278 87 256 94 Q 278 101 256 108"
+          fill="none" stroke="rgba(200,150,20,0.4)" stroke-width="1.5"/>
+
+    <!-- ── MILO SILHOUETTE — sitting on ground in front of gate ── -->
+    <!-- Warm cream silhouette so he reads against the dark castle -->
+    <g transform="translate(256, 390)" filter="url(#miloGlow)">
+      <!-- Milo sits at roughly 70px tall total, centered -->
+      <!-- Based on the actual miloVectorSVG proportions (100x130 viewBox) -->
+      <!-- Scale factor: ~0.58 to fit nicely, so ~58px wide, ~75px tall -->
+      <g transform="scale(0.62) translate(-50,-100)" fill="#f5e8c8" opacity="0.92">
+
+        <!-- LEFT EAR (behind head) -->
+        <g transform="rotate(-18 31 37)">
+          <ellipse cx="26" cy="73" rx="13" ry="32"/>
+        </g>
+        <!-- RIGHT EAR (behind head) -->
+        <g transform="rotate(18 69 37)">
+          <ellipse cx="74" cy="73" rx="13" ry="32"/>
+        </g>
+
+        <!-- BODY — plump sitting -->
+        <ellipse cx="50" cy="107" rx="28" ry="24"/>
+        <!-- Front paws -->
+        <ellipse cx="36" cy="126" rx="10" ry="6"/>
+        <ellipse cx="64" cy="126" rx="10" ry="6"/>
+        <!-- Tail -->
+        <circle  cx="72" cy="110" r="8"/>
+
+        <!-- HEAD — big round -->
+        <circle cx="50" cy="57" r="31"/>
+
+        <!-- Ear inner (slightly darker - same cream family) -->
+        <g transform="rotate(-18 31 37)" fill="#e8c898" opacity="0.6">
+          <ellipse cx="26" cy="72" rx="7" ry="22"/>
+        </g>
+        <g transform="rotate(18 69 37)" fill="#e8c898" opacity="0.6">
+          <ellipse cx="74" cy="72" rx="7" ry="22"/>
+        </g>
+
+        <!-- Eyes — two small dark circles -->
+        <circle cx="39" cy="51" r="4.5" fill="#180e06"/>
+        <circle cx="61" cy="51" r="4.5" fill="#180e06"/>
+        <!-- Eye sparkle -->
+        <circle cx="37" cy="49" r="1.6" fill="rgba(255,255,255,0.7)"/>
+        <circle cx="59" cy="49" r="1.6" fill="rgba(255,255,255,0.7)"/>
+
+        <!-- Nose -->
+        <ellipse cx="50" cy="62" rx="4" ry="3" fill="#e87890" opacity="0.8"/>
+
+        <!-- Flower crown on head -->
+        <!-- Small flowers -->
+        <circle cx="28" cy="30" r="5" fill="#f5c842" opacity="0.9"/>
+        <circle cx="22" cy="30" r="3" fill="#e87890" opacity="0.85"/>
+        <circle cx="34" cy="26" r="3.5" fill="#7ec87e" opacity="0.85"/>
+        <circle cx="40" cy="24" r="4" fill="#f5c842" opacity="0.88"/>
+        <circle cx="50" cy="22" r="3.5" fill="#e87890" opacity="0.85"/>
+        <circle cx="60" cy="24" r="4" fill="#f5c842" opacity="0.88"/>
+        <!-- Crown stem -->
+        <rect x="24" y="28" width="52" height="4" rx="2" fill="#7ec87e" opacity="0.7"/>
+
+      </g>
+    </g>
+
+    <!-- Ground shadow under Milo -->
+    <ellipse cx="256" cy="420" rx="46" ry="8" fill="rgba(0,0,0,0.5)"/>
+
+    <!-- Subtle vignette corners -->
+    <radialGradient id="vig" cx="50%" cy="50%" r="70%">
+      <stop offset="60%" stop-color="rgba(0,0,0,0)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0.55)"/>
+    </radialGradient>
+    <rect x="0" y="0" width="512" height="512" rx="114" fill="url(#vig)"/>
+
+    <!-- Final rounded border -->
+    <rect x="0" y="0" width="512" height="512" rx="114" ry="114"
+          fill="none" stroke="rgba(245,200,66,0.15)" stroke-width="3"/>
+
+  </g>
+</svg>

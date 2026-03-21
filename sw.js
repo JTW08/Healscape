@@ -1,67 +1,28 @@
-// HealScape Service Worker
-const CACHE_NAME = 'healscape-v1';
-
-self.addEventListener('install', function(e) {
-  self.skipWaiting();
+// HealScape Service Worker - build 20260321_2203
+const CACHE_NAME = 'healscape-20260321_2203';
+const ASSETS = ['/Healscape/','/Healscape/index.html','/Healscape/manifest.json',
+  '/Healscape/icon-192.png','/Healscape/icon-512.png',
+  '/Healscape/milo-actions.png','/Healscape/milo-eat-carrot.png',
+  '/Healscape/milo-eat-strawberry.png','/Healscape/milo-eat-blueberry.png',
+  '/Healscape/milo-play-volleyball.png'];
+self.addEventListener('install',function(e){
+  e.waitUntil(caches.open(CACHE_NAME).then(function(c){return c.addAll(ASSETS);}).then(function(){return self.skipWaiting();}));
 });
-
-self.addEventListener('activate', function(e) {
-  e.waitUntil(
-    caches.keys().then(function(keys) {
-      return Promise.all(
-        keys.filter(function(k) { return k !== CACHE_NAME; })
-            .map(function(k) { return caches.delete(k); })
-      );
-    }).then(function() { return self.clients.claim(); })
-  );
+self.addEventListener('activate',function(e){
+  e.waitUntil(caches.keys().then(function(keys){
+    return Promise.all(keys.filter(function(k){return k!==CACHE_NAME;}).map(function(k){return caches.delete(k);}));
+  }).then(function(){return self.clients.claim();}));
 });
-
-self.addEventListener('fetch', function(e) {
-  // Network-first for Firebase, cache-first for everything else
-  if (e.request.url.includes('firebaseio.com') ||
-      e.request.url.includes('googleapis.com') ||
-      e.request.url.includes('gstatic.com')) {
-    e.respondWith(fetch(e.request).catch(function() {
-      return caches.match(e.request);
-    }));
+self.addEventListener('fetch',function(e){
+  var url=e.request.url;
+  if(url.includes('firebase')||url.includes('googleapis')||url.includes('open-meteo')||url.includes('emailjs')||url.includes('anthropic')){
+    e.respondWith(fetch(e.request).catch(function(){return caches.match(e.request);}));
     return;
   }
-  e.respondWith(
-    caches.open(CACHE_NAME).then(function(cache) {
-      return cache.match(e.request).then(function(cached) {
-        var networkFetch = fetch(e.request).then(function(response) {
-          if (response && response.status === 200 && e.request.method === 'GET') {
-            cache.put(e.request, response.clone());
-          }
-          return response;
-        });
-        return cached || networkFetch;
-      });
-    })
-  );
-});
-
-// Push notifications
-self.addEventListener('push', function(e) {
-  var data = {};
-  try { data = e.data.json(); } catch(err) {}
-  var title   = data.title || 'HealScape';
-  var options = {
-    body:    data.body || '',
-    icon:    data.icon || '/Healscape/icon.png',
-    badge:   '/Healscape/icon.png',
-    data:    data,
-    vibrate: [200, 100, 200],
-  };
-  e.waitUntil(self.registration.showNotification(title, options));
-});
-
-self.addEventListener('notificationclick', function(e) {
-  e.notification.close();
-  e.waitUntil(
-    clients.matchAll({ type: 'window' }).then(function(wins) {
-      if (wins.length > 0) { wins[0].focus(); return; }
-      return clients.openWindow('/Healscape/');
-    })
-  );
+  e.respondWith(caches.match(e.request).then(function(cached){
+    return cached||fetch(e.request).then(function(r){
+      if(r.ok){var c=r.clone();caches.open(CACHE_NAME).then(function(cache){cache.put(e.request,c);});}
+      return r;
+    });
+  }));
 });

@@ -1912,6 +1912,9 @@ body {
 .ob-focus-desc{font-size:11px;color:var(--text2);line-height:1.5}
 .ob-skip{margin-top:12px;font-size:11px;color:rgba(255,255,255,.3);cursor:pointer;-webkit-tap-highlight-color:transparent;font-style:italic}
 .ob-skip:active{color:rgba(255,255,255,.6)}
+
+.ob-back-link{background:none;border:none;color:rgba(255,255,255,.35);font-size:14px;cursor:pointer;padding:4px 0;margin-bottom:8px;align-self:flex-start;-webkit-tap-highlight-color:transparent}
+.ob-focus-info{text-align:left}
 </style>
 
 
@@ -2386,6 +2389,7 @@ body {
       <div class="ob-pip cur" id="obpip2b"></div>
       <div class="ob-pip" id="obpip2c"></div>
     </div>
+    <button onclick="obGoStep(1)" class="ob-back-link">&#8249; Back</button>
     <div class="ob-title">Who Are You?</div>
     <div class="ob-sub">Choose a display name and pick an avatar that feels like you.</div>
     <input class="ob-name-input" id="obNameInput" type="text" placeholder="Your name" maxlength="16" autocomplete="off" oninput="obCheckName()">
@@ -2401,6 +2405,7 @@ body {
       <div class="ob-pip done"></div>
       <div class="ob-pip cur"></div>
     </div>
+    <button onclick="obGoStep(2)" class="ob-back-link">&#8249; Back</button>
     <div class="ob-title">Your Quest Focus</div>
     <div class="ob-sub">Pick the area that matters most to you right now. You can always explore all quests later.</div>
     <div class="ob-focus-grid" id="obFocusGrid"></div>
@@ -3526,9 +3531,10 @@ function handleFourDigits() {
     if (hash === pinFirstHash) {
       p.pinHash = hash; p.firstLogin = false;
       saveState(); _chatUnlocked = true; pinBuffer = '';
-      // New family member: show onboarding before game
-      if (!p.onboardDone) { obStart(pinRole); }
-      else { enterGame(pinRole); }
+      var _cr = pinRole;
+      function _afterPinConfirm() { if (!state.profiles[_cr.id].onboardDone) { obStart(_cr); } else { enterGame(_cr); } }
+      var _cp = state.profiles[_cr.id];
+      if (!_cp.email && typeof showEmailSetupScreen === 'function') { showEmailSetupScreen(_cr.id, 'firstlogin', _afterPinConfirm); } else { _afterPinConfirm(); }
     } else {
       pinMode = 'create'; pinFirstHash = null;
       document.getElementById('pinPrompt').textContent = "PINs didn't match — try again";
@@ -8175,85 +8181,100 @@ MILO_SPRITE_MAP.happy  = MILO_SPRITE_MAP.greet;
 // Stores results as data-URLs so subsequent renders use transparent PNGs.
 var _miloProcessedSrcs = {};
 var _miloSpriteImgSizes = {};   // src → { w, h } in natural pixels
-function _miloProcessSprite(src, onDone) {
+function _miloProcessSprite(src, cols, rows, onDone) {
+  if (typeof cols === 'function') { onDone = cols; cols = 4; rows = 4; }
+  if (typeof rows === 'function') { onDone = rows; rows = 4; }
   if (_miloProcessedSrcs[src]) { onDone(_miloProcessedSrcs[src]); return; }
   var img = new Image();
   img.crossOrigin = 'anonymous';
   img.onload = function() {
     _miloSpriteImgSizes[src] = { w: img.naturalWidth, h: img.naturalHeight };
     try {
-      var c = document.createElement('canvas');
-      c.width = img.naturalWidth; c.height = img.naturalHeight;
-      var ctx = c.getContext('2d');
+      var cv = document.createElement('canvas');
+      cv.width = img.naturalWidth; cv.height = img.naturalHeight;
+      var ctx = cv.getContext('2d');
       ctx.drawImage(img, 0, 0);
-      var id = ctx.getImageData(0, 0, c.width, c.height);
+      var id = ctx.getImageData(0, 0, cv.width, cv.height);
       var d = id.data;
-      var W = c.width, H = c.height;
-
-      // ── Flood-fill from all four edges to find only the TRUE background ──
-      // This preserves dark internal pixels (eyes, crown, fur shadows)
-      // while removing the pure black background outside the rabbit.
-      var BG_THRESHOLD = 38; // pixels darker than this on ALL channels = candidate bg
+      var W = cv.width, H = cv.height;
+      var BG_THRESH = 45;
       var visited = new Uint8Array(W * H);
       var queue = [];
+      var qi = 0;
 
-      // Seed from all border pixels that look like background
-      function isBg(idx) {
-        return d[idx] < BG_THRESHOLD && d[idx+1] < BG_THRESHOLD && d[idx+2] < BG_THRESHOLD;
+      function isBg(i4) {
+        return d[i4] < BG_THRESH && d[i4+1] < BG_THRESH && d[i4+2] < BG_THRESH && d[i4+3] > 10;
       }
       function seed(x, y) {
+        if (x < 0 || x >= W || y < 0 || y >= H) return;
         var p = y * W + x;
         if (!visited[p] && isBg(p * 4)) { visited[p] = 1; queue.push(p); }
       }
+
+      // Seed outer border
       for (var x = 0; x < W; x++) { seed(x, 0); seed(x, H-1); }
       for (var y = 1; y < H-1; y++) { seed(0, y); seed(W-1, y); }
 
-      // BFS flood fill through connected background pixels
-      var qi = 0;
-      while (qi < queue.length) {
-        var p = queue[qi++];
-        var px = p % W, py = Math.floor(p / W);
-        var neighbours = [];
-        if (px > 0)   neighbours.push(p - 1);
-        if (px < W-1) neighbours.push(p + 1);
-        if (py > 0)   neighbours.push(p - W);
-        if (py < H-1) neighbours.push(p + W);
-        for (var ni = 0; ni < neighbours.length; ni++) {
-          var nb = neighbours[ni];
-          if (!visited[nb] && isBg(nb * 4)) { visited[nb] = 1; queue.push(nb); }
+      // Seed corners + edges of every sprite cell
+      var cW = Math.floor(W / cols), cH = Math.floor(H / rows);
+      for (var cr = 0; cr < rows; cr++) {
+        for (var cc = 0; cc < cols; cc++) {
+          var x0 = cc*cW, y0 = cr*cH, x1 = x0+cW-1, y1 = y0+cH-1;
+          var mx = x0 + Math.floor(cW/2), my = y0 + Math.floor(cH/2);
+          for (var o = 0; o < 12; o++) {
+            seed(x0+o, y0+o); seed(x1-o, y0+o);
+            seed(x0+o, y1-o); seed(x1-o, y1-o);
+          }
+          for (var e = 0; e < 6; e++) {
+            seed(mx, y0+e); seed(mx, y1-e);
+            seed(x0+e, my); seed(x1-e, my);
+          }
         }
       }
 
-      // Make all flood-filled (background) pixels transparent
-      for (var i = 0; i < W * H; i++) {
-        if (visited[i]) d[i * 4 + 3] = 0;
+      // 8-connected BFS
+      while (qi < queue.length) {
+        var p = queue[qi++];
+        var px = p % W, py = (p / W) | 0;
+        var nb;
+        if (px>0)          { nb=p-1;   if(!visited[nb]&&isBg(nb*4)){visited[nb]=1;queue.push(nb);} }
+        if (px<W-1)        { nb=p+1;   if(!visited[nb]&&isBg(nb*4)){visited[nb]=1;queue.push(nb);} }
+        if (py>0)          { nb=p-W;   if(!visited[nb]&&isBg(nb*4)){visited[nb]=1;queue.push(nb);} }
+        if (py<H-1)        { nb=p+W;   if(!visited[nb]&&isBg(nb*4)){visited[nb]=1;queue.push(nb);} }
+        if (px>0&&py>0)    { nb=p-W-1; if(!visited[nb]&&isBg(nb*4)){visited[nb]=1;queue.push(nb);} }
+        if (px<W-1&&py>0)  { nb=p-W+1; if(!visited[nb]&&isBg(nb*4)){visited[nb]=1;queue.push(nb);} }
+        if (px>0&&py<H-1)  { nb=p+W-1; if(!visited[nb]&&isBg(nb*4)){visited[nb]=1;queue.push(nb);} }
+        if (px<W-1&&py<H-1){ nb=p+W+1; if(!visited[nb]&&isBg(nb*4)){visited[nb]=1;queue.push(nb);} }
       }
 
+      for (var i = 0; i < W*H; i++) { if (visited[i]) d[i*4+3] = 0; }
       ctx.putImageData(id, 0, 0);
-      _miloProcessedSrcs[src] = c.toDataURL('image/png');
+      _miloProcessedSrcs[src] = cv.toDataURL('image/png');
     } catch(e) {
-      console.warn('[Milo] canvas processing failed, using raw src:', src, e.message);
+      console.warn('[Milo] canvas processing failed:', src, e.message);
       _miloProcessedSrcs[src] = src;
     }
     onDone(_miloProcessedSrcs[src]);
   };
   img.onerror = function() {
-    console.error('[Milo] failed to load sprite:', src);
     _miloProcessedSrcs[src] = src;
     onDone(src);
   };
   img.src = src;
 }
 function miloPreprocessAllSprites(onComplete) {
-  var srcs = [];
+  var srcMeta = {};
   Object.keys(MILO_SPRITE_MAP).forEach(function(k) {
-    var s = MILO_SPRITE_MAP[k].src;
-    if (s && srcs.indexOf(s) === -1) srcs.push(s);
+    var def = MILO_SPRITE_MAP[k];
+    if (!def.src) return;
+    if (!srcMeta[def.src]) srcMeta[def.src] = {cols: def.cols||4, rows: def.rows||4};
   });
+  var srcs = Object.keys(srcMeta);
   var left = srcs.length;
   if (!left) { onComplete(); return; }
   srcs.forEach(function(src) {
-    _miloProcessSprite(src, function() { if (--left === 0) onComplete(); });
+    var meta = srcMeta[src];
+    _miloProcessSprite(src, meta.cols, meta.rows, function() { if (--left === 0) onComplete(); });
   });
 }
 
@@ -20691,6 +20712,9 @@ function obGoStep(n) {
     var el = document.getElementById('ob-step-' + i);
     if (el) el.classList.toggle('active', i === n);
   });
+  var osc = document.getElementById('screen-onboard');
+  if (osc) osc.scrollTop = 0;
+  if (n === 2) obCheckName();
 }
 
 function obCheckName() {

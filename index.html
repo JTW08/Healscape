@@ -585,7 +585,7 @@ body::before{
 /* ════════════════════════════════════════════════════════════
    CROSSY ROAD VOXEL FARM SCENE
 ════════════════════════════════════════════════════════════ */
-.farm-scene{flex-shrink:0;height:clamp(160px,20vh,280px);position:relative;overflow:hidden;background:linear-gradient(180deg,#87ceeb 0%,#b2ebf2 45%,#c8f0c8 45%,#81c784 100%)}
+.farm-scene{flex-shrink:0;height:clamp(180px,30vh,340px);position:relative;overflow:hidden;background:linear-gradient(180deg,#87ceeb 0%,#b2ebf2 45%,#c8f0c8 45%,#81c784 100%)}
 .ac-cloud{position:absolute;top:0;animation:acCloudDrift linear infinite}
 .ac-cloud svg{display:block}
 .ac-tree{position:absolute;bottom:26px;transform-origin:bottom center;animation:acTreeSway 4.5s ease-in-out infinite}
@@ -719,13 +719,13 @@ body::before{
 .shop-buy-btn.owned{background:rgba(168,224,99,.1);color:rgba(168,224,99,.5);border:1px solid rgba(168,224,99,.2);pointer-events:none}
 .shop-buy-btn.no{background:rgba(255,255,255,.06);color:rgba(255,255,255,.25);pointer-events:none}
 /* Wellness nudge */
-.wellness-nudge{position:fixed;top:0;left:0;right:0;z-index:700;background:linear-gradient(135deg,#1a3a00,#2a5a00);border-bottom:2px solid rgba(168,224,99,.4);padding:14px 16px 12px;display:flex;align-items:flex-start;gap:12px;box-shadow:0 4px 20px rgba(0,0,0,.5);animation:nudgeslide .4s ease;max-width:min(430px,100vw);margin:0 auto}
+.wellness-nudge{position:fixed;top:0;left:0;right:0;z-index:700;background:linear-gradient(135deg,rgba(26,58,0,.97),rgba(32,72,0,.97));border-bottom:1px solid rgba(168,224,99,.3);padding:7px 12px 6px;display:flex;align-items:center;gap:8px;box-shadow:0 2px 12px rgba(0,0,0,.4);animation:nudgeslide .3s ease;max-width:min(430px,100vw);margin:0 auto}
 .wellness-nudge.hidden{display:none}
-.nudge-icon{font-size:32px;flex-shrink:0}
+.nudge-icon{font-size:20px;flex-shrink:0}
 .nudge-text{flex:1}
-.nudge-title{font-family:'Cinzel',serif;font-size:14px;color:#a8e063;margin-bottom:3px}
-.nudge-body{font-size:11px;color:rgba(255,255,255,.7);line-height:1.5}
-.nudge-close{background:rgba(168,224,99,.15);border:1px solid rgba(168,224,99,.3);color:#a8e063;font-family:'Cinzel',serif;font-size:11px;padding:6px 12px;border-radius:8px;cursor:pointer;flex-shrink:0;margin-top:2px}
+.nudge-title{font-family:'Cinzel',serif;font-size:11px;color:#a8e063;margin-bottom:1px}
+.nudge-body{font-size:10px;color:rgba(255,255,255,.65);line-height:1.3}
+.nudge-close{background:rgba(168,224,99,.12);border:1px solid rgba(168,224,99,.25);color:#a8e063;font-family:'Cinzel',serif;font-size:10px;padding:4px 9px;border-radius:6px;cursor:pointer;flex-shrink:0}
 /* Achievement pill */
 .farm-achievement{position:fixed;bottom:calc(var(--tab-h) + 12px);left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#c8960a,#f5c842);color:#0a0700;font-family:'Cinzel',serif;font-size:14px;padding:8px 20px;border-radius:20px;z-index:600;white-space:nowrap;box-shadow:0 4px 16px rgba(200,150,10,.5);animation:achievepop .5s ease;pointer-events:none}
 .farm-achievement.hidden{display:none}
@@ -1260,7 +1260,7 @@ body {
 .milo-back-btn{background:rgba(46,125,50,.55);border:1px solid rgba(100,220,80,.45);border-radius:20px;padding:5px 13px;color:#c8f5a0;font-family:Cinzel,serif;font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;letter-spacing:.3px}
 .milo-back-btn:active{background:rgba(46,125,50,.8);transform:scale(.95)}
 /* Scene — same proportions as farm scene */
-.milo-scene-wrap{flex-shrink:0;height:clamp(130px,24vh,190px);position:relative;overflow:hidden}
+.milo-scene-wrap{flex-shrink:0;height:clamp(160px,32vh,260px);position:relative;overflow:hidden}
 /* Hunger/mood alert badge */
 .milo-alert{position:absolute;top:8px;left:50%;transform:translateX(-50%);background:rgba(239,83,80,.9);color:#fff;font-family:Cinzel,serif;font-size:11px;padding:4px 14px;border-radius:20px;z-index:10;pointer-events:none;opacity:0;transition:opacity .4s;white-space:nowrap}
 .milo-alert.show{opacity:1}
@@ -1271,7 +1271,7 @@ body {
 /* Food carrot */
 .milo-carrot-el{position:absolute;font-size:22px;z-index:6;pointer-events:none;transition:opacity .4s;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))}
 /* Stats strip */
-.milo-stats-strip{flex-shrink:0;padding:4px 12px 3px;background:rgba(0,0,0,.15);border-top:1px solid rgba(255,255,255,.07);display:grid;grid-template-columns:1fr 1fr;gap:2px 12px}
+
 .milo-stat-row{display:flex;align-items:center;gap:5px;margin-bottom:0}
 .milo-stat-lbl{font-family:Cinzel,serif;font-size:8px;color:rgba(255,255,255,.5);width:46px;letter-spacing:.3px;flex-shrink:0}
 .milo-stat-bar{flex:1;height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden}
@@ -1482,6 +1482,136 @@ body {
 /* DM badge on presence avatar */
 .pres-dm-badge{position:absolute;top:-4px;right:-4px;width:10px;height:10px;border-radius:50%;background:#ab47bc;border:1.5px solid var(--stone2);animation:pulse 1.5s infinite}
 
+
+/* -- TUTORIAL -- */
+#tutOverlay{position:fixed;inset:0;z-index:9999;display:none;pointer-events:none}
+#tutOverlay.tut-on{display:block;pointer-events:auto}
+#tutDim{position:absolute;inset:0;background:rgba(0,0,0,.35)}
+#tutCard{
+  position:absolute;
+  width:min(72vw,260px);
+  background:rgba(26,20,14,.96);
+  border:1px solid rgba(245,200,66,.5);border-radius:14px;
+  padding:12px 14px 10px;box-shadow:0 4px 24px rgba(0,0,0,.7);
+}
+#tutArrow{position:absolute;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent}
+#tutArrow.arr-down{border-top:10px solid rgba(245,200,66,.7);bottom:-10px}
+#tutArrow.arr-up{border-bottom:10px solid rgba(245,200,66,.7);top:-10px}
+.tut-pills{display:flex;gap:4px;justify-content:center;margin-bottom:8px}
+.tut-pill{width:18px;height:3px;border-radius:2px;background:rgba(255,255,255,.15)}
+.tut-pill.tut-done{background:#f5c842}
+.tut-pill.tut-cur{background:rgba(245,200,66,.6)}
+#tutIcon{font-size:20px;text-align:center;margin-bottom:4px}
+#tutTitle{font-family:'Cinzel',serif;font-size:12px;color:#f5c842;text-align:center;margin-bottom:4px;letter-spacing:.4px}
+#tutBody{font-family:'Crimson Pro',serif;font-size:12px;color:rgba(240,220,160,.85);text-align:center;line-height:1.4;margin-bottom:10px}
+.tut-btns{display:flex;gap:8px}
+.tut-skip{flex:1;padding:7px;border-radius:8px;border:1px solid rgba(255,255,255,.12);background:transparent;color:rgba(255,255,255,.4);font-family:'Cinzel',serif;font-size:10px;cursor:pointer}
+.tut-next{flex:2;padding:7px;border-radius:8px;border:none;background:linear-gradient(135deg,#f5c842,#c8960a);color:#1a1410;font-family:'Cinzel',serif;font-size:11px;font-weight:700;cursor:pointer}
+.tut-next:active{transform:scale(.96)}
+.tut-tab-glow{box-shadow:0 0 0 3px rgba(245,200,66,.8),0 0 14px rgba(245,200,66,.5)!important;border-radius:8px}
+
+/* ── 1. GLOW & DEPTH ON CARDS ── */
+.quest-section{box-shadow:0 2px 16px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.04)!important;transition:box-shadow .2s,border-color .2s}
+.quest-section:hover{box-shadow:0 4px 24px rgba(0,0,0,.5),0 0 0 1px rgba(245,200,66,.15),inset 0 1px 0 rgba(255,255,255,.06)!important;border-color:rgba(245,200,66,.2)!important}
+.set-section{box-shadow:0 2px 12px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.04)}
+.daily-item{box-shadow:0 1px 8px rgba(0,0,0,.3);transition:box-shadow .2s,border-color .2s}
+.daily-item:hover{box-shadow:0 2px 16px rgba(0,0,0,.45),0 0 0 1px rgba(245,200,66,.12)}
+
+/* ── 2. ANIMATED TAB BAR ── */
+.tab-bar{background:linear-gradient(180deg,rgba(26,23,20,.97) 0%,var(--stone2) 100%)!important;border-top:1px solid rgba(255,255,255,.06)!important}
+.tab-btn{position:relative;transition:color .2s!important}
+.tab-btn::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%) scaleX(0);width:32px;height:2px;background:var(--gold);border-radius:2px 2px 0 0;transition:transform .25s cubic-bezier(.4,0,.2,1),opacity .25s;opacity:0}
+.tab-btn.active::after{transform:translateX(-50%) scaleX(1);opacity:1}
+.tab-btn.active .tab-icon{filter:drop-shadow(0 0 8px rgba(245,200,66,.65))!important;animation:tabIconPop .3s cubic-bezier(.4,0,.2,1)}
+.tab-btn.active::before{content:'';position:absolute;top:4px;left:50%;transform:translateX(-50%);width:36px;height:36px;background:radial-gradient(circle,rgba(245,200,66,.18) 0%,transparent 70%);border-radius:50%;pointer-events:none}
+@keyframes tabIconPop{0%{transform:scale(1)}40%{transform:scale(1.3)}70%{transform:scale(.92)}100%{transform:scale(1)}}
+
+/* ── 3. XP PULSE ── */
+@keyframes xpBarPulse{0%{box-shadow:none}30%{box-shadow:0 0 12px 3px rgba(245,200,66,.7),0 0 24px 6px rgba(245,200,66,.3)}100%{box-shadow:none}}
+@keyframes xpTextPop{0%{transform:scale(1)}40%{transform:scale(1.35)}70%{transform:scale(.95)}100%{transform:scale(1)}}
+.xp-gain-pulse{animation:xpBarPulse .7s ease forwards!important}
+.xp-text-pop{animation:xpTextPop .4s cubic-bezier(.4,0,.2,1) forwards!important}
+
+/* ── 4. PROFILE SHIMMER ── */
+@keyframes profileShimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+.profile-tile{background:linear-gradient(145deg,rgba(38,28,4,.9),rgba(26,20,10,.95))!important;border:1px solid rgba(255,255,255,.1)!important;transition:transform .18s,box-shadow .18s,border-color .18s!important;overflow:visible}
+.profile-tile::before{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.07) 50%,transparent 60%);background-size:200% 100%;animation:profileShimmer 3s ease infinite;border-radius:inherit;pointer-events:none;overflow:hidden;clip-path:inset(0 round var(--radius))}
+.profile-tile:hover{transform:translateY(-3px) scale(1.03)!important;box-shadow:0 8px 24px rgba(0,0,0,.5),0 0 0 1.5px rgba(245,200,66,.35)!important;border-color:rgba(245,200,66,.3)!important}
+
+/* ── 5. QUEST BURST ── */
+@keyframes questDonePop{0%{transform:scale(1)}35%{transform:scale(1.04)}65%{transform:scale(.98)}100%{transform:scale(1)}}
+@keyframes questStarBurst{0%{opacity:1;transform:translate(-50%,-50%) scale(0) rotate(0deg)}60%{opacity:1;transform:translate(-50%,-50%) scale(1.4) rotate(20deg)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.8) rotate(40deg)}}
+.quest-done-burst{animation:questDonePop .45s cubic-bezier(.4,0,.2,1)!important}
+.quest-star-particle{position:fixed;font-size:18px;pointer-events:none;z-index:9998;animation:questStarBurst .7s ease forwards}
+
+/* ── 6. CHAT BUBBLES ── */
+.chat-msg{border-radius:16px 16px 16px 4px!important;border-left:none!important;padding:8px 12px!important;background:rgba(255,255,255,.06)!important;box-shadow:0 1px 6px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)!important;animation:msgSlideIn .22s cubic-bezier(.4,0,.2,1)}
+.chat-msg.mine{border-radius:16px 16px 4px 16px!important;border-right:none!important;background:rgba(245,200,66,.09)!important;border:1px solid rgba(245,200,66,.15)!important;box-shadow:0 1px 6px rgba(0,0,0,.3),inset 0 1px 0 rgba(245,200,66,.06)}
+.dm-msg{border-radius:16px 16px 16px 4px!important;border-left:none!important;padding:8px 12px!important;background:rgba(255,255,255,.05)!important;border:1px solid rgba(255,255,255,.08)!important;box-shadow:0 1px 6px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.04);animation:msgSlideIn .22s cubic-bezier(.4,0,.2,1)}
+.dm-msg.mine{border-radius:16px 16px 4px 16px!important;border-right:none!important;background:rgba(66,165,245,.1)!important;border:1px solid rgba(66,165,245,.18)!important}
+@keyframes msgSlideIn{from{opacity:0;transform:translateY(6px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+
+/* -- Milo Season Popup -- */
+@keyframes miloSeasonIn {
+  from { opacity:0; transform:translateY(-18px) scale(.92); }
+  to   { opacity:1; transform:translateY(0)     scale(1);   }
+}
+@keyframes miloSeasonOut {
+  from { opacity:1; transform:translateY(0)     scale(1);   }
+  to   { opacity:0; transform:translateY(-14px) scale(.94); }
+}
+#miloSeasonPopup {
+  position:absolute;
+  top:12px; left:50%; transform:translateX(-50%);
+  z-index:60;
+  pointer-events:none;
+  white-space:nowrap;
+}
+#miloSeasonPopup.show  { animation: miloSeasonIn  .4s cubic-bezier(.34,1.56,.64,1) forwards; }
+#miloSeasonPopup.hide  { animation: miloSeasonOut .5s ease forwards; }
+
+#farmSeasonPopup {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+  pointer-events: none;
+  white-space: nowrap;
+}
+#farmSeasonPopup.show { animation: miloSeasonIn  .4s cubic-bezier(.34,1.56,.64,1) forwards; }
+#farmSeasonPopup.hide { animation: miloSeasonOut .5s ease forwards; }
+
+/* -- Milo back-to-farm discreet overlay -- */
+.milo-back-btn {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 25;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(0,0,0,.25);
+  color: rgba(255,255,255,.6);
+  font-family: Cinzel, serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .4px;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  pointer-events: auto;
+  animation: miloBackPulse 4s ease-in-out infinite;
+}
+.milo-back-btn:active {
+  background: rgba(0,0,0,.55);
+  color: #fff;
+}
+@keyframes miloBackPulse {
+  0%,100% { opacity: .5; }
+  50%      { opacity: .85; }
+}
 </style>
 
 
@@ -1491,7 +1621,7 @@ body {
 ════════════════════════════════════════════════════════════ -->
 <script type="module">
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-  import { getDatabase, ref, set, push, get, update, onValue, onChildAdded, remove }
+  import { getDatabase, ref, set, push, get, update, onValue, onChildAdded, remove, off }
     from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
 
   const firebaseConfig = {
@@ -1514,6 +1644,13 @@ body {
 
   // Prevent duplicate listener registrations across re-logins
   const _reg = new Set();
+  // Store unsubscribe functions for game listeners so they can be detached on quit
+  const _unsub = {};
+  window._fbUnsub = _unsub;
+  window._fbOff  = off;
+  window._fbRef  = ref;
+  window._fbDb   = () => db;
+  window._clearGameReg = (key) => { _reg.delete(key); };
 
   window.FB = {
     ready: () => fbReady,
@@ -1670,7 +1807,7 @@ body {
     watchTTT: (cb) => {
       if (!fbReady) return;
       if (_reg.has('ttt')) { get(ref(db,'ttt')).then(s=>cb(s.val())).catch(()=>{}); return; }
-      _reg.add('ttt'); onValue(ref(db,'ttt'), snap => cb(snap.val()));
+      _reg.add('ttt'); _unsub['ttt'] = onValue(ref(db,'ttt'), snap => cb(snap.val()));
     },
     setTTT:   (data) => { if (fbReady) set(ref(db,'ttt'), data).catch(()=>{}); },
     clearTTT: ()     => { if (fbReady) set(ref(db,'ttt'), null).catch(()=>{}); },
@@ -1679,7 +1816,7 @@ body {
     watchC4:  (cb) => {
       if (!fbReady) return;
       if (_reg.has('c4')) { get(ref(db,'connect4')).then(s=>cb(s.val())).catch(()=>{}); return; }
-      _reg.add('c4'); onValue(ref(db,'connect4'), snap => cb(snap.val()));
+      _reg.add('c4'); _unsub['c4'] = onValue(ref(db,'connect4'), snap => cb(snap.val()));
     },
     setC4:    (data) => { if (fbReady) set(ref(db,'connect4'), data).catch(()=>{}); },
     clearC4:  ()     => { if (fbReady) set(ref(db,'connect4'), null).catch(()=>{}); },
@@ -1697,7 +1834,7 @@ body {
     watchMemory: (cb) => {
       if (!fbReady) return;
       if (_reg.has('memory')) { get(ref(db,'memory')).then(s=>cb(s.val())).catch(()=>{}); return; }
-      _reg.add('memory'); onValue(ref(db,'memory'), snap => cb(snap.val()));
+      _reg.add('memory'); _unsub['memory'] = onValue(ref(db,'memory'), snap => cb(snap.val()));
     },
     setMemory:   (data) => { if (fbReady) set(ref(db,'memory'), data).catch(()=>{}); },
     clearMemory: ()     => { if (fbReady) set(ref(db,'memory'), null).catch(()=>{}); },
@@ -1706,7 +1843,7 @@ body {
     watchGBingo: (cb) => {
       if (!fbReady) return;
       if (_reg.has('gbingo')) { get(ref(db,'gbingo')).then(s=>cb(s.val())).catch(()=>{}); return; }
-      _reg.add('gbingo'); onValue(ref(db,'gbingo'), snap => cb(snap.val()));
+      _reg.add('gbingo'); _unsub['gbingo'] = onValue(ref(db,'gbingo'), snap => cb(snap.val()));
     },
     setGBingo:   (data) => { if (fbReady) set(ref(db,'gbingo'), data).catch(()=>{}); },
     clearGBingo: ()     => { if (fbReady) set(ref(db,'gbingo'), null).catch(()=>{}); },
@@ -1715,7 +1852,7 @@ body {
     watchMoodMirror: (cb) => {
       if (!fbReady) return;
       if (_reg.has('moodmirror')) { get(ref(db,'moodmirror')).then(s=>cb(s.val())).catch(()=>{}); return; }
-      _reg.add('moodmirror'); onValue(ref(db,'moodmirror'), snap => cb(snap.val()));
+      _reg.add('moodmirror'); _unsub['moodmirror'] = onValue(ref(db,'moodmirror'), snap => cb(snap.val()));
     },
     setMoodMirror:   (data) => { if (fbReady) set(ref(db,'moodmirror'), data).catch(()=>{}); },
     clearMoodMirror: ()     => { if (fbReady) set(ref(db,'moodmirror'), null).catch(()=>{}); },
@@ -1904,6 +2041,54 @@ body {
   <div id="friendAvatarGrid" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:280px;margin:0 auto 20px"></div>
   <div class="pw-error" id="friendSetupError"></div>
   <button class="btn-primary" onclick="submitFriendSetup()">Enter the Friends Realm ✦</button>
+</div>
+
+<!-- ONBOARDING SCREEN -->
+<div id="screen-onboard" class="screen">
+
+  <!-- Step 1: Welcome -->
+  <div class="ob-step active" id="ob-step-1">
+    <div class="ob-progress">
+      <div class="ob-pip cur" id="obpip1"></div>
+      <div class="ob-pip" id="obpip2"></div>
+      <div class="ob-pip" id="obpip3"></div>
+    </div>
+    <div class="ob-crown">🏰</div>
+    <div class="ob-title">Welcome to HealScape</div>
+    <div class="ob-sub">You are now part of Blake's healing circle. Let's set up your profile so the family knows it's you.</div>
+    <button class="ob-btn" onclick="obGoStep(2)">Set Up My Profile ✦</button>
+  </div>
+
+  <!-- Step 2: Name + Avatar -->
+  <div class="ob-step" id="ob-step-2">
+    <div class="ob-progress">
+      <div class="ob-pip done" id="obpip2a"></div>
+      <div class="ob-pip cur" id="obpip2b"></div>
+      <div class="ob-pip" id="obpip2c"></div>
+    </div>
+    <div class="ob-title">Who Are You?</div>
+    <div class="ob-sub">Choose a display name and pick an avatar that feels like you.</div>
+    <input class="ob-name-input" id="obNameInput" type="text" placeholder="Your name" maxlength="16" autocomplete="off" oninput="obCheckName()">
+    <div style="font-size:11px;color:var(--text2);margin:16px 0 8px;font-family:'Cinzel',serif;letter-spacing:1px">CHOOSE YOUR AVATAR</div>
+    <div class="ob-avatar-grid" id="obAvatarGrid"></div>
+    <button class="ob-btn" id="obNameBtn" onclick="obGoStep(3)" disabled>Next ›</button>
+  </div>
+
+  <!-- Step 3: Quest Focus -->
+  <div class="ob-step" id="ob-step-3">
+    <div class="ob-progress">
+      <div class="ob-pip done"></div>
+      <div class="ob-pip done"></div>
+      <div class="ob-pip cur"></div>
+    </div>
+    <div class="ob-title">Your Quest Focus</div>
+    <div class="ob-sub">Pick the area that matters most to you right now. You can always explore all quests later.</div>
+    <div class="ob-focus-grid" id="obFocusGrid"></div>
+    <div class="pw-error" id="obFocusError"></div>
+    <button class="ob-btn" id="obFocusBtn" onclick="obFinish()" disabled>Enter HealScape ✦</button>
+    <div class="ob-skip" onclick="obSkipFocus()">Skip — show me all quests</div>
+  </div>
+
 </div>
 
 <!-- MAIN GAME -->
@@ -2146,7 +2331,10 @@ let state = {
   expandedSections: new Set(),
   activeTab: 'QUESTS',
   viewRealm: 'family', // 'family' | 'friends' -- for HEROES and CIRCLE views
-};
+}
+
+
+;
 
 let pinBuffer = '';
 let pinMode   = 'verify'; // 'verify' | 'create' | 'confirm'
@@ -2783,7 +2971,10 @@ function handleFourDigits() {
   } else { // confirm
     if (hash === pinFirstHash) {
       p.pinHash = hash; p.firstLogin = false;
-      saveState(); _chatUnlocked = true; pinBuffer = ''; enterGame(pinRole);
+      saveState(); _chatUnlocked = true; pinBuffer = '';
+      // New family member: show onboarding before game
+      if (!p.onboardDone) { obStart(pinRole); }
+      else { enterGame(pinRole); }
     } else {
       pinMode = 'create'; pinFirstHash = null;
       document.getElementById('pinPrompt').textContent = "PINs didn't match — try again";
@@ -3095,10 +3286,23 @@ function miloSend() {
   var chipsEl = document.getElementById('miloQuickChips');
   if (chipsEl) chipsEl.innerHTML = '';
   miloAddMessage('user', text);
+  setTimeout(function(){ try{ miloReactToMessage(text); }catch(e){} }, 200);
   miloAiReply(text);
 }
 function miloToggleChat() {
   _miloChatOpen = !_miloChatOpen;
+  // Add/remove backdrop for outside-tap close
+  var page = document.querySelector('.milo-page');
+  var existing = document.getElementById('miloChatBackdrop');
+  if (_miloChatOpen && page && !existing) {
+    var bd = document.createElement('div');
+    bd.id = 'miloChatBackdrop';
+    bd.style.cssText = 'position:absolute;inset:0;z-index:34;';
+    bd.addEventListener('click', function() { if (_miloChatOpen) miloToggleChat(); });
+    page.insertBefore(bd, page.firstChild);
+  } else if (!_miloChatOpen && existing) {
+    existing.remove();
+  }
   var floatEl = document.getElementById('miloChatFloat');
   var fab = document.getElementById('miloChatFab');
   if (floatEl) floatEl.classList.toggle('open', _miloChatOpen);
@@ -3134,6 +3338,7 @@ function miloQuickReply(text) {
   var container = document.getElementById('miloQuickChips');
   if (container) container.innerHTML = '';
   miloAddMessage('user', text);
+  setTimeout(function(){ try{ miloReactToMessage(text); }catch(e){} }, 200);
   miloAiReply(text);
 }
 function miloSelectMood(label, emoji, el) {
@@ -3144,6 +3349,7 @@ function miloSelectMood(label, emoji, el) {
   if (container) container.innerHTML = '';
   var text = 'Right now I\u2019m feeling ' + emoji + ' (' + label + ')';
   miloAddMessage('user', text);
+  setTimeout(function(){ try{ miloReactToMessage(text); }catch(e){} }, 200);
   miloAiReply(text);
 }
 function miloAiReply(userMsg) {
@@ -3192,6 +3398,8 @@ function miloAiReply(userMsg) {
 }
 
 function enterGame(role) {
+  // Init quest focus filter (once)
+  if (!_origGetQuestsForRole && typeof _initQuestFocusFilter === 'function') _initQuestFocusFilter();
   // Reset chat lock — must re-verify PIN each new session
   _chatUnlocked = false;
   closeChatLock && closeChatLock();
@@ -3223,6 +3431,10 @@ function enterGame(role) {
   // ────────────────────────────────────────────────────────────────
 
   state.activeProfile = role;
+  // Mark onboard done for existing members so check-in works normally
+  var _ep = state.profiles[role.id];
+  if (_ep && _ep.onboardDone) _onboardDone = true;
+  else if (_ep && _ep.pinHash && !_ep.firstLogin && !_ep.questFocus) { _ep.onboardDone = true; _onboardDone = true; }
   // Save session for auto-login
   try {
     localStorage.setItem('hs_last_profile', role.id);
@@ -3300,8 +3512,10 @@ function enterGame(role) {
   // Show install prompt on first ever visit
   setTimeout(showInstallPromptIfNeeded, 800);
 
-  // Assessment check -- 1.2s after login
-  setTimeout(checkAssessment, 1200);
+  // Assessment check -- skipped until tutorial and onboard are both done
+  setTimeout(function(){if(!_tutActive && _onboardDone !== false)checkAssessment();},1200);
+  // Tutorial
+  setTimeout(function(){var rid=state.activeProfile&&state.activeProfile.id;if(rid)tutStart(rid);},1800);
   // Apply realm-based DM FAB visibility
   setTimeout(_updateDmFabForRealm, 100);
 }
@@ -3349,6 +3563,8 @@ function refreshHudRealm() {
   }
 }
 function switchViewRealm(realm) {
+  // Reinit circle typing listener for new realm
+  setTimeout(initCircleTypingListener, 200);
   state.viewRealm = realm;
   refreshHudRealm();
   _updateDmFabForRealm();
@@ -3362,7 +3578,12 @@ function switchViewRealm(realm) {
 function updateXPDisplay(xp, animate = true) {
   const el = document.getElementById('hudXP');
   el.textContent = xp >= 1000 ? `${(xp/1000).toFixed(1)}k XP` : `${xp} XP`;
-  if (animate) { el.style.animation='none'; requestAnimationFrame(()=>{ el.style.animation='xpPop .3s ease'; }); }
+  if (animate) {
+    el.classList.remove('xp-text-pop');
+    void el.offsetWidth;
+    el.classList.add('xp-text-pop');
+    el.addEventListener('animationend', function(){ el.classList.remove('xp-text-pop'); }, {once:true});
+  }
 }
 
 function refreshHudDots() {
@@ -3558,7 +3779,12 @@ function completeDaily(daily) {
   // Check all done
   const dailies = getDailies(rid);
   if (dailies.every(d => state.doneToday[rid].has(d.id))) {
-    setTimeout(() => { buildDailyTab(); sfxAllDailiesDone(); showToast('✨', 'All dailies done!', 'Keep your streak going tomorrow!'); }, 300);
+    setTimeout(() => {
+      buildDailyTab(); sfxAllDailiesDone();
+      var _sk = updateDailyStreak();
+      var _sm = (_sk && _sk.count > 1) ? _sk.count + '-day streak! 🔥' : 'Keep your streak going tomorrow!';
+      showToast('✨', 'All dailies done!', _sm);
+    }, 300);
   }
   updateStreakHint();
 }
@@ -3573,7 +3799,7 @@ function updateStreakHint() {
 //  HEROES (LEADERBOARD)
 // ═══════════════════════════════════════════════════════════════════
 
-let lbBoard = 'QuestXP';
+let lbBoard = 'Quest XP';
 var _heroesPage = 'leaderboard'; // 'leaderboard' | 'wins' | 'achievements'
 var _heroesAnimDir = null;       // 'right' | 'left' — set before buildHeroesOverlay()
 
@@ -3806,12 +4032,36 @@ function buildHeroesOverlay() {
   var contentHTML = '';
 
   if (_heroesPage === 'leaderboard') {
-    var boardBtns = ['Quest XP','Farm Level','Farm Coins','Memory'].map(function(b) {
-      return '<button class="lb-board-btn' + (lbBoard===b?' active':'') + '" onclick="setLBBoard(\'' + b + '\')">' + b + '</button>';
+    var _farmBoards  = ['Farm:Level','Farm:Coins','Farm:Harvests'];
+    var _gamesBoards = ['Games:XP','Games:Memory','Games:TTT','Games:C4'];
+    var isFarmActive  = _farmBoards.indexOf(lbBoard) >= 0 || lbBoard === 'Farm & Milo';
+    var isGamesActive = _gamesBoards.indexOf(lbBoard) >= 0 || lbBoard === 'Games';
+    var isQuestActive = !isFarmActive && !isGamesActive;
+    var mainBoardDefs = [['Quest XP',isQuestActive],['Farm & Milo',isFarmActive],['Games',isGamesActive]];
+    var mainBtns = mainBoardDefs.map(function(pair) {
+      return '<button class="lb-board-btn' + (pair[1]?' active':'') + '" onclick="setLBBoard(\'' + pair[0] + '\')">' + pair[0] + '</button>';
     }).join('');
+    var subHTML = '';
+    if (isFarmActive) {
+      if (lbBoard === 'Farm & Milo') lbBoard = 'Farm:Level';
+      var fSubs = [['Farm:Level','📈 Level'],['Farm:Coins','💰 Coins'],['Farm:Harvests','🌾 Harvests']];
+      subHTML = '<div style="padding:4px 16px 0;display:flex;gap:6px;flex-shrink:0;overflow-x:auto">' +
+        fSubs.map(function(s){
+          return '<button class="lb-board-btn' + (lbBoard===s[0]?' active':'') + '" style="font-size:10px;padding:4px 10px;white-space:nowrap" onclick="setLBBoard(\'' + s[0] + '\')">' + s[1] + '</button>';
+        }).join('') + '</div>';
+    } else if (isGamesActive) {
+      if (lbBoard === 'Games') lbBoard = 'Games:XP';
+      var gSubs = [['Games:XP','⭐ Overall'],['Games:Memory','🧩 Memory'],['Games:TTT','⚔️ TTT'],['Games:C4','🟡 Connect 4']];
+      subHTML = '<div style="padding:4px 16px 0;display:flex;gap:6px;flex-shrink:0;overflow-x:auto">' +
+        gSubs.map(function(s){
+          return '<button class="lb-board-btn' + (lbBoard===s[0]?' active':'') + '" style="font-size:10px;padding:4px 10px;white-space:nowrap" onclick="setLBBoard(\'' + s[0] + '\')">' + s[1] + '</button>';
+        }).join('') + '</div>';
+    }
     contentHTML =
-      '<div style="padding:10px 16px 0;flex-shrink:0"><div class="lb-boards">' + boardBtns + '</div></div>' +
+      '<div style="padding:10px 16px 0;flex-shrink:0"><div class="lb-boards">' + mainBtns + '</div></div>' +
+      subHTML +
       '<div style="padding:0 16px 16px;overflow-y:auto;flex:1" id="lbRows"></div>';
+
 
   } else if (_heroesPage === 'wins') {
     var wins = getWins();
@@ -3833,37 +4083,193 @@ function buildHeroesOverlay() {
       '</div>';
 
   } else if (_heroesPage === 'achievements') {
-    var _myAchId = state.activeProfile ? state.activeProfile.id : null;
-    var _myAchXP = (_myAchId && state.profiles[_myAchId] && state.profiles[_myAchId].xp) || 0;
-    var _myWinsList = (typeof getWins === 'function') ? getWins().filter(function(w){ return w.roleId === _myAchId; }) : [];
-    var BADGE_DEFS = [
-      { icon:'🌱', label:'First Steps',    desc:'Joined HealScape',          unlocked: true,                         how:'' },
-      { icon:'💬', label:'Circle Debut',   desc:'Send a family message',     unlocked: _myAchXP >= 10,               how:'10 XP' },
-      { icon:'⚔️', label:'Quest Seeker',   desc:'Complete a quest',          unlocked: _myAchXP >= 50,               how:'50 XP' },
-      { icon:'🎮', label:'Game On',        desc:'Play a multiplayer game',   unlocked: _myAchXP >= 75,               how:'75 XP' },
-      { icon:'🌾', label:'Harvest Time',   desc:'Tend your farm',            unlocked: _myAchXP >= 100,              how:'100 XP' },
-      { icon:'🏆', label:'Win Posted',     desc:'Share a win with family',   unlocked: _myWinsList.length > 0,       how:'Post a win' },
-      { icon:'💪', label:'XP Builder',     desc:'Earn 200+ XP',              unlocked: _myAchXP >= 200,              how:'200 XP' },
-      { icon:'🌟', label:'Rising Star',    desc:'Earn 350+ XP',              unlocked: _myAchXP >= 350,              how:'350 XP' },
-      { icon:'👑', label:'XP Lord',        desc:'Earn 500+ XP',              unlocked: _myAchXP >= 500,              how:'500 XP' },
-      { icon:'🐰', label:"Milo's Pal",     desc:'Chat with Milo',            unlocked: _myAchXP >= 150,              how:'150 XP' },
-    ];
+    var _myAchId   = state.activeProfile ? state.activeProfile.id : null;
+    var _myProf    = (_myAchId && state.profiles[_myAchId]) || {};
+    var _myAchXP   = _myProf.xp || 0;
+    var _myFarmLvl = _myProf.farmLvl || 1;
+    var _myCoins   = _myProf.farmCoins || 0;
+    var _myWinsList= (typeof getWins === 'function') ? getWins().filter(function(w){ return w.roleId === _myAchId; }) : [];
+    var _myStreak  = (function(){ try{ return JSON.parse(localStorage.getItem('hs_daily_streak_v1')||'{}').count||0; }catch(e){return 0;} })();
+    var _myDailies = (function(){ try{ var k='hs_done_'+_myAchId; return Object.keys(JSON.parse(localStorage.getItem(k)||'{}')).length; }catch(e){return 0;} })();
+
+    function trophySVG(tier, icon, earned) {
+  var c = {
+    gold:   { cup:'#ffd54f', shine:'#fff9c4', shadow:'#f9a825', base:'#f57f17', rim:'#ffecb3', glow:'rgba(255,213,79,.55)' },
+    silver: { cup:'#e0e0e0', shine:'#ffffff',  shadow:'#9e9e9e', base:'#757575', rim:'#f5f5f5', glow:'rgba(200,200,200,.45)' },
+    bronze: { cup:'#cd7f32', shine:'#ffcc80',  shadow:'#8d5524', base:'#6d4c41', rim:'#ffe0b2', glow:'rgba(205,127,50,.45)' },
+    locked: { cup:'#555',    shine:'#777',      shadow:'#333',    base:'#222',    rim:'#666',    glow:'none' },
+  }[tier] || { cup:'#cd7f32', shine:'#ffcc80', shadow:'#8d5524', base:'#6d4c41', rim:'#ffe0b2', glow:'rgba(205,127,50,.45)' };
+  var glowF = earned ? ('drop-shadow(0 0 5px '+c.glow+') drop-shadow(0 1px 3px rgba(0,0,0,.4))') : 'grayscale(1)';
+  var opac  = earned ? '1' : '0.25';
+  return '<div style="position:relative;width:52px;height:56px;opacity:'+opac+';filter:'+glowF+'">'
+    +'<svg width="52" height="56" viewBox="0 0 52 56" xmlns="http://www.w3.org/2000/svg">'
+      +'<ellipse cx="26" cy="52" rx="14" ry="3.5" fill="'+c.shadow+'" opacity=".45"/>'
+      +'<rect x="17" y="45" width="18" height="5" rx="1.5" fill="'+c.base+'"/>'
+      +'<rect x="14" y="49" width="24" height="4" rx="2" fill="'+c.shadow+'"/>'
+      +'<rect x="22" y="37" width="8" height="10" fill="'+c.shadow+'"/>'
+      +'<rect x="23" y="37" width="6" height="10" fill="'+c.cup+'"/>'
+      +'<path d="M11,14 Q5,14 5,21 Q5,28 11,29" stroke="'+c.cup+'" stroke-width="3.5" fill="none" stroke-linecap="round"/>'
+      +'<path d="M41,14 Q47,14 47,21 Q47,28 41,29" stroke="'+c.cup+'" stroke-width="3.5" fill="none" stroke-linecap="round"/>'
+      +'<path d="M11,8 Q11,4 26,4 Q41,4 41,8 L38,36 Q38,39 26,39 Q14,39 14,36 Z" fill="'+c.cup+'"/>'
+      +'<ellipse cx="26" cy="8" rx="15" ry="5" fill="'+c.rim+'"/>'
+      +'<ellipse cx="20" cy="14" rx="4" ry="6.5" fill="'+c.shine+'" opacity=".3" transform="rotate(-12,20,14)"/>'
+    +'</svg>'
+    +'<div style="position:absolute;top:6px;left:50%;transform:translateX(-50%);font-size:16px;line-height:1">'+icon+'</div>'
+  +'</div>';
+}
+
+
+    var TROPHY_SETS = [
+  {
+    icon: '\u2694\uFE0F',
+    name: 'Quest Champion',
+    levels: [
+      { tier:'bronze', label:'Quest Seeker',   desc:'Completed your first quests — every journey begins with a single step', req: _myAchXP >= 50,   how:'50 XP'    },
+      { tier:'silver', label:'Quest Master',   desc:'Deep in the grind — your dedication is building real strength',          req: _myAchXP >= 500,  how:'500 XP'   },
+      { tier:'gold',   label:'Quest Legend',   desc:'You\'ve conquered HealScape — a true champion of healing',               req: _myAchXP >= 2500, how:'2,500 XP' },
+    ]
+  },
+  {
+    icon: '\uD83D\uDD25',
+    name: 'Streak Master',
+    levels: [
+      { tier:'bronze', label:'3-Day Streak',    desc:'Three days in a row — consistency is your superpower',                  req: _myStreak >= 3,  how:'3-day streak'  },
+      { tier:'silver', label:'Week Warrior',    desc:'Seven straight days — you showed up even on the hardest days',          req: _myStreak >= 7,  how:'7-day streak'  },
+      { tier:'gold',   label:'Monthly Champion',desc:'30 days straight — something truly remarkable lives in you',            req: _myStreak >= 30, how:'30-day streak' },
+    ]
+  },
+  {
+    icon: '\uD83C\uDF3E',
+    name: 'Farm Trophy',
+    levels: [
+      { tier:'bronze', label:'Green Thumb',     desc:'Started tending your farm — growth takes time and love',                req: _myFarmLvl >= 2,  how:'Farm Lv.2'  },
+      { tier:'silver', label:'Homesteader',     desc:'Your farm is flourishing — you\'ve built something beautiful',          req: _myFarmLvl >= 5,  how:'Farm Lv.5'  },
+      { tier:'gold',   label:'Master Farmer',   desc:'Your farm is legendary — a true sanctuary of peace and growth',         req: _myFarmLvl >= 10, how:'Farm Lv.10' },
+    ]
+  },
+  {
+    icon: '\uD83D\uDCB0',
+    name: 'Coin Trophy',
+    levels: [
+      { tier:'bronze', label:'Coin Collector',  desc:'Earned your first farm coins — every harvest is a reward',             req: _myCoins >= 100,  how:'100 coins'  },
+      { tier:'silver', label:'Coin Hoarder',    desc:'A growing treasury — patience and effort always pay off',               req: _myCoins >= 500,  how:'500 coins'  },
+      { tier:'gold',   label:'Coin Baron',      desc:'A legendary fortune — your farm empire is the envy of all',            req: _myCoins >= 2000, how:'2,000 coins'},
+    ]
+  },
+  {
+    icon: '\uD83D\uDCAC',
+    name: 'Circle Trophy',
+    levels: [
+      { tier:'bronze', label:'Circle Debut',    desc:'Sent your first family message — connection is the heart of healing',   req: _myAchXP >= 10,             how:'Send a message' },
+      { tier:'silver', label:'Win Sharer',      desc:'Posted a family win — celebrating together lifts everyone',             req: _myWinsList.length >= 1,    how:'Post a win'     },
+      { tier:'gold',   label:'Cheerleader',     desc:'Shared 5 wins — you are the light that lifts this family\'s spirit',   req: _myWinsList.length >= 5,    how:'5 wins'         },
+    ]
+  },
+  {
+    icon: '\uD83D\uDC30',
+    name: 'Milo Trophy',
+    levels: [
+      { tier:'bronze', label:"Milo's Pal",      desc:'Had your first chat with Milo — he absolutely adores you',             req: _myAchXP >= 150, how:'150 XP' },
+      { tier:'silver', label:'Bunny Friend',    desc:'You visit Milo regularly — he saves his best binkies just for you',    req: _myAchXP >= 400, how:'400 XP' },
+      { tier:'gold',   label:'Bunny Whisperer', desc:'Milo trusts you completely — you are his favourite human in the world', req: _myAchXP >= 800, how:'800 XP' },
+    ]
+  },
+  {
+    icon: '\uD83C\uDF0A',
+    name: 'Wellness Trophy',
+    levels: [
+      { tier:'bronze', label:'Breath Taker',    desc:'Used a calm tool — learning to regulate your nervous system',           req: _myAchXP >= 80,  how:'80 XP'  },
+      { tier:'silver', label:'Inner Peace',     desc:'Completed a check-in — knowing yourself is real strength',             req: _myAchXP >= 300, how:'300 XP' },
+      { tier:'gold',   label:'Heart Healer',    desc:'Actively healing every day — that takes more courage than anything',   req: _myAchXP >= 750, how:'750 XP' },
+    ]
+  },
+  {
+    icon: '\uD83C\uDF31',
+    name: 'Welcome Trophy',
+    levels: [
+      { tier:'gold',   label:'First Steps',     desc:'Joined HealScape — this is your safe place, and we\'re glad you\'re here', req: true, how:'' },
+    ]
+  },
+];
+
+// Resolve each set to its current best unlocked level
+    var BADGE_DEFS = [];
+    TROPHY_SETS.forEach(function(set) {
+      var best = null;
+      for (var i = set.levels.length - 1; i >= 0; i--) {
+        if (set.levels[i].req) { best = i; break; }
+      }
+      // Next locked level (for progress hint)
+      var nextLocked = best === null ? set.levels[0] : (best < set.levels.length - 1 ? set.levels[best + 1] : null);
+      var current = best !== null ? set.levels[best] : null;
+    
+      BADGE_DEFS.push({
+        icon:     set.icon,
+        name:     set.name,
+        tier:     current ? current.tier : 'locked',
+        label:    current ? current.label : set.name,
+        desc:     current ? current.desc  : '',
+        unlocked: current !== null,
+        how:      nextLocked ? nextLocked.how : '',
+        nextLabel:nextLocked ? nextLocked.label : '',
+        nextTier: nextLocked ? nextLocked.tier : '',
+        maxed:    current && !nextLocked,
+        levelNum: best !== null ? (best + 1) : 0,
+        maxLevel: set.levels.length,
+      });
+    });
+    
     var earnedCount = BADGE_DEFS.filter(function(b){ return b.unlocked; }).length;
+
     var badgesHTML = BADGE_DEFS.map(function(b) {
-      return '<div style="display:flex;flex-direction:column;align-items:center;gap:5px;padding:13px 8px 11px;border-radius:13px;border:1.5px solid ' + (b.unlocked ? t.actBdr : t.pillBdr) + ';background:' + (b.unlocked ? t.actBg : t.pillBg) + ';transition:all .2s">' +
-        '<div style="font-size:26px;' + (b.unlocked ? '' : 'filter:grayscale(1);opacity:.45') + '">' + b.icon + '</div>' +
-        '<div style="font-family:Cinzel,serif;font-size:10px;font-weight:700;color:' + (b.unlocked ? t.actCol : t.sub) + ';text-align:center;line-height:1.2">' + b.label + '</div>' +
-        '<div style="font-size:8px;color:' + t.sub + ';text-align:center;line-height:1.3">' + (b.unlocked ? '<span style="color:' + t.actCol + '">✓ Unlocked</span>' : 'Need: ' + b.how) + '</div>' +
-        '</div>';
-    }).join('');
-    contentHTML =
-      '<div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px 20px">' +
-        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">' +
-          '<div style="font-family:Cinzel,serif;font-size:10px;color:' + t.label + ';letter-spacing:2px">YOUR BADGES</div>' +
-          '<div style="font-family:Cinzel,serif;font-size:11px;color:' + t.actCol + ';background:' + t.actBg + ';border:1px solid ' + t.actBdr + ';border-radius:8px;padding:3px 10px">' + earnedCount + ' / ' + BADGE_DEFS.length + '</div>' +
-        '</div>' +
-        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">' + badgesHTML + '</div>' +
+      var tc = {
+        gold:   { col:'#ffd54f', bg:'rgba(255,213,79,.13)',  bdr:'rgba(255,213,79,.45)',  glow:'rgba(255,213,79,.22)'  },
+        silver: { col:'#e0e0e0', bg:'rgba(200,200,200,.11)', bdr:'rgba(200,200,200,.45)', glow:'rgba(200,200,200,.18)' },
+        bronze: { col:'#cd7f32', bg:'rgba(205,127,50,.13)',  bdr:'rgba(205,127,50,.45)',  glow:'rgba(205,127,50,.18)'  },
+        locked: { col: isDark?'rgba(255,255,255,.2)':'rgba(0,0,0,.2)', bg:'rgba(255,255,255,.02)', bdr: isDark?'rgba(255,255,255,.07)':'rgba(0,0,0,.07)', glow:'none' },
+      }[b.tier] || {};
+
+      var cardGlow = b.unlocked ? ('0 0 14px '+tc.glow+', 0 2px 6px rgba(0,0,0,.22)') : '0 1px 4px rgba(0,0,0,.12)';
+
+      // Pip dots showing level progress
+      var pips = '';
+      for (var p = 0; p < b.maxLevel; p++) {
+        var filled = p < b.levelNum;
+        var pipTier = b.maxLevel > 1 ? ['bronze','silver','gold'][p] || 'gold' : b.tier;
+        var pipCol = filled ? ({ gold:'#ffd54f', silver:'#e0e0e0', bronze:'#cd7f32' }[pipTier] || '#ffd54f') : (isDark?'rgba(255,255,255,.15)':'rgba(0,0,0,.15)');
+        pips += '<div style="width:6px;height:6px;border-radius:50%;background:'+pipCol+';'+(filled?'box-shadow:0 0 4px '+pipCol:'')+'"></div>';
+      }
+
+      // Next level hint
+      var hint = '';
+      if (b.unlocked && !b.maxed && b.how) {
+        var ntc = { gold:'#ffd54f', silver:'#e0e0e0', bronze:'#cd7f32' }[b.nextTier] || '#aaa';
+        hint = '<div style="font-size:7.5px;color:'+ntc+';opacity:.75;margin-top:1px">\u25b2 '+b.nextLabel+': '+b.how+'</div>';
+      } else if (!b.unlocked && b.how) {
+        hint = '<div style="font-size:7.5px;color:'+(isDark?'rgba(255,255,255,.35)':'rgba(0,0,0,.35)')+';margin-top:1px">\uD83D\uDD12 '+b.how+'</div>';
+      } else if (b.maxed) {
+        hint = '<div style="font-size:7.5px;color:'+tc.col+';margin-top:1px">\u2605 Maxed out!</div>';
+      }
+
+      return '<div style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 6px 9px;border-radius:14px;border:1.5px solid '+tc.bdr+';background:'+tc.bg+';box-shadow:'+cardGlow+';text-align:center;position:relative">' +
+        (b.unlocked ? '<div style="position:absolute;top:5px;left:7px;font-family:Cinzel,serif;font-size:6.5px;font-weight:700;color:'+tc.col+';letter-spacing:.6px;opacity:.8">'+b.tier.toUpperCase()+'</div>' : '') +
+        trophySVG(b.unlocked ? b.tier : 'bronze', b.icon, b.unlocked) +
+        (b.maxLevel > 1 ? '<div style="display:flex;gap:4px;align-items:center;margin-top:1px">'+pips+'</div>' : '') +
+        '<div style="font-family:Cinzel,serif;font-size:9.5px;font-weight:700;color:'+tc.col+';line-height:1.2;margin-top:2px">' + b.label + '</div>' +
+        '<div style="font-size:7.5px;line-height:1.35;color:'+(isDark?'rgba(255,255,255,.42)':'rgba(0,0,0,.42)')+';max-width:92px">' + (b.unlocked ? b.desc : b.name) + '</div>' +
+        hint +
       '</div>';
+    }).join('');
+
+    contentHTML =
+      '<div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 12px 20px">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">' +
+          '<div style="font-family:Cinzel,serif;font-size:10px;color:'+t.label+';letter-spacing:2px">TROPHY CASE</div>' +
+          '<div style="font-family:Cinzel,serif;font-size:11px;color:'+t.actCol+';background:'+t.actBg+';border:1px solid '+t.actBdr+';border-radius:8px;padding:3px 10px">' + earnedCount + ' / ' + BADGE_DEFS.length + '</div>' +
+        '</div>' +
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">' + badgesHTML + '</div>' +
+      '</div>';
+
   }
 
   // ── Assemble ─────────────────────────────────────────────────
@@ -4020,13 +4426,14 @@ function _initTabSwipe() {
 }
 
 function buildHeroesTab() {
-  // Legacy shim — just open the overlay
-  openHeroesOverlay();
+  // Opens only when user taps Heroes tab
 }
 
 
 function setLBBoard(b) {
-  lbBoard = b; buildHeroesTab();
+  lbBoard = b;
+  var _hov = document.getElementById('heroesOverlay');
+  if (_hov && !_hov.classList.contains('hidden')) { buildHeroesOverlay(); }
 }
 
 
@@ -4077,56 +4484,74 @@ function renderLBRows() {
 
   let sorted, scoreKey, scoreLabel, lowerBetter = false;
 
-  if (lbBoard === 'Farm Level') {
-    sorted = stableSort(entries, e => e.farmLvl || 0);
+  if (lbBoard === 'Farm:Level') {
+    sorted = stableSort(entries, function(e){ return e.farmLvl || 0; });
     scoreKey = 'farmLvl'; scoreLabel = 'Farm Lv.';
-  } else if (lbBoard === 'Farm Coins') {
-    sorted = stableSort(entries, e => e.farmCoins || 0);
+  } else if (lbBoard === 'Farm:Coins') {
+    sorted = stableSort(entries, function(e){ return e.farmCoins || 0; });
     scoreKey = 'farmCoins'; scoreLabel = 'Coins';
-  } else if (lbBoard === 'Memory 🗓️' || lbBoard === 'Memory') {
-    const myWeekBest = getMemWeekBest();
+  } else if (lbBoard === 'Farm:Harvests') {
+    sorted = stableSort(entries, function(e){ return e.farmHarvests || 0; });
+    scoreKey = 'farmHarvests'; scoreLabel = 'Harvests';
+  } else if (lbBoard === 'Games:Memory') {
+    var myWeekBest = getMemWeekBest();
     if (myWeekBest > 0 && state.activeProfile) {
       state.profiles[state.activeProfile.id].memBest = myWeekBest;
       if (_lbScores[state.activeProfile.id]) _lbScores[state.activeProfile.id].memBest = myWeekBest;
     }
-    sorted = [...entries].sort((a, b) => {
-      const av = a.memBest || 0, bv = b.memBest || 0;
-      if (!av && !bv) return a.id < b.id ? -1 : 1;
-      if (!av) return 1; if (!bv) return -1;
-      return av !== bv ? av - bv : (a.id < b.id ? -1 : 1);
+    sorted = entries.slice().sort(function(a,b){
+      var av=a.memBest||0,bv=b.memBest||0;
+      if(!av&&!bv) return a.id<b.id?-1:1;
+      if(!av) return 1; if(!bv) return -1;
+      return av!==bv?av-bv:(a.id<b.id?-1:1);
     });
     scoreKey = 'memBest'; scoreLabel = 'Moves'; lowerBetter = true;
+  } else if (lbBoard === 'Games:TTT') {
+    sorted = stableSort(entries, function(e){ return e.tttWins || 0; });
+    scoreKey = 'tttWins'; scoreLabel = 'TTT Wins';
+  } else if (lbBoard === 'Games:C4') {
+    sorted = stableSort(entries, function(e){ return e.c4Wins || 0; });
+    scoreKey = 'c4Wins'; scoreLabel = 'C4 Wins';
   } else {
-    sorted = stableSort(entries, e => e.xp || 0);
+    sorted = stableSort(entries, function(e){ return e.xp || 0; });
     scoreKey = 'xp'; scoreLabel = 'Total XP';
   }
 
   const maxScore = lowerBetter ? 1 : Math.max(1, ...sorted.map(e => e[scoreKey] || 0));
   const trophies = ['🏆','🥈','🥉'];
 
-  rows.innerHTML = sorted.map((e, i) => {
-    const score    = e[scoreKey] || 0;
-    const hasScore = score > 0;
-    const trophy   = hasScore && i < 3 ? trophies[i] : '';
-    const rankLabel = hasScore ? (trophy || ('#' + (i + 1))) : '--';
-    const pct = !hasScore ? 0 : lowerBetter
-      ? Math.max(5, Math.round((maxScore - score) / Math.max(maxScore, 1) * 100))
-      : Math.round(score / maxScore * 100);
-    const onlineSt = onlineStatusLabel(e.id, e.isMe);
-    const friendBadge = e.roleType === 'friend' ? ' <span style="font-size:9px;background:rgba(66,165,245,.12);color:#90caf9;border-radius:4px;padding:1px 5px">FRIEND</span>' : '';
-    return `<div class="lb-row" style="${e.isMe ? 'border-color:rgba(192,144,26,0.5);background:rgba(192,144,26,0.06)' : ''}">
-      <div class="lb-rank" style="font-size:${trophy ? 16 : 12}px">${rankLabel}</div>
-      <div class="lb-avatar" style="background:${hexAlpha(e.color || '#42a5f5', 0.2)};position:relative">
-        ${e.avatar || e.icon}
-        <span style="position:absolute;bottom:-1px;right:-1px;width:9px;height:9px;border-radius:50%;background:${onlineSt.dot};border:1.5px solid var(--stone2);display:block"></span>
-      </div>
-      <div class="lb-info">
-        <div class="lb-name">${e.displayName || e.name}${e.isMe ? ' <span style="font-size:9px;background:rgba(192,144,26,.15);color:rgba(192,144,26,.8);border-radius:4px;padding:1px 5px">YOU</span>' : ''}${friendBadge}</div>
-        <div class="lb-class">${e.cls} <span style="font-size:9px;color:${onlineSt.dot};margin-left:4px">${onlineSt.label}</span></div>
-        <div class="lb-bar-wrap"><div class="lb-bar-fill" style="background:${e.color || '#42a5f5'};width:${hasScore ? pct : 0}%;opacity:${hasScore ? 1 : 0.15}"></div></div>
-      </div>
-      <div class="lb-score" style="opacity:${hasScore ? 1 : 0.3}">${hasScore ? score.toLocaleString() : '--'}<div style="font-size:9px;color:var(--text2);font-family:'Crimson Pro',serif">${scoreLabel}</div></div>
-    </div>`;
+  rows.innerHTML = sorted.map(function(e, i) {
+    var score    = e[scoreKey] || 0;
+    var hasScore = score > 0;
+    var RT = ['🏆','🥈','🥉'];
+    var trophy   = (hasScore && i < 3) ? RT[i] : '';
+    var rankLabel = hasScore ? (trophy || ('#' + (i + 1))) : '--';
+    var maxSc    = sorted.reduce(function(a,x){ return Math.max(a, x[scoreKey]||0); }, 1);
+    var pct      = hasScore ? (lowerBetter
+      ? Math.max(5, Math.round((maxSc - score) / maxSc * 100))
+      : Math.round(score / maxSc * 100)) : 0;
+    var onlineSt = onlineStatusLabel(e.id, e.isMe);
+    var fb2 = e.roleType === 'friend'
+      ? '<span style="font-size:9px;background:rgba(66,165,245,.12);color:#90caf9;border-radius:4px;padding:1px 5px;margin-left:4px">FRIEND</span>' : '';
+    var yb = e.isMe
+      ? '<span style="font-size:9px;background:rgba(192,144,26,.15);color:rgba(192,144,26,.8);border-radius:4px;padding:1px 5px;margin-left:4px">YOU</span>' : '';
+    var rowBg = e.isMe ? 'border-color:rgba(192,144,26,0.5);background:rgba(192,144,26,0.06)' : '';
+    return '<div class="lb-row" style="'+rowBg+'">'
+      +'<div class="lb-rank" style="font-size:'+(trophy?'16':'12')+'px">'+rankLabel+'</div>'
+      +'<div class="lb-avatar" style="background:'+hexAlpha(e.color||'#42a5f5',0.2)+';position:relative">'
+        +(e.avatar||e.icon)
+        +'<span style="position:absolute;bottom:-1px;right:-1px;width:9px;height:9px;border-radius:50%;background:'+onlineSt.dot+';border:1.5px solid var(--stone2);display:block"></span>'
+      +'</div>'
+      +'<div class="lb-info">'
+        +'<div class="lb-name">'+(e.displayName||e.name)+yb+fb2+'</div>'
+        +'<div class="lb-class">'+e.cls+' <span style="font-size:9px;color:'+onlineSt.dot+';margin-left:4px">'+onlineSt.label+'</span></div>'
+        +'<div class="lb-bar-wrap"><div class="lb-bar-fill" style="background:'+(e.color||'#42a5f5')+';width:'+(hasScore?pct:0)+'%;opacity:'+(hasScore?1:0.15)+'"></div></div>'
+      +'</div>'
+      +'<div class="lb-score" style="opacity:'+(hasScore?1:0.3)+'">'
+        +(hasScore?score.toLocaleString():'--')
+        +'<div style="font-size:9px;color:var(--text2);font-family:Crimson Pro,serif">'+scoreLabel+'</div>'
+      +'</div>'
+    +'</div>';
   }).join('');
 }
 
@@ -4822,6 +5247,13 @@ function calmDropToggle() {
   if (list) list.style.display = _calmDropOpen ? 'block' : 'none';
   if (chev) chev.style.transform = _calmDropOpen ? 'rotate(180deg)' : 'rotate(0deg)';
 }
+function calmDropClose() {
+  _calmDropOpen = false;
+  var list = document.getElementById('calmDropList');
+  var chev = document.getElementById('calmDropChev');
+  if (list) list.style.display = 'none';
+  if (chev) chev.style.transform = 'rotate(0deg)';
+}
 
 function renderCalmTool(cardBg, cardBorder, textCol, subCol, isDark) {
   var t = calmActiveTool;
@@ -4928,6 +5360,7 @@ function toggleBoxBreath() {
     }
   } else {
     bbRunning = true; bbPhase = 0; bbTick = 0; bbLast = null;
+    sfxBreathPhase(0);
     bbSessionStart = Date.now();
     // Do a full render once to build the DOM with the ball element
     renderCalmTab();
@@ -4936,7 +5369,7 @@ function toggleBoxBreath() {
       if (!bbLast) bbLast = ts;
       var dt = (ts - bbLast) / 1000; bbLast = ts;
       bbTick += dt * 60;
-      if (bbTick >= 4 * 60) { bbTick = 0; bbPhase = (bbPhase + 1) % 4; bbUpdateBreathUI(); }
+      if (bbTick >= 4 * 60) { bbTick = 0; bbPhase = (bbPhase + 1) % 4; bbUpdateBreathUI(); sfxBreathPhase(bbPhase); }
       else { bbUpdateCountdown(); }
       bbRaf = requestAnimationFrame(loop);
     }
@@ -5717,6 +6150,27 @@ function completeQuest(questId, xp, sectionId) {
   var prevXP = (p.xp || 0) - xp;
   if (Math.floor(p.xp / 500) > Math.floor(prevXP / 500)) { setTimeout(sfxXPLevelUp, 300); }
   showToast('⭐', '+' + xp + ' XP', 'Quest complete!');
+  setTimeout(function(){ try{ miloBoostFromQuest(xp); }catch(e){} }, 600);
+  // Star burst particles
+  if (item) {
+    var rect = item.getBoundingClientRect();
+    var cx = rect.left + rect.width/2;
+    var cy = rect.top  + rect.height/2;
+    item.classList.add('quest-done-burst');
+    item.addEventListener('animationend', function(){ item.classList.remove('quest-done-burst'); }, {once:true});
+    ['⭐','✨','⭐','✨','⭐'].forEach(function(star, i) {
+      var p = document.createElement('div');
+      p.className = 'quest-star-particle';
+      p.textContent = star;
+      var angle = (i / 5) * 360;
+      var dist  = 40 + Math.random() * 30;
+      p.style.left = (cx + Math.cos(angle * Math.PI/180) * dist) + 'px';
+      p.style.top  = (cy + Math.sin(angle * Math.PI/180) * dist) + 'px';
+      p.style.animationDelay = (i * 0.06) + 's';
+      document.body.appendChild(p);
+      p.addEventListener('animationend', function(){ p.remove(); });
+    });
+  }
 }
 
 function updateSectionProgress(secId) {
@@ -6177,7 +6631,13 @@ function farmTapPlot(idx) {
       saveGFarm(gFarm);
       sfxWater(); farmFloat('💧 Watered!', '#60c0ff');
       farmRenderPlots();
-      if (!gFarmNudgeShown.has('water')) { gFarmNudgeShown.add('water'); setTimeout(() => farmNudge('water'), 800); }
+      // Water nudge: max 3 times per day
+      var _wKey = 'hs_water_nudge_' + new Date().toDateString();
+      var _wCount = parseInt(localStorage.getItem(_wKey) || '0');
+      if (_wCount < 3) {
+        localStorage.setItem(_wKey, _wCount + 1);
+        setTimeout(() => farmNudge('water'), 800);
+      }
     }
     return;
   }
@@ -6480,6 +6940,7 @@ function buildFarmTab() {
   farmInit();
   // Start voxel scene after render
   setTimeout(buildFarmScene, 100);
+  setTimeout(showFarmSeasonPopup, 350);
 }
 
 function farmRender() {
@@ -6507,48 +6968,6 @@ function farmRender() {
 
     <!-- Achievement pill -->
     <div id="farmAchBar" class="farm-achievement hidden"></div>
-
-    <!-- Seasonal banner -->
-    ${(function(){
-      const s = getFarmSeason();
-      const active = s.eventActive();
-      const bg = {spring:'rgba(255,200,220,.12)',summer:'rgba(255,220,80,.12)',autumn:'rgba(200,100,30,.15)',winter:'rgba(120,180,220,.15)'}[s.key]||'rgba(255,200,220,.12)';
-      const bc = {spring:'rgba(255,150,180,.3)',summer:'rgba(255,200,60,.3)',autumn:'rgba(200,100,30,.3)',winter:'rgba(100,160,220,.3)'}[s.key]||'rgba(255,150,180,.3)';
-      return `<div style="margin:6px 10px 2px;padding:8px 12px;border-radius:12px;border:1px solid ${bc};background:${bg};display:flex;align-items:center;justify-content:space-between;gap:8px">
-        <div style="display:flex;align-items:center;gap:8px">
-          <span style="font-size:18px">${s.icon}</span>
-          <div>
-            <div style="font-family:'Cinzel',serif;font-size:11px;font-weight:700;color:rgba(255,255,255,.85)">${s.name} Season</div>
-            ${active ? `<div style="font-size:10px;color:rgba(255,220,120,.8)">✨ ${s.eventName} is active!</div>` : `<div style="font-size:10px;color:rgba(255,255,255,.4)">Seasonal crops available in the shop</div>`}
-          </div>
-        </div>
-        ${active ? `<span style="font-size:20px">${s.eventIcon}</span>` : ''}
-      </div>`;
-    })()}
-
-    <!-- Voxel 3D Scene -->
-    <div class="farm-scene" id="farmSceneWrap">
-      ${farmSceneSkyHTML()}
-    </div>
-
-    <!-- 3D Voxel Fence Strip -->
-    <div class="farm-ground-strip">
-      <div class="farm-fence-wrap">
-        ${Array.from({length:14}, () => '<div class="fence-post-3d"><div class="fence-body"></div></div>').join('')}
-        <div class="fence-rail-3d" style="top:6px"></div>
-        <div class="fence-rail-3d" style="top:14px"></div>
-      </div>
-    </div>
-
-    <!-- HUD -->
-    <div class="farm-hud" id="farmHUD">
-      <div class="farm-level-badge">Lv.${gFarm.lvl}</div>
-      <div class="farm-xp-bar-wrap"><div class="farm-xp-bar" id="farmXpBar" style="width:${xpPct}%"></div></div>
-      <div class="farm-hud-stat"><span style="font-size:14px">💰</span><div class="farm-hud-val" id="farmCoins">${gFarm.coins.toLocaleString()}</div></div>
-      <div class="farm-hud-stat"><span style="font-size:14px">🌾</span><div class="farm-hud-val" id="farmHarvests">${gFarm.stats.harvests}</div></div>
-      ${slowMode?'<div class="slow-badge">🐢 Slow</div>':''}
-    </div>
-    ${slowMode?`<div class="slow-mode-bar" style="width:${Math.min(100,((gFarmPlayMins-20)/10*100))}%"></div>`:''}
 
     <!-- Scrollable content -->
     <div class="farm-scroll" id="farmScroll">
@@ -6620,7 +7039,7 @@ function farmRender() {
       <div class="farm-action-btn" onclick="farmShowAnimalSheet()">
         <div class="fab-icon">🐄</div><div class="fab-lbl">ANIMALS</div>
       </div>
-      <div class="farm-action-btn" onclick="gFarmView='milo';farmRender()">
+      <div class="farm-action-btn" onclick="gFarmView='milo';farmRender();setTimeout(showMiloSeasonPopup,350)">
         <div class="fab-icon" style="display:flex;align-items:center;justify-content:center;height:22px"><img id="miloFabIcon" src="milo-icon-toggle.png" style="height:26px;width:auto;object-fit:contain;mix-blend-mode:screen;margin-top:-2px"></div><div class="fab-lbl">MILO</div>
       </div>
     </div>
@@ -7458,7 +7877,7 @@ function miloReceiveGift(notif) {
   showToast('🎁', notif.title || 'Milo got a gift!', 'Tap to go open it! 🐰', function() {
     setTab('FARM');
     setTimeout(function() {
-      if (gFarmView !== 'milo') { gFarmView = 'milo'; farmRender(); }
+      if (gFarmView !== 'milo') { gFarmView = 'milo'; farmRender(); setTimeout(showMiloSeasonPopup, 350); }
     }, 320);
   });
 }
@@ -7862,16 +8281,34 @@ function miloFarmRender(panel) {
       '<div class="milo-scene-wrap" id="miloSceneWrap">' +
         miloSceneSkyHTML() +
         '<div id="miloVoxelScene" style="position:absolute;inset:0;pointer-events:none;overflow:hidden"></div>' +
+        '<button onclick="miloLeaveHabitat()" class="milo-back-btn">&#x2190; Farm</button>' +
+        '<div id="miloSeasonPopup"></div>' +
         '<div id="miloAlert" class="milo-alert"></div>' +
         '<div id="miloBubble" class="milo-bubble"></div>' +
+        '<div id="miloGrowthOverlay" style="position:absolute;top:0;left:0;right:0;z-index:20;padding:4px 10px 5px;background:linear-gradient(180deg,rgba(0,0,0,.52) 0%,transparent 100%);display:flex;align-items:center;gap:8px">' +
+        '<span style="font-size:8px;color:rgba(200,150,255,.75);font-family:Cinzel,serif;white-space:nowrap">' + miloGetStage(s.age).emoji + ' ' + miloGetStage(s.age).name + '</span>' +
+        '<div style="flex:1;height:3px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden">' +
+          (function(){ var _st=miloGetStage(s.age); var _ns=MILO_STAGES[MILO_STAGES.indexOf(_st)+1]; var _p=_ns?Math.min(100,Math.round((s.age-_st.minAge)/(_ns.minAge-_st.minAge)*100)):100; return '<div style="height:100%;border-radius:2px;background:linear-gradient(90deg,#9c27b0,#7c4dff);width:'+_p+'%"></div>'; })() +
+        '</div>' +
+        '<span style="font-size:8px;color:rgba(255,255,255,.35);font-family:Cinzel,serif;white-space:nowrap">Day ' + s.age + '</span>' +
+      '</div>' +
+'<div id="miloStatsOverlay" style="position:absolute;bottom:0;left:0;right:0;z-index:20;padding:3px 8px 5px;background:linear-gradient(0deg,rgba(0,0,0,.55) 0%,transparent 100%)">' +
+        '<div style="display:flex;gap:8px;align-items:center;margin-bottom:2px">' +
+          '<span style="font-size:8px;color:rgba(255,255,255,.55);font-family:Cinzel,serif">🍎</span>' +
+          '<div style="flex:1;height:3px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden"><div style="height:100%;border-radius:2px;background:' + (s.hunger>40?'#81c784':'#ef5350') + ';width:' + Math.round(s.hunger) + '%"></div></div>' +
+          '<span style="font-size:8px;color:rgba(255,255,255,.55);font-family:Cinzel,serif">💚</span>' +
+          '<div style="flex:1;height:3px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden"><div style="height:100%;border-radius:2px;background:' + (s.happiness>40?'#42a5f5':'#ef5350') + ';width:' + Math.round(s.happiness) + '%"></div></div>' +
+        '</div>' +
+        '<div style="display:flex;gap:8px;align-items:center">' +
+          '<span style="font-size:8px;color:rgba(255,255,255,.55);font-family:Cinzel,serif">⚡</span>' +
+          '<div style="flex:1;height:3px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden"><div style="height:100%;border-radius:2px;background:#ffca28;width:' + Math.round(s.energy) + '%"></div></div>' +
+          '<span style="font-size:8px;color:rgba(255,255,255,.55);font-family:Cinzel,serif">❤️</span>' +
+          '<div style="flex:1;height:3px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden"><div style="height:100%;border-radius:2px;background:' + (s.health>50?'#ef5350':'#ab47bc') + ';width:' + Math.round(s.health) + '%"></div></div>' +
+        '</div>' +
+      '</div>' +
       '</div>' +
       // Stats
-      '<div class="milo-stats-strip">' +
-        '<div class="milo-stat-row"><div class="milo-stat-lbl">\uD83C\uDF4E HUNGER</div>' + sbar(s.hunger, s.hunger > 40 ? '#81c784' : '#ef5350') + '<div class="milo-stat-val">' + Math.round(s.hunger) + '</div></div>' +
-        '<div class="milo-stat-row"><div class="milo-stat-lbl">\uD83D\uDC9A HAPPY</div>'  + sbar(s.happiness, s.happiness > 40 ? '#66bb6a' : '#ffa726') + '<div class="milo-stat-val">' + Math.round(s.happiness) + '</div></div>' +
-        '<div class="milo-stat-row"><div class="milo-stat-lbl">\u26A1 ENERGY</div>'       + sbar(s.energy, '#42a5f5') + '<div class="milo-stat-val">' + Math.round(s.energy) + '</div></div>' +
-        '<div class="milo-stat-row"><div class="milo-stat-lbl">\u2764\uFE0F HEALTH</div>' + sbar(s.health, s.health > 50 ? '#ef5350' : '#ab47bc') + '<div class="milo-stat-val">' + Math.round(s.health) + '</div></div>' +
-      '</div>' +
+      
       // Care buttons
       '<div class="milo-care-row">' +
         '<div id="miloBtnFeed" class="milo-care-btn' + (sl ? ' disabled' : '') + (s.hunger < 35 ? ' pulse' : '') + '" onclick="miloOpenTreatPicker()">' +
@@ -7893,40 +8330,7 @@ function miloFarmRender(panel) {
           '<div class="milo-care-lbl" id="miloBtnSleepLbl">' + (sl ? 'WAKE' : 'SLEEP') + '</div></div>' +
       '</div>' +
       '<div class="milo-extra-section">' +
-        // ── Growth progress bar ──
-        (function() {
-          var stgIdx = 0;
-          for (var _i = 0; _i < MILO_STAGES.length; _i++) { if (s.age >= MILO_STAGES[_i].minAge) stgIdx = _i; }
-          var curStg = MILO_STAGES[stgIdx];
-          var nextStg = MILO_STAGES[stgIdx + 1];
-          var pct = 100;
-          var nextLabel = '';
-          if (nextStg) {
-            var span = nextStg.minAge - curStg.minAge;
-            var done = s.age - curStg.minAge;
-            pct = Math.min(100, Math.round((done / span) * 100));
-            var daysLeft = nextStg.minAge - s.age;
-            nextLabel = daysLeft + ' day' + (daysLeft === 1 ? '' : 's') + ' until ' + nextStg.name;
-          } else {
-            nextLabel = 'Fully grown \uD83C\uDF1F';
-          }
-          var stageIcons = MILO_STAGES.map(function(st, i) {
-            var active = i === stgIdx;
-            var past   = i < stgIdx;
-            return '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;opacity:' + (past||active?'1':'.3') + '">' +
-              '<div style="font-size:' + (active?'15':'11') + 'px;' + (active?'filter:drop-shadow(0 0 5px rgba(200,120,255,.7))':'') + '">' + st.emoji + '</div>' +
-              (active ? '<div style="width:3px;height:3px;border-radius:50%;background:#ce93d8"></div>' : '') +
-            '</div>';
-          }).join('');
-          return '<div class="milo-growth-strip">' +
-            '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px">' +
-              '<div style="font-family:Cinzel,serif;font-size:9px;color:rgba(200,150,255,.7);letter-spacing:1px">MILO\'S GROWTH</div>' +
-              '<div style="font-family:Cinzel,serif;font-size:9px;color:rgba(255,255,255,.35)">' + nextLabel + '</div>' +
-            '</div>' +
-            '<div class="milo-growth-track"><div class="milo-growth-fill" style="width:' + pct + '%"></div></div>' +
-            '<div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:2px">' + stageIcons + '</div>' +
-          '</div>';
-        })() +
+        // Growth now shown as scene overlay at top
         '<div id="miloChallengeCard" class="milo-challenge-card"></div>' +
         // Gift badge — only visible when pending gifts exist
         (((s.pendingGifts||[]).length > 0)
@@ -7937,8 +8341,7 @@ function miloFarmRender(panel) {
           '<button onclick="miloShowShop()" style="flex:1;padding:8px 4px;border:1px solid rgba(255,166,38,.25);border-radius:10px;background:rgba(255,166,38,.08);color:#ffa726;font-family:Cinzel,serif;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px">🏪 Treat Shop</button>' +
           '<button onclick="miloOpenGiftPicker()" style="flex:1;padding:8px 4px;border:1px solid rgba(100,180,255,.2);border-radius:10px;background:rgba(100,180,255,.06);color:rgba(140,200,255,.85);font-family:Cinzel,serif;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px">🎁 Send Gift</button>' +
         '</div>' +
-        // Back to Farm — full-width, clearly visible at bottom
-        '<button onclick="miloLeaveHabitat()" style="width:100%;margin-top:8px;padding:12px;border:1.5px solid rgba(100,220,80,.4);border-radius:12px;background:rgba(46,125,50,.35);color:#c8f5a0;font-family:Cinzel,serif;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:.5px;transition:background .15s" onmousedown="this.style.background=\'rgba(46,125,50,.6)\'" onmouseup="this.style.background=\'rgba(46,125,50,.35)\'" ontouchstart="this.style.background=\'rgba(46,125,50,.6)\'" ontouchend="this.style.background=\'rgba(46,125,50,.35)\'">&#x2190; Back to Farm</button>' +
+        // Back to Farm — see discreet overlay in scene-wrap
       '</div>' +
       // ── Milo AI Chat (floating panel) ─────────────────────────
       '<button class="milo-chat-fab" id="miloChatFab" onclick="miloToggleChat()" title="Talk to Milo" style="display:' + (_miloChatOpen ? 'none' : 'flex') + '">\uD83D\uDCAC</button>' +
@@ -8485,19 +8888,22 @@ function miloShowAlert(text) {
 }
 function miloUpdateStatBars() {
   var s = _miloState; if (!s) return;
+  // Legacy stat fills (not used by new overlay but keep for safety)
   var fills = document.querySelectorAll('.milo-stat-fill');
-  var vals  = document.querySelectorAll('.milo-stat-val');
   if (fills.length >= 4) {
     fills[0].style.width = s.hunger + '%';     fills[0].style.background = s.hunger > 40 ? '#81c784' : '#ef5350';
-    fills[1].style.width = s.happiness + '%';  fills[1].style.background = s.happiness > 40 ? '#66bb6a' : '#ffa726';
+    fills[1].style.width = s.happiness + '%';  fills[1].style.background = s.happiness > 40 ? '#42a5f5' : '#ef5350';
     fills[2].style.width = s.energy + '%';
     fills[3].style.width = s.health + '%';
   }
-  if (vals.length >= 4) {
-    vals[0].textContent = Math.round(s.hunger);
-    vals[1].textContent = Math.round(s.happiness);
-    vals[2].textContent = Math.round(s.energy);
-    vals[3].textContent = Math.round(s.health);
+  // Update growth top overlay
+  var growthOverlay = document.getElementById('miloGrowthOverlay');
+  if (growthOverlay && s) {
+    var _st = miloGetStage(s.age);
+    var _ns = MILO_STAGES[MILO_STAGES.indexOf(_st) + 1];
+    var _p  = _ns ? Math.min(100, Math.round((s.age - _st.minAge) / (_ns.minAge - _st.minAge) * 100)) : 100;
+    var _fill = growthOverlay.querySelector('div div div');
+    if (_fill) _fill.style.width = _p + '%';
   }
   // Refresh all care buttons disabled state + sleep button label
   miloRefreshCareButtons();
@@ -10073,6 +10479,42 @@ function sfxTone(freq, type, dur, vol, delay, attack, release) {
 }
 
 // ── SFX Sounds ───────────────────────────────────────────────────
+
+
+// Box breathing phase chimes -- soft, calm, eyes-closed friendly
+// Phase 0 INHALE:   C5 (523Hz) -- gentle rise
+// Phase 1 HOLD:     G4 (392Hz) -- steady, grounded
+// Phase 2 EXHALE:   E4 (330Hz) -- soft release
+// Phase 3 HOLD:     A3 (220Hz) -- deep rest
+function sfxBreathPhase(phase) {
+  if (!isSoundOn()) return;
+  try {
+    var ac = getAudioCtx();
+    var freqs = [523, 392, 330, 220];
+    var freq  = freqs[phase] || 392;
+    var o = ac.createOscillator();
+    var g = ac.createGain();
+    var f = ac.createBiquadFilter();
+    f.type = 'lowpass'; f.frequency.value = 1200; f.Q.value = 0.3;
+    o.connect(f); f.connect(g); g.connect(ac.destination);
+    o.type = 'sine';
+    o.frequency.setValueAtTime(freq, ac.currentTime);
+    g.gain.setValueAtTime(0, ac.currentTime);
+    g.gain.linearRampToValueAtTime(0.18, ac.currentTime + 0.12);
+    g.gain.setValueAtTime(0.18, ac.currentTime + 0.3);
+    g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + 1.5);
+    o.start(ac.currentTime); o.stop(ac.currentTime + 1.6);
+    var o2 = ac.createOscillator();
+    var g2 = ac.createGain();
+    o2.connect(f); g2.connect(ac.destination);
+    o2.type = 'sine';
+    o2.frequency.setValueAtTime(freq * 2, ac.currentTime);
+    g2.gain.setValueAtTime(0, ac.currentTime);
+    g2.gain.linearRampToValueAtTime(0.04, ac.currentTime + 0.15);
+    g2.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + 1.2);
+    o2.start(ac.currentTime); o2.stop(ac.currentTime + 1.3);
+  } catch(e) {}
+}
 
 // Coins gained — bright ascending jingle
 function sfxCoins(big) {
@@ -12824,19 +13266,49 @@ function renderGameHub(panel, r, isDark, ts) {
       '</div>';
   }
 
+  // Responsive layout: compact on small screens
+  var _vw = window.innerWidth || 360;
+  var _compact = _vw < 380;   // tiny phone
+  var _micro   = _vw < 340;   // very tiny
+
   var gameBtns = GAME_HUB_CATEGORIES.map(function(g) {
     if (g.locked) {
+      if (_micro) return '';  // hide locked on micro
       return '<div style="border-radius:12px;border:1px dashed rgba(255,255,255,.1);opacity:.4;padding:12px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center">' +
         '<span style="font-size:24px">' + g.icon + '</span>' +
         '<div style="font-family:Cinzel,serif;font-size:11px;color:var(--text2)">' + g.label + '</div>' +
-        '<div style="font-size:9px;color:var(--text2);font-family:Cinzel,serif">SOON</div>' +
       '</div>';
     }
     var soloBtnX = '';
-    if (g.id === 'tictactoe') soloBtnX = '<button onclick="startSoloTTT()" style="width:100%;padding:7px 4px;border-radius:8px;border:none;background:' + g.color + ';color:#fff;font-family:Cinzel,serif;font-size:10px;cursor:pointer;font-weight:700">🤖 Solo</button>';
-    if (g.id === 'connect4')  soloBtnX = '<button onclick="startSoloC4()" style="width:100%;padding:7px 4px;border-radius:8px;border:none;background:' + g.color + ';color:#fff;font-family:Cinzel,serif;font-size:10px;cursor:pointer;font-weight:700">🤖 Solo</button>';
-    if (g.id === 'trivia')    soloBtnX = '<button onclick="startSoloTrivia()" style="width:100%;padding:7px 4px;border-radius:8px;border:none;background:' + g.color + ';color:#fff;font-family:Cinzel,serif;font-size:10px;cursor:pointer;font-weight:700">🤖 Solo</button>';
-    if (g.id === 'memory')    soloBtnX = '<button onclick="startSoloMemory()" style="width:100%;padding:7px 4px;border-radius:8px;border:none;background:' + g.color + ';color:#fff;font-family:Cinzel,serif;font-size:10px;cursor:pointer;font-weight:700">🤖 Solo</button>';
+    if (!_compact) {
+      if (g.id === 'tictactoe') soloBtnX = '<button onclick="startSoloTTT()" style="width:100%;padding:7px 4px;border-radius:8px;border:none;background:' + g.color + ';color:#fff;font-family:Cinzel,serif;font-size:10px;cursor:pointer;font-weight:700">🤖 Solo</button>';
+      if (g.id === 'connect4')  soloBtnX = '<button onclick="startSoloC4()" style="width:100%;padding:7px 4px;border-radius:8px;border:none;background:' + g.color + ';color:#fff;font-family:Cinzel,serif;font-size:10px;cursor:pointer;font-weight:700">🤖 Solo</button>';
+      if (g.id === 'trivia')    soloBtnX = '<button onclick="startSoloTrivia()" style="width:100%;padding:7px 4px;border-radius:8px;border:none;background:' + g.color + ';color:#fff;font-family:Cinzel,serif;font-size:10px;cursor:pointer;font-weight:700">🤖 Solo</button>';
+      if (g.id === 'memory')    soloBtnX = '<button onclick="startSoloMemory()" style="width:100%;padding:7px 4px;border-radius:8px;border:none;background:' + g.color + ';color:#fff;font-family:Cinzel,serif;font-size:10px;cursor:pointer;font-weight:700">🤖 Solo</button>';
+    }
+
+    // Micro: icon-only pill
+    if (_micro) {
+      return '<button onclick="openGame(\'' + g.id + '\')" style="border-radius:14px;border:1.5px solid ' + g.color + '55;background:' + g.color + '18;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 6px;gap:4px;cursor:pointer;width:100%">' +
+        '<span style="font-size:28px">' + g.icon + '</span>' +
+        '<div style="font-family:Cinzel,serif;font-size:8px;color:' + g.color + ';font-weight:700;letter-spacing:.3px;text-align:center">' + g.label.split(' ').pop() + '</div>' +
+      '</button>';
+    }
+
+    // Compact: icon + label + multi btn only (no desc, no players badge, no solo)
+    if (_compact) {
+      return '<div style="border-radius:14px;border:1.5px solid ' + g.color + '33;background:' + g.color + '0d;overflow:hidden;display:flex;flex-direction:column">' +
+        '<div style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px 6px;text-align:center">' +
+          '<div style="width:36px;height:36px;border-radius:10px;background:' + g.color + '22;border:1.5px solid ' + g.color + '44;display:flex;align-items:center;justify-content:center;font-size:20px">' + g.icon + '</div>' +
+          '<div style="font-family:Cinzel,serif;font-size:10px;color:' + g.color + ';font-weight:700;line-height:1.2">' + g.label + '</div>' +
+        '</div>' +
+        '<div style="padding:0 6px 8px">' +
+          '<button onclick="openGame(\'' + g.id + '\')" style="width:100%;padding:6px 4px;border-radius:8px;border:1px solid ' + g.color + '55;background:' + g.color + '18;color:' + g.color + ';font-family:Cinzel,serif;font-size:9px;cursor:pointer;font-weight:700">👥 Play</button>' +
+        '</div>' +
+      '</div>';
+    }
+
+    // Normal: full card
     return '<div style="border-radius:14px;border:1.5px solid ' + g.color + '33;background:' + g.color + '0d;overflow:hidden;display:flex;flex-direction:column">' +
       '<div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 10px 8px;text-align:center">' +
         '<div style="width:42px;height:42px;border-radius:12px;background:' + g.color + '22;border:1.5px solid ' + g.color + '44;display:flex;align-items:center;justify-content:center;font-size:22px">' + g.icon + '</div>' +
@@ -13950,8 +14422,28 @@ function tttMove(idx) {
 }
 
 
+function _detachGameListener(key) {
+  if (window._fbUnsub && window._fbUnsub[key]) {
+    try { window._fbUnsub[key](); } catch(e) {}
+    delete window._fbUnsub[key];
+  }
+  if (window._fbOff && window._fbDb && window._fbRef) {
+    var paths = { ttt:'ttt', c4:'connect4', memory:'memory', gbingo:'gbingo', moodmirror:'moodmirror' };
+    if (paths[key]) {
+      try { window._fbOff(window._fbRef(window._fbDb(), paths[key])); } catch(e) {}
+    }
+  }
+  // Clear _reg so listener can re-subscribe fresh next game
+  if (window._fbUnsub) {
+    var reg = window._healscapeDb && window._healscapeDb._reg;
+  }
+  // Use the module-scoped _reg via a global bridge
+  if (window._clearGameReg) window._clearGameReg(key);
+}
+
 function tttQuit() {
   var r = state.activeProfile;
+  _detachGameListener('ttt');
   // Always leave the lobby cleanly
   if (r && window.FB && window.FB.ready()) window.FB.leaveLobby(C_TTT, r.id);
   if (_lobbyState[C_TTT] && _lobbyState[C_TTT].players) delete _lobbyState[C_TTT].players[r && r.id];
@@ -14447,6 +14939,7 @@ function _c4Header(onclose) {
 
 function c4Quit() {
   var r = state.activeProfile;
+  _detachGameListener('c4');
   if (r && window.FB && window.FB.ready()) window.FB.leaveLobby(C_C4, r.id);
   if (_lobbyState[C_C4] && _lobbyState[C_C4].players && r) {
     delete _lobbyState[C_C4].players[r.id];
@@ -15316,6 +15809,11 @@ function toggleReact(fbKey, emoji) {
 
 // ── boot ──────────────────────────────────────────────────────────
 window.addEventListener('load', boot);
+document.addEventListener('click', function(e) {
+  if (!_calmDropOpen) return;
+  var wrap = document.getElementById('calmDropWrap');
+  if (wrap && !wrap.contains(e.target)) calmDropClose();
+});
 
 // Close calm dropdown when tapping outside it
 document.addEventListener('click', function(e) {
@@ -15680,6 +16178,7 @@ function setCircleReplyIdx(idx) {
       + '</div><button class="circle-reply-close" onclick="clearCircleReply()">\xd7</button>';
   }
   var ta = document.getElementById('circleTextarea'); if (ta) ta.focus();
+  initCircleTypingListener();
 }
 function clearCircleReply() {
   circleReplyTo = null;
@@ -15837,11 +16336,8 @@ function renderCircle() {
   panel.innerHTML = `
     <div class="circle-wrap">
       <div class="circle-header">
-        <span class="circle-type-tag">${viewFriends ? '🤝 GROUP' : '👥 GROUP'}</span>
         <div class="circle-title">${viewFriends ? 'Friends Circle' : 'Family Circle'}</div>
         <div class="circle-online"><div class="circle-online-dot" style="background:${headerDotColor}"></div>${headerCountLabel}</div>
-        <button class="circle-hl-filter${_circleShowHL?' on':''}" onclick="toggleHLFilter()">⭐ ${_circleShowHL ? 'All' : 'Starred'}</button>
-        <button onclick="setTab('GAMES')" style="background:rgba(171,71,188,.2);border:1px solid rgba(171,71,188,.4);border-radius:8px;padding:4px 10px;color:#ce93d8;font-family:'Cinzel',serif;font-size:10px;cursor:pointer;letter-spacing:.5px;flex-shrink:0">🎮 GAMES</button>
         <button onclick="closeCirclePopup()" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:4px 10px;color:rgba(255,255,255,.45);font-size:18px;cursor:pointer;line-height:1;flex-shrink:0">×</button>
       </div>
       ${privacyNotice}
@@ -16350,6 +16846,7 @@ function openDM(peerId) {
   }
   // Focus textarea
   setTimeout(function() { var ta = document.getElementById('dmTextarea'); if (ta) ta.focus(); }, 300);
+  setTimeout(initDMTypingListener, 400);
 }
 
 function closeDM() {
@@ -17434,6 +17931,7 @@ function memoryFlip(idx) {
 
 function memoryQuit() {
   var r = state.activeProfile;
+  _detachGameListener('memory');
   if (_memState && _memState.solo) {
     _memState = null;
     _gameView = 'hub';
@@ -17781,6 +18279,7 @@ function gbingoClaim() {
 
 function gbingoQuit() {
   var r = state.activeProfile;
+  _detachGameListener('gbingo');
   if (r && window.FB && window.FB.ready()) window.FB.leaveLobby(C_GBINGO, r.id);
   _gbingoState = null;
   _gameView = 'hub';
@@ -18069,6 +18568,7 @@ function mmNextRound() {
 
 function mmQuit() {
   var r = state.activeProfile;
+  _detachGameListener('moodmirror');
   if (r && window.FB && window.FB.ready()) window.FB.leaveLobby(C_MOODMIRROR, r.id);
   _mmState = null;
   _gameView = 'hub';
@@ -18430,6 +18930,430 @@ function renderMoodMirrorPanel(panel, r, isDark) {
   // Run once after load so initial bottom / maxHeight is set from JS too
   window.addEventListener('load', adjust);
 })();
+
+// TUTORIAL
+var _tutActive=false,_tutIdx=0,_tutGlowEl=null;
+var _tutSteps=[
+  {id:"quests",icon:"\u2694\uFE0F",title:"Quests",body:"Complete quests to earn XP and level up. Each quest has small tasks to check off as you go.",tab:"tb-QUESTS",arrow:"down"},
+  {id:"daily",icon:"\uD83D\uDCC5",title:"Daily Check-In",body:"Tap Daily Check-In every day to log how you are feeling. Finish all dailies to keep your streak going.",tab:"tb-DAILY",arrow:"down"},
+  {id:"farm",icon:"\uD83C\uDF3E",title:"Your Farm",body:"Plant crops, harvest them for coins, and care for Milo your rabbit companion in the habitat.",tab:"tb-FARM",arrow:"down"},
+  {id:"games",icon:"\uD83C\uDFAE",title:"Games + Circle",body:"Play multiplayer games with family, send Thinking of You messages, and chat in the Circle.",tab:"tb-GAMES",arrow:"down"},
+  {id:"calm",icon:"\uD83E\uDDD8",title:"Calm Tools",body:"Box breathing, body scan, grounding exercises. Come here whenever you need to reset.",tab:"tb-CALM",arrow:"down"},
+  {id:"hud",icon:"\u2728",title:"Your Profile",body:"Your XP and level are shown here. Tap FAM or FRND to switch between family and friends realms.",tab:"hud",arrow:"up"}
+];
+function _tutSeen(r){try{return JSON.parse(localStorage.getItem("hs_tut2_"+r)||"[]");}catch(e){return[];}}
+function _tutMarkDone(r,id){try{var s=_tutSeen(r);if(s.indexOf(id)===-1)s.push(id);localStorage.setItem("hs_tut2_"+r,JSON.stringify(s));}catch(e){}}
+function _tutMarkAll(r){try{localStorage.setItem("hs_tut2_"+r,JSON.stringify(_tutSteps.map(function(s){return s.id;})));}catch(e){}}
+function _tutClearGlow(){if(_tutGlowEl){_tutGlowEl.classList.remove("tut-tab-glow");_tutGlowEl=null;}}
+function tutStart(rid){
+  var seen=_tutSeen(rid);
+  var pending=_tutSteps.filter(function(s){return seen.indexOf(s.id)===-1;});
+  if(!pending.length)return;
+  _tutActive=true;_tutIdx=0;window._tutPending=pending;_tutShow(0);
+}
+function _tutShow(idx){
+  var steps=window._tutPending||_tutSteps;
+  if(idx>=steps.length){tutClose();return;}
+  var step=steps[idx];_tutIdx=idx;
+  if(step.tab&&step.tab!=="hud")setTab(step.tab.replace("tb-",""));
+  setTimeout(function(){
+    _tutClearGlow();
+    var tabEl=document.getElementById(step.tab);
+    if(tabEl){tabEl.classList.add("tut-tab-glow");_tutGlowEl=tabEl;}
+    var arr=document.getElementById("tutArrow");
+    var card=document.getElementById("tutCard");
+    arr.className=step.arrow==="up"?"arr-up":"arr-down";
+    if(tabEl){
+      var r=tabEl.getBoundingClientRect();
+      var cx=r.left+r.width/2;  // center x of the tab button
+      var vw=window.innerWidth;
+      var cw=Math.min(vw*0.72,260); // card width
+      // Pin card so its horizontal center aligns with tab center
+      var cl=Math.max(6,Math.min(cx-cw/2,vw-cw-6));
+      card.style.left=cl+"px";
+      card.style.transform="none";
+      // Arrow points from card down to tab - offset within card
+      var arrowOff=Math.max(12,Math.min(cx-cl-8,cw-28));
+      arr.style.left=arrowOff+"px";
+    }else{
+      card.style.left="50%";card.style.transform="translateX(-50%)";arr.style.left="50%";
+    }
+    if(step.arrow==="up"){
+      // HUD step: card below the HUD bar
+      card.style.top="68px";card.style.bottom="auto";
+    }else{
+      // Tab steps: card sits just above the tab bar (tab bar ~60px tall)
+      card.style.bottom="68px";card.style.top="auto";
+    }
+    document.getElementById("tutIcon").textContent=step.icon;
+    document.getElementById("tutTitle").textContent=step.title;
+    document.getElementById("tutBody").textContent=step.body;
+    var nb=document.getElementById("tutNextBtn");
+    nb.textContent=idx===steps.length-1?"Get Started!":"Next \u2192";
+    var pills=document.getElementById("tutPills");pills.innerHTML="";
+    steps.forEach(function(_,i){
+      var p=document.createElement("div");
+      p.className="tut-pill"+(i<idx?" tut-done":i===idx?" tut-cur":"");
+      pills.appendChild(p);
+    });
+    document.getElementById("tutOverlay").classList.add("tut-on");
+  },150);
+}
+function tutNext(){
+  var steps=window._tutPending||_tutSteps;
+  var rid=state.activeProfile&&state.activeProfile.id;
+  if(rid)_tutMarkDone(rid,steps[_tutIdx].id);
+  var next=_tutIdx+1;
+  if(next>=steps.length){tutClose();}else{_tutShow(next);}
+}
+function tutSkip(){
+  var rid=state.activeProfile&&state.activeProfile.id;
+  if(rid)_tutMarkAll(rid);
+  tutClose();
+}
+function tutClose(){
+  _tutActive=false;_tutClearGlow();
+  document.getElementById("tutOverlay").classList.remove("tut-on");
+  setTab("QUESTS");
+  setTimeout(checkAssessment,600);
+}
+// END TUTORIAL
+
+
+// ── ONBOARDING ─────────────────────────────────────────────────
+var _obRole     = null;
+var _obAvatar   = null;
+var _obFocus    = null;
+var _onboardDone = false;
+
+const OB_AVATARS = [
+  '🧝','🧙','🧚','🦸','🏹','🌸','🌿','⚡','👑','👸',
+  '🦊','🐺','🦁','🐉','🦄','🌺','🌊','🔮','🌙','☀️',
+  '💜','🌈','🎵','🍀','✨'
+];
+
+const OB_FOCUS_OPTIONS = [
+  {
+    id:    'selfcare',
+    icon:  '🌱',
+    title: 'Self-Care',
+    desc:  'Daily healing habits, mindfulness and looking after yourself.',
+    secs:  ['bounds','connect_all','boss']
+  },
+  {
+    id:    'support',
+    icon:  '💙',
+    title: 'Supporting Blake',
+    desc:  'Ways to show up, connect and be part of his recovery.',
+    secs:  ['p_connect','s_connect','connect_all','boss']
+  },
+  {
+    id:    'wellbeing',
+    icon:  '⚡',
+    title: 'Your Wellbeing',
+    desc:  'Taking care of yourself so you can be there for others.',
+    secs:  ['p_self','s_self','bounds','boss']
+  },
+  {
+    id:    'all',
+    icon:  '🏆',
+    title: 'Everything',
+    desc:  'See all quest categories and explore at your own pace.',
+    secs:  null // null = no filter, show all
+  },
+];
+
+function obStart(role) {
+  _obRole   = role;
+  _obAvatar = role.icon; // default to role icon
+  _obFocus  = null;
+  _onboardDone = false;
+
+  // Build avatar grid
+  var grid = document.getElementById('obAvatarGrid');
+  if (grid) {
+    grid.innerHTML = '';
+    OB_AVATARS.forEach(function(av) {
+      var btn = document.createElement('button');
+      btn.className = 'ob-av-btn' + (av === _obAvatar ? ' sel' : '');
+      btn.textContent = av;
+      btn.onclick = function() { obPickAvatar(av); };
+      grid.appendChild(btn);
+    });
+  }
+
+  // Pre-fill name
+  var ni = document.getElementById('obNameInput');
+  if (ni) {
+    ni.value = (state.profiles[role.id] && state.profiles[role.id].displayName) || role.name || '';
+    obCheckName();
+  }
+
+  // Build focus grid
+  var fg = document.getElementById('obFocusGrid');
+  if (fg) {
+    fg.innerHTML = '';
+    OB_FOCUS_OPTIONS.forEach(function(opt) {
+      var card = document.createElement('div');
+      card.className = 'ob-focus-card';
+      card.id = 'obfc-' + opt.id;
+      card.innerHTML =
+        '<div class="ob-focus-icon">' + opt.icon + '</div>' +
+        '<div class="ob-focus-info">' +
+          '<div class="ob-focus-title">' + opt.title + '</div>' +
+          '<div class="ob-focus-desc">' + opt.desc + '</div>' +
+        '</div>';
+      card.onclick = function() { obPickFocus(opt.id); };
+      fg.appendChild(card);
+    });
+  }
+
+  // Reset steps
+  obGoStep(1);
+  showScreen('onboard');
+}
+
+function obGoStep(n) {
+  [1,2,3].forEach(function(i) {
+    var el = document.getElementById('ob-step-' + i);
+    if (el) el.classList.toggle('active', i === n);
+  });
+}
+
+function obCheckName() {
+  var ni  = document.getElementById('obNameInput');
+  var btn = document.getElementById('obNameBtn');
+  if (btn) btn.disabled = !(ni && ni.value.trim().length >= 1);
+}
+
+function obPickAvatar(av) {
+  _obAvatar = av;
+  document.querySelectorAll('.ob-av-btn').forEach(function(b) {
+    b.classList.toggle('sel', b.textContent === av);
+  });
+}
+
+function obPickFocus(id) {
+  _obFocus = id;
+  document.querySelectorAll('.ob-focus-card').forEach(function(c) {
+    c.classList.toggle('sel', c.id === 'obfc-' + id);
+  });
+  var btn = document.getElementById('obFocusBtn');
+  if (btn) btn.disabled = false;
+}
+
+function obSkipFocus() {
+  _obFocus = 'all';
+  obFinish();
+}
+
+function obFinish() {
+  if (!_obRole) return;
+  var ni = document.getElementById('obNameInput');
+  var name = ni ? ni.value.trim() : '';
+  if (!name) name = _obRole.name;
+
+  // Save display name, avatar, and quest focus to profile
+  var p = state.profiles[_obRole.id];
+  if (!p) p = state.profiles[_obRole.id] = { xp: 0, pinHash: '', firstLogin: false };
+  p.displayName  = name;
+  p.avatar       = _obAvatar || _obRole.icon;
+  p.questFocus   = _obFocus || 'all';
+  p.onboardDone  = true;
+  saveState();
+
+  _onboardDone = true;
+  enterGame(_obRole);
+}
+
+// ── Quest focus filtering ──────────────────────────────────────
+// Wraps getQuestsForRole to apply focus filter if set
+var _origGetQuestsForRole = null;
+function _initQuestFocusFilter() {
+  _origGetQuestsForRole = getQuestsForRole;
+  getQuestsForRole = function(rid) {
+    var sections = _origGetQuestsForRole(rid);
+    var p = state.profiles[rid];
+    if (!p || !p.questFocus || p.questFocus === 'all') return sections;
+    var opt = OB_FOCUS_OPTIONS.find(function(o){ return o.id === p.questFocus; });
+    if (!opt || !opt.secs) return sections;
+    // Show focused sections first, then remaining dimmed (still accessible)
+    return sections.sort(function(a, b) {
+      var aIn = opt.secs.indexOf(a.id) >= 0;
+      var bIn = opt.secs.indexOf(b.id) >= 0;
+      if (aIn && !bIn) return -1;
+      if (!aIn && bIn) return 1;
+      return 0;
+    });
+  };
+}
+// ── END ONBOARDING ─────────────────────────────────────────────
+
+
+// -- DAILY STREAK -> FARM COINS --
+var _STREAK_KEY = 'hs_daily_streak_v1';
+function getStreak() {
+  try { return JSON.parse(localStorage.getItem(_STREAK_KEY) || '{"count":0,"lastDate":""}'); }
+  catch(e) { return { count: 0, lastDate: '' }; }
+}
+function saveStreak(obj) {
+  try { localStorage.setItem(_STREAK_KEY, JSON.stringify(obj)); } catch(e) {}
+}
+function updateDailyStreak() {
+  var today     = new Date().toISOString().slice(0, 10);
+  var streak    = getStreak();
+  var yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+  if (streak.lastDate === today) return streak;
+  streak.count = (streak.lastDate === yesterday) ? streak.count + 1 : 1;
+  streak.lastDate = today;
+  saveStreak(streak);
+  var coins = 0, msg = '';
+  if      (streak.count >= 30) { coins = 100; msg = '30-day streak!'; }
+  else if (streak.count >= 14) { coins = 60;  msg = '2-week streak!'; }
+  else if (streak.count >= 7)  { coins = 40;  msg = 'Week streak!'; }
+  else if (streak.count >= 3)  { coins = 20;  msg = streak.count + '-day streak!'; }
+  else                         { coins = 10;  msg = 'Day ' + streak.count; }
+  if (coins > 0) {
+    try { if (gFarm) { gFarm.coins = (gFarm.coins||0) + coins; saveGFarm(gFarm); } } catch(e) {}
+    var isMilestone = [3,7,14,30].indexOf(streak.count) >= 0;
+    if (isMilestone) {
+      setTimeout(function() { showToast('\uD83C\uDF1F', msg, '+'+coins+'\uD83D\uDCB0 farm coins!'); }, 800);
+    } else {
+      showToast('\uD83D\uDCB0', msg, '+'+coins+' farm coins');
+    }
+  }
+  return streak;
+}
+
+
+// -- QUESTS FEED MILO --
+function miloBoostFromQuest(xp) {
+  try {
+    if (!_miloState) return;
+    var hunger = xp <= 80 ? 5 : xp <= 150 ? 8 : 12;
+    var happy  = xp <= 80 ? 8 : xp <= 150 ? 12 : 18;
+    _miloState.hunger    = Math.min(100, (_miloState.hunger    || 0) + hunger);
+    _miloState.happiness = Math.min(100, (_miloState.happiness || 0) + happy);
+    if (_miloState.happiness > 60) _miloState.mood = 'happy';
+    miloSave();
+    if (document.querySelector('.milo-page')) { try { miloRender(); } catch(e) {} }
+    var lines = [
+      '\uD83D\uDC30 Milo felt that! +' + happy + ' happiness',
+      '\uD83D\uDC30 Milo is proud of you!',
+      '\uD83D\uDC30 Milo binkied! +' + happy + ' happiness',
+    ];
+    showToast('\uD83D\uDC30', lines[Math.floor(Math.random()*lines.length)], '+' + hunger + ' hunger too');
+  } catch(e) {}
+}
+
+
+// -- MILO REACTS TO CHAT MESSAGES --
+function miloReactToMessage(msg) {
+  try {
+    if (!_miloState || gFarmView !== 'milo') return;
+    var m = msg.toLowerCase();
+    var W = (document.getElementById('miloVoxelScene') || {}).offsetWidth || 360;
+    var LM = {
+      carrot: Math.round(W * 0.22),
+      meadow: Math.round(W * 0.40),
+      play:   Math.round(W * 0.58),
+      hutch:  Math.round(W * 0.72),
+    };
+    function runTo(x) {
+      _miloDestX = Math.max(28, Math.min(W - 28, x + (Math.random() * 20 - 10)));
+      _miloScene.state = 'wander';
+    }
+    function binky() {
+      _miloState.mood = 'happy'; miloRender();
+      setTimeout(function() { if (_miloState && _miloState.mood==='happy') { _miloState.mood='idle'; miloRender(); } }, 2500);
+    }
+    function flop() {
+      _miloState.mood = 'sleeping'; miloRender();
+      setTimeout(function() { if (_miloState && _miloState.mood==='sleeping') { _miloState.mood='idle'; miloRender(); } }, 3000);
+    }
+    if (/love|adore|miss you|cute|good boy|good girl|precious|sweet/i.test(m)) {
+      binky(); setTimeout(function(){ runTo(W * 0.5); }, 300); return;
+    }
+    if (/carrot|food|hungry|eat|snack|treat|nom|yummy|feed/i.test(m)) {
+      runTo(LM.carrot); return;
+    }
+    if (/play|game|fun|run|zoom|race|jump|bounce/i.test(m)) {
+      runTo(LM.play); setTimeout(binky, 1800); return;
+    }
+    if (/flower|meadow|outside|garden|pretty|beautiful/i.test(m)) {
+      runTo(LM.meadow); return;
+    }
+    if (/sleep|tired|bed|nap|rest|night|goodnight|bye|goodbye/i.test(m)) {
+      runTo(LM.hutch); setTimeout(flop, 1800); return;
+    }
+    if (/sad|hurt|cry|pain|hard|struggling|upset|scared|anxious/i.test(m)) {
+      runTo(W * 0.45); setTimeout(function(){ miloShowBubble('\uD83D\uDC9C', 2500); }, 1800); return;
+    }
+    if (/happy|excited|great|amazing|wonderful|awesome|yay/i.test(m)) {
+      binky(); return;
+    }
+    if (/^(hi|hey|hello|hiya)\b/i.test(m)) {
+      runTo(W * 0.48); return;
+    }
+  } catch(e) {}
+}
+
+
+// -- Farm Season Popup (pill-style, same as Milo habitat) --
+function showFarmSeasonPopup() {
+  var el = document.getElementById('farmSeasonPopup');
+  if (!el) return;
+  var s = getFarmSeason();
+  var isEvent = s.eventActive && s.eventActive();
+  var label = isEvent
+    ? (s.eventIcon + ' ' + s.eventName + ' is here!')
+    : (s.icon + ' ' + s.name + ' season');
+  var bgMap = { spring:'rgba(168,216,160,.92)', summer:'rgba(30,144,217,.88)', autumn:'rgba(192,114,58,.9)', winter:'rgba(96,148,196,.92)' };
+  var colMap = { spring:'#1b4d1b', summer:'#fff', autumn:'#fff8f0', winter:'#e8f4ff' };
+  var bg  = bgMap[s.key]  || 'rgba(60,60,60,.9)';
+  var col = colMap[s.key] || '#fff';
+  el.innerHTML =
+    '<div style="background:'+bg+';color:'+col+';border-radius:20px;padding:6px 16px;' +
+    'font-family:Cinzel,serif;font-size:12px;font-weight:700;letter-spacing:.5px;' +
+    'box-shadow:0 4px 16px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.3)">' +
+    label + '</div>';
+  el.className = 'show';
+  clearTimeout(el._hideTimer);
+  el._hideTimer = setTimeout(function() {
+    el.className = 'hide';
+    setTimeout(function(){ el.innerHTML = ''; el.className = ''; }, 500);
+  }, 2800);
+}
+
+// -- Milo Season Popup --
+function showMiloSeasonPopup() {
+  var el = document.getElementById('miloSeasonPopup');
+  if (!el) return;
+  var s = getFarmSeason();
+  var isEvent = s.eventActive && s.eventActive();
+  var label = isEvent
+    ? (s.eventIcon + ' ' + s.eventName + ' is here!')
+    : (s.icon + ' ' + s.name + ' season');
+  var bgMap = { spring:'rgba(168,216,160,.92)', summer:'rgba(30,144,217,.88)', autumn:'rgba(192,114,58,.9)', winter:'rgba(96,148,196,.92)' };
+  var colMap = { spring:'#1b4d1b', summer:'#fff', autumn:'#fff8f0', winter:'#e8f4ff' };
+  var bg  = bgMap[s.key]  || 'rgba(60,60,60,.9)';
+  var col = colMap[s.key] || '#fff';
+  el.innerHTML =
+    '<div style="background:'+bg+';color:'+col+';border-radius:20px;padding:6px 16px;' +
+    'font-family:Cinzel,serif;font-size:12px;font-weight:700;letter-spacing:.5px;' +
+    'box-shadow:0 4px 16px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.3)">' +
+    label + '</div>';
+  el.className = 'show';
+  clearTimeout(el._hideTimer);
+  el._hideTimer = setTimeout(function() {
+    el.className = 'hide';
+    setTimeout(function(){ el.innerHTML = ''; el.className = ''; }, 500);
+  }, 2800);
+}
+
+
+
+// -- Trophy SVG renderer (global) --
 </script>
 
 <!-- CHAT LOCK PIN OVERLAY -->
@@ -18459,6 +19383,22 @@ function renderMoodMirrorPanel(panel, r, isDark) {
     <button class="chat-lock-btn" style="visibility:hidden"></button>
   </div>
   <button class="chat-lock-cancel" onclick="closeChatLock()">Cancel</button>
+</div>
+
+<!-- TUTORIAL -->
+<div id="tutOverlay">
+  <div id="tutDim" onclick="tutSkip()"></div>
+  <div id="tutCard">
+    <div id="tutArrow"></div>
+    <div class="tut-pills" id="tutPills"></div>
+    <div id="tutIcon"></div>
+    <div id="tutTitle"></div>
+    <div id="tutBody"></div>
+    <div class="tut-btns">
+      <button class="tut-skip" onclick="tutSkip()">Skip all</button>
+      <button class="tut-next" id="tutNextBtn" onclick="tutNext()">Next</button>
+    </div>
+  </div>
 </div>
 </body>
 </html>

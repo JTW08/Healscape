@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="HealScape">
 <meta name="mobile-web-app-capable" content="yes">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googleapis.com https://*.gstatic.com https://*.firebaseio.com https://*.firebaseapp.com wss://*.firebaseio.com data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.gstatic.com https://*.gstatic.com https://*.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://*.firebaseio.com wss://*.firebaseio.com https://*.googleapis.com https://*.firebaseapp.com https://firestore.googleapis.com https://identitytoolkit.googleapis.com; img-src 'self' data: blob: https:; media-src 'self' blob: data:; worker-src 'self' blob:;">
+
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='40' fill='%231a1714'/><text y='125' x='90' font-size='100' text-anchor='middle'>🏰</text></svg>">
 <!-- Preconnect for fast font loading — non-render-blocking -->
@@ -7136,32 +7136,38 @@ document.addEventListener('DOMContentLoaded', function() {
 // Sheet 3 (milo-motions.png): 4×4 grid — motion animations
 //   Row 0: run/gallop (4f)  Row 1: hop (4f)  Row 2: sit idle (4f)  Row 3: dance (4f)
 var MILO_SPRITE_MAP = {
-  // motions sheet — run faces RIGHT; idle/dance/spin are front-facing
-  idle:    { src:ASSET_BASE+'milo-motions.png',  cols:4, rows:4, row:2, colStart:0, n:4, fps:4,  spriteFacingRight:null  },
-  run:     { src:ASSET_BASE+'milo-motions.png',  cols:4, rows:4, row:0, colStart:0, n:4, fps:10, spriteFacingRight:true  },
-  dance:   { src:ASSET_BASE+'milo-motions.png',  cols:4, rows:4, row:3, colStart:0, n:4, fps:8,  spriteFacingRight:null  },
-  spin:    { src:ASSET_BASE+'milo-motions.png',  cols:4, rows:4, row:3, colStart:0, n:4, fps:10, spriteFacingRight:null  },
-  eat:     { src:ASSET_BASE+'milo-motions.png',  cols:4, rows:4, row:2, colStart:0, n:4, fps:5,  spriteFacingRight:null  },
-  // emotions sheet — walk faces RIGHT; others front-facing
-  walk:    { src:ASSET_BASE+'milo-emotions.png', cols:4, rows:4, row:0, colStart:0, n:2, fps:6,  spriteFacingRight:true  },
-  greet:   { src:ASSET_BASE+'milo-emotions.png', cols:4, rows:4, row:0, colStart:2, n:1, fps:2  },
-  binky:   { src:ASSET_BASE+'milo-emotions.png', cols:4, rows:4, row:0, colStart:3, n:1, fps:4  },
-  anger:   { src:ASSET_BASE+'milo-emotions.png', cols:4, rows:4, row:1, colStart:0, n:2, fps:4,  multiRow:true },
-  sad:     { src:ASSET_BASE+'milo-emotions.png', cols:4, rows:4, row:1, colStart:1, n:2, fps:3,  multiRow:true },
-  curious: { src:ASSET_BASE+'milo-emotions.png', cols:4, rows:4, row:1, colStart:2, n:2, fps:3,  multiRow:true },
-  scared:  { src:ASSET_BASE+'milo-emotions.png', cols:4, rows:4, row:1, colStart:3, n:2, fps:4,  multiRow:true },
-  blush:   { src:ASSET_BASE+'milo-emotions.png', cols:4, rows:4, row:3, colStart:0, n:1, fps:2  },
-  sleep:   { src:ASSET_BASE+'milo-emotions.png', cols:4, rows:4, row:3, colStart:2, n:1, fps:2  },
-  alert:   { src:ASSET_BASE+'milo-emotions.png', cols:4, rows:4, row:3, colStart:3, n:1, fps:3  },
+  // milo-actions.png: 4 cols x 4 rows, 480px cells
+  // Row 0: run1-4 (run3=happy laugh, run4=binky+confetti)
+  // Row 1: run5-6, confused(??), scared(shaking)
+  // Row 2: run7-8, confused2, scared2
+  // Row 3: love(heart), think(magnifier), sleep(zzz), alert(!!)
+  idle:    { src:ASSET_BASE+'milo-actions.png', cols:4, rows:4, row:1, colStart:1, n:1, fps:2,  spriteFacingRight:null },
+  walk:    { src:ASSET_BASE+'milo-actions.png', cols:4, rows:4, row:0, colStart:0, n:2, fps:6,  spriteFacingRight:true },
+  run:     { src:ASSET_BASE+'milo-actions.png', cols:4, rows:4, row:0, colStart:0, n:4, fps:10, spriteFacingRight:true },
+  dance:   { src:ASSET_BASE+'milo-actions.png', cols:4, rows:4, row:0, colStart:2, n:2, fps:7,  spriteFacingRight:null },
+  spin:    { src:ASSET_BASE+'milo-actions.png', cols:4, rows:4, row:0, colStart:3, n:1, fps:8,  spriteFacingRight:null },
+  eat:     { src:ASSET_BASE+'milo-actions.png', cols:4, rows:4, row:1, colStart:1, n:1, fps:3,  spriteFacingRight:null },
+  greet:   { src:ASSET_BASE+'milo-actions.png', cols:4, rows:4, row:0, colStart:2, n:1, fps:2,  spriteFacingRight:null },
+  binky:   { src:ASSET_BASE+'milo-actions.png', cols:4, rows:4, row:0, colStart:3, n:1, fps:4,  spriteFacingRight:null },
+  anger:   { src:ASSET_BASE+'milo-actions.png', cols:4, rows:4, row:1, colStart:2, n:1, fps:4,  spriteFacingRight:null },
+  sad:     { src:ASSET_BASE+'milo-actions.png', cols:4, rows:4, row:1, colStart:2, n:1, fps:3,  spriteFacingRight:null },
+  curious: { src:ASSET_BASE+'milo-actions.png', cols:4, rows:4, row:1, colStart:2, n:2, fps:3,  spriteFacingRight:null },
+  scared:  { src:ASSET_BASE+'milo-actions.png', cols:4, rows:4, row:1, colStart:3, n:2, fps:4,  spriteFacingRight:null },
+  blush:   { src:ASSET_BASE+'milo-actions.png', cols:4, rows:4, row:3, colStart:0, n:1, fps:2,  spriteFacingRight:null },
+  sleep:   { src:ASSET_BASE+'milo-actions.png', cols:4, rows:4, row:3, colStart:2, n:1, fps:1,  spriteFacingRight:null },
+  alert:   { src:ASSET_BASE+'milo-actions.png', cols:4, rows:4, row:3, colStart:3, n:1, fps:3,  spriteFacingRight:null },
 };
 // ── Eating sprites ─────────────────────────────────────────────────────────
 // Carrot sheet layout: 4 small rows (8 cols, 128px tall each) + 2 large rows (4 cols, 256px tall each).
 // Large rows are 2× the cell height → the sheet is effectively 8 equal height-units tall.
 // Using rows:8 aligns row offsets to the actual small-cell boundaries (eliminates frame bleed).
 // Row 2 = active chewing sequence (8 frames).
-MILO_SPRITE_MAP.eat_carrot      = { src:ASSET_BASE+'milo-eat-carrot.png',     cols:8, rows:8, row:2, colStart:0, n:8, fps:8 };
-MILO_SPRITE_MAP.eat_strawberry  = { src:ASSET_BASE+'milo-eat-strawberry.png', cols:8, rows:6, row:2, colStart:0, n:8, fps:7 };
-MILO_SPRITE_MAP.eat_blueberry   = { src:ASSET_BASE+'milo-eat-blueberry.png',  cols:8, rows:8, row:1, colStart:0, n:8, fps:8 };
+// Eating sprite sheets: 8 cols x 8 rows, 240px cells each
+// Rows 0-3: approach+chew sequence (32 small frames)
+// Rows 4-7: large close-up eating (4 cols x 480px effectively)
+MILO_SPRITE_MAP.eat_carrot      = { src:ASSET_BASE+'milo-eat-carrot.png',     cols:8, rows:8, row:0, colStart:0, n:32, fps:10, spriteFacingRight:null };
+MILO_SPRITE_MAP.eat_strawberry  = { src:ASSET_BASE+'milo-eat-strawberry.png', cols:8, rows:8, row:0, colStart:0, n:32, fps:10, spriteFacingRight:null };
+MILO_SPRITE_MAP.eat_blueberry   = { src:ASSET_BASE+'milo-eat-blueberry.png',  cols:8, rows:8, row:0, colStart:0, n:64, fps:10, spriteFacingRight:null };
 // ── Playing sprites — two sheets: normal light + sparkle/glow effects (8×8) ─
 // Volleyball sheet: 4×4 grid — Row 0: running with ball  Row 1: batting/pawing  Row 2: jumping  Row 3: tossing/serving
 MILO_SPRITE_MAP.play_ball_run    = { src:ASSET_BASE+'milo-play-volleyball.png', cols:4, rows:4, row:0, colStart:0, n:4, fps:9,  spriteFacingRight:true  };
@@ -7233,15 +7239,19 @@ function miloSpriteFrame(animKey, frameIdx, dispH) {
   var f   = frameIdx % def.n;
   var col, row;
   if (def.multiRow) {
+    // multiRow: step down rows, stay in same col
     col = def.colStart;
     row = def.row + f;
+  } else if (def.n > def.cols || (def.colStart === 0 && def.n > (def.cols - (def.colStart || 0)))) {
+    // Multi-row sequence: frames wrap across rows automatically
+    // e.g. 32 frames on 8-col sheet = 4 rows of 8
+    var linearCol = (def.colStart || 0) + f;
+    col = linearCol % def.cols;
+    row = def.row + Math.floor(linearCol / def.cols);
   } else {
     col = (def.colStart || 0) + f;
     row = def.row;
   }
-  // Use integer pixel offsets (not percentages) to eliminate sub-pixel frame bleed.
-  // background-size: full sheet scaled so each cell = dispH×dispH (square display).
-  // background-position: exact negative pixel offset to the desired cell.
   var bsW = (def.cols * dispH) + 'px';
   var bsH = (def.rows * dispH) + 'px';
   var bpX = '-' + (col * dispH) + 'px';
@@ -8658,7 +8668,7 @@ function miloRenderFrame() {
   else if (a.state === 'idle' && Math.floor(performance.now() / 4000) % 6 === 0)   _animKey = 'curious';
   else                                                                               _animKey = 'idle';
 
-  // ── Sprite-sheet rendering ─────────────────────────────────────
+  // ── Sprite-sheet rendering ─────────────────────
   var _sprDef = MILO_SPRITE_MAP[_animKey] || MILO_SPRITE_MAP.idle;
 
   // Reset frame counter when animation changes
@@ -8673,18 +8683,13 @@ function miloRenderFrame() {
     _miloSpriteLastTick = _sNow;
   }
 
-  // Direction flip — each animation declares its default facing in MILO_SPRITE_MAP
-  // spriteFacingRight: true  → sprite faces right; flip when moving left (facing < 0)
-  // spriteFacingRight: false → sprite faces left;  flip when moving right (facing > 0)
-  // spriteFacingRight: null  → front-facing; never flip
+  // Direction flip
   var _sfr  = _sprDef.spriteFacingRight;
   var _needFlip = (_sfr === true && a.facing < 0) || (_sfr === false && a.facing > 0);
   var _spr  = miloSpriteFrame(_animKey, _miloSpriteFrame, _dispSz);
   var _dispW = _spr.w;
   var _dispH = _spr.h;
 
-  // Place left edge at (a.x − dispW/2) so the element center sits exactly on a.x.
-  // scaleX(-1) then pivots around that same center — no position shift when flipping.
   var _sprLeft = (a.x - _dispW / 2).toFixed(1);
   var rabbitHTML = '<div style="position:absolute;left:' + _sprLeft + 'px;bottom:' + bottom.toFixed(1) + 'px;'
     + (_needFlip ? 'transform:scaleX(-1);' : '')

@@ -1586,27 +1586,28 @@ body {
 /* -- Milo back-to-farm discreet overlay -- */
 .milo-back-btn {
   position: absolute;
-  top: 8px;
-  left: 8px;
+  bottom: 28px;
+  right: 8px;
   z-index: 25;
-  padding: 4px 10px;
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,.18);
-  background: rgba(0,0,0,.25);
-  color: rgba(255,255,255,.6);
-  font-family: Cinzel, serif;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: .4px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,.25);
+  background: rgba(0,0,0,.32);
+  font-size: 20px;
+  line-height: 36px;
+  text-align: center;
   cursor: pointer;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   pointer-events: auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,.35);
   animation: miloBackPulse 4s ease-in-out infinite;
+  padding: 0;
 }
 .milo-back-btn:active {
   background: rgba(0,0,0,.55);
-  color: #fff;
+  transform: scale(.92);
 }
 @keyframes miloBackPulse {
   0%,100% { opacity: .5; }
@@ -1658,8 +1659,9 @@ body {
     // Online presence
     setOnline: (rid) => { if (fbReady) set(ref(db,'online/'+rid), Date.now()).catch(()=>{}); },
     watchOnline: (cb) => {
-      if (!fbReady || _reg.has('online')) return; _reg.add('online');
-      onValue(ref(db,'online'), snap => {
+      if (!fbReady) return;
+      if (_unsub['online']) { try { _unsub['online'](); } catch(e) {} }
+      _unsub['online'] = onValue(ref(db,'online'), snap => {
         const raw = snap.val() || {}, out = {};
         for (const k in raw) { const v=raw[k]; out[k]=(typeof v==='object'&&v)?v.t||0:Number(v)||0; }
         cb(out);
@@ -1704,14 +1706,16 @@ body {
     setPlayerXP: (rid, xp) => { if (fbReady) set(ref(db,'xp/'+rid), xp).catch(()=>{}); },
     setPlayerScores: (rid, s)  => { if (fbReady) set(ref(db,'scores/'+rid),{...s,ts:Date.now()}).catch(()=>{}); },
     watchScores: (cb) => {
-      if (!fbReady || _reg.has('scores')) return; _reg.add('scores');
-      onValue(ref(db,'scores'), snap => cb(snap.val()||{}));
+      if (!fbReady) return;
+      if (_unsub['scores']) { try { _unsub['scores'](); } catch(e) {} }
+      _unsub['scores'] = onValue(ref(db,'scores'), snap => cb(snap.val()||{}));
     },
 
     // Trivia game
     watchTrivia: (cb) => {
-      if (!fbReady || _reg.has('trivia')) return; _reg.add('trivia');
-      onValue(ref(db,'trivia'), snap => cb(snap.val()));
+      if (!fbReady) return;
+      if (_unsub['trivia']) { try { _unsub['trivia'](); } catch(e) {} }
+      _unsub['trivia'] = onValue(ref(db,'trivia'), snap => cb(snap.val()));
     },
     setTrivia: (data) => { if (fbReady) set(ref(db,'trivia'), data).catch(()=>{}); },
     clearTrivia: ()   => { if (fbReady) set(ref(db,'trivia'), null).catch(()=>{}); },
@@ -1722,8 +1726,9 @@ body {
       if (fbReady) set(ref(db,'trivia/ready/'+uid), val).catch(()=>{});
     },
     watchWins: (cb) => {
-      if (!fbReady || _reg.has('wins')) return; _reg.add('wins');
-      onValue(ref(db,'wins'), snap => {
+      if (!fbReady) return;
+      if (_unsub['wins']) { try { _unsub['wins'](); } catch(e) {} }
+      _unsub['wins'] = onValue(ref(db,'wins'), snap => {
         const v = snap.val();
         const wins = v
           ? Object.entries(v)
@@ -1772,8 +1777,9 @@ body {
       set(ref(db,'moodtrend/'+rid), {...trend, ts:Date.now()}).catch(()=>{});
     },
     watchMoodTrends: (cb) => {
-      if (!fbReady || _reg.has('moodtrend')) return; _reg.add('moodtrend');
-      onValue(ref(db,'moodtrend'), snap => cb(snap.val()||{}));
+      if (!fbReady) return;
+      if (_unsub['moodtrend']) { try { _unsub['moodtrend'](); } catch(e) {} }
+      _unsub['moodtrend'] = onValue(ref(db,'moodtrend'), snap => cb(snap.val()||{}));
     },
 
     // ── Friend Invites ────────────────────────────────────────────
@@ -1799,15 +1805,16 @@ body {
       set(ref(db, 'friends/' + friendId), { ...profile, ts: Date.now() }).catch(() => {});
     },
     watchFriends: (cb) => {
-      if (!fbReady || _reg.has('friends')) return; _reg.add('friends');
-      onValue(ref(db, 'friends'), snap => cb(snap.val() || {}));
+      if (!fbReady) return;
+      if (_unsub['friends']) { try { _unsub['friends'](); } catch(e) {} }
+      _unsub['friends'] = onValue(ref(db, 'friends'), snap => cb(snap.val() || {}));
     },
 
     // ── Tic Tac Toe ───────────────────────────────────────────────
     watchTTT: (cb) => {
       if (!fbReady) return;
-      if (_reg.has('ttt')) { get(ref(db,'ttt')).then(s=>cb(s.val())).catch(()=>{}); return; }
-      _reg.add('ttt'); _unsub['ttt'] = onValue(ref(db,'ttt'), snap => cb(snap.val()));
+      if (_unsub['ttt']) { try { _unsub['ttt'](); } catch(e) {} }
+      _unsub['ttt'] = onValue(ref(db,'ttt'), snap => cb(snap.val()));
     },
     setTTT:   (data) => { if (fbReady) set(ref(db,'ttt'), data).catch(()=>{}); },
     clearTTT: ()     => { if (fbReady) set(ref(db,'ttt'), null).catch(()=>{}); },
@@ -1815,8 +1822,8 @@ body {
     // ── Connect Four ──────────────────────────────────────────────
     watchC4:  (cb) => {
       if (!fbReady) return;
-      if (_reg.has('c4')) { get(ref(db,'connect4')).then(s=>cb(s.val())).catch(()=>{}); return; }
-      _reg.add('c4'); _unsub['c4'] = onValue(ref(db,'connect4'), snap => cb(snap.val()));
+      if (_unsub['c4']) { try { _unsub['c4'](); } catch(e) {} }
+      _unsub['c4'] = onValue(ref(db,'connect4'), snap => cb(snap.val()));
     },
     setC4:    (data) => { if (fbReady) set(ref(db,'connect4'), data).catch(()=>{}); },
     clearC4:  ()     => { if (fbReady) set(ref(db,'connect4'), null).catch(()=>{}); },
@@ -1824,8 +1831,8 @@ body {
     // ── Charades ──────────────────────────────────────────────────
     watchCharades: (cb) => {
       if (!fbReady) return;
-      if (_reg.has('charades')) { get(ref(db,'charades')).then(s=>cb(s.val())).catch(()=>{}); return; }
-      _reg.add('charades'); onValue(ref(db,'charades'), snap => cb(snap.val()));
+      if (_unsub['charades']) { try { _unsub['charades'](); } catch(e) {} }
+      _unsub['charades'] = onValue(ref(db,'charades'), snap => cb(snap.val()));
     },
     setCharades: (data) => { if (fbReady) set(ref(db,'charades'), data).catch(()=>{}); },
     clearCharades: ()   => { if (fbReady) set(ref(db,'charades'), null).catch(()=>{}); },
@@ -1833,8 +1840,8 @@ body {
     // ── Memory Match ──────────────────────────────────────────────
     watchMemory: (cb) => {
       if (!fbReady) return;
-      if (_reg.has('memory')) { get(ref(db,'memory')).then(s=>cb(s.val())).catch(()=>{}); return; }
-      _reg.add('memory'); _unsub['memory'] = onValue(ref(db,'memory'), snap => cb(snap.val()));
+      if (_unsub['memory']) { try { _unsub['memory'](); } catch(e) {} }
+      _unsub['memory'] = onValue(ref(db,'memory'), snap => cb(snap.val()));
     },
     setMemory:   (data) => { if (fbReady) set(ref(db,'memory'), data).catch(()=>{}); },
     clearMemory: ()     => { if (fbReady) set(ref(db,'memory'), null).catch(()=>{}); },
@@ -1842,8 +1849,8 @@ body {
     // ── Gratitude Bingo ───────────────────────────────────────────
     watchGBingo: (cb) => {
       if (!fbReady) return;
-      if (_reg.has('gbingo')) { get(ref(db,'gbingo')).then(s=>cb(s.val())).catch(()=>{}); return; }
-      _reg.add('gbingo'); _unsub['gbingo'] = onValue(ref(db,'gbingo'), snap => cb(snap.val()));
+      if (_unsub['gbingo']) { try { _unsub['gbingo'](); } catch(e) {} }
+      _unsub['gbingo'] = onValue(ref(db,'gbingo'), snap => cb(snap.val()));
     },
     setGBingo:   (data) => { if (fbReady) set(ref(db,'gbingo'), data).catch(()=>{}); },
     clearGBingo: ()     => { if (fbReady) set(ref(db,'gbingo'), null).catch(()=>{}); },
@@ -1851,8 +1858,8 @@ body {
     // ── Mood Mirror ───────────────────────────────────────────────
     watchMoodMirror: (cb) => {
       if (!fbReady) return;
-      if (_reg.has('moodmirror')) { get(ref(db,'moodmirror')).then(s=>cb(s.val())).catch(()=>{}); return; }
-      _reg.add('moodmirror'); _unsub['moodmirror'] = onValue(ref(db,'moodmirror'), snap => cb(snap.val()));
+      if (_unsub['moodmirror']) { try { _unsub['moodmirror'](); } catch(e) {} }
+      _unsub['moodmirror'] = onValue(ref(db,'moodmirror'), snap => cb(snap.val()));
     },
     setMoodMirror:   (data) => { if (fbReady) set(ref(db,'moodmirror'), data).catch(()=>{}); },
     clearMoodMirror: ()     => { if (fbReady) set(ref(db,'moodmirror'), null).catch(()=>{}); },
@@ -1887,8 +1894,9 @@ body {
     },
     watchLobby: (cb) => {
       if (!fbReady) return;
-      if (_reg.has('lobby')) { get(ref(db,'lobby')).then(s=>cb(s.val()||{})).catch(()=>{}); return; }
-      _reg.add('lobby'); onValue(ref(db, 'lobby'), snap => cb(snap.val() || {}));
+      // Always detach old lobby listener before re-subscribing so callback stays fresh
+      if (_unsub['lobby']) { try { _unsub['lobby'](); } catch(e) {} }
+      _unsub['lobby'] = onValue(ref(db, 'lobby'), snap => cb(snap.val() || {}));
     },
 
     // ── Farm full state ───────────────────────────────────────────
@@ -2431,7 +2439,10 @@ function saveState() {
     const displayName = (state.profiles[rid] && state.profiles[rid].displayName) || '';
     const avatar = (state.profiles[rid] && state.profiles[rid].avatar) || '';
     window.FB.setPlayerXP(rid, xp); // keep legacy node in sync
-    window.FB.setPlayerScores(rid, { xp, farmLvl, farmCoins, farmHarvests, memBest, displayName, avatar });
+    var _p2 = state.profiles[rid] || {};
+    window.FB.setPlayerScores(rid, { xp, farmLvl, farmCoins, farmHarvests, memBest,
+      tttWins: _p2.tttWins||0, c4Wins: _p2.c4Wins||0, gamesXP: _p2.gamesXP||0,
+      displayName, avatar });
   }
 }
 
@@ -3068,12 +3079,12 @@ function miloFastForward() {
 function miloTick(silent) {
   if (!_miloState) return;
   var sleeping = _miloState.mood === 'sleeping';
-  _miloState.hunger    = Math.max(0, _miloState.hunger    - (sleeping ? 0.3 : 0.8));
-  _miloState.happiness = Math.max(0, _miloState.happiness - (sleeping ? 0.1 : 0.5));
-  _miloState.energy    = sleeping ? Math.min(100,_miloState.energy+2) : Math.max(0,_miloState.energy-0.4);
+  _miloState.hunger    = Math.max(0, _miloState.hunger    - (sleeping ? 0.15 : 0.4));
+  _miloState.happiness = Math.max(0, _miloState.happiness - (sleeping ? 0.05 : 0.25));
+  _miloState.energy    = sleeping ? Math.min(100,_miloState.energy+3) : Math.max(0,_miloState.energy-0.2);
   if (_miloState.hunger < 20 || _miloState.happiness < 15)
-    _miloState.health = Math.max(0, _miloState.health - 0.3);
-  else _miloState.health = Math.min(100, _miloState.health + 0.1);
+    _miloState.health = Math.max(0, _miloState.health - 0.15);
+  else _miloState.health = Math.min(100, _miloState.health + 0.2);
   _miloState.age = Math.floor((Date.now() - _miloState.bornAt) / 86400000);
   if (!silent) {
     if (_miloState.energy < 20 && _miloState.mood !== 'sleeping') _miloState.mood = 'sleeping';
@@ -3407,22 +3418,15 @@ function enterGame(role) {
   // Critical for same-device multi-account play: clear stale state
   // so the new player gets fresh listeners and correct mySide detection
   _tttState = null; _tttMine = null;
-  window._tttListenerActive = false;
-  window._tttMovePending = false;
+    window._tttMovePending = false;
   _c4State = null;
-  window._c4ListenerActive = false;
-  window._c4DropPending = false;
+    window._c4DropPending = false;
   _chState = null;
-  window._charadesListenerActive = false;
-  _memState = null;
-  window._memListenerActive = false;
-  _gbingoState = null;
-  window._gbingoListenerActive = false;
-  _mmState = null;
-  window._mmListenerActive = false;
-  _triviaState = null; _triviaSelected = null;
+    _memState = null;
+    _gbingoState = null;
+    _mmState = null;
+    _triviaState = null; _triviaSelected = null;
   if (_triviaTimer) { clearInterval(_triviaTimer); _triviaTimer = null; }
-  window._lobbyListenerActive = false;
   _lobbyState = {};
   _gameView = 'hub';
   // Close any open game overlay from the previous session
@@ -3881,32 +3885,28 @@ function buildGamesOverlay() {
         '</div>';
     }
   }
-  var _tttG = _tttState;
-  if (_tttG && (_tttG.phase === 'waiting' || _tttG.phase === 'playing')) {
-    var iInTTT  = (_tttG.xId === myId || _tttG.oId === myId);
-    var tttOpen = _tttG.phase === 'waiting' && !(_tttG.xId && _tttG.oId);
-    var tttOtherPlayer = (_tttG.xId && _tttG.xId !== myId) || (_tttG.oId && _tttG.oId !== myId);
-    if (!iInTTT && tttOtherPlayer && tttOpen) {
-      activeBanners += '<div style="background:rgba(66,165,245,.1);border:1.5px solid rgba(66,165,245,.3);border-radius:14px;padding:12px 16px">' +
-        '<div style="font-family:Cinzel,serif;font-size:12px;color:#42a5f5;margin-bottom:6px;letter-spacing:.5px">⭕ TIC TAC TOE — OPEN LOBBY</div>' +
-        '<div style="font-size:12px;color:' + t.sub + ';margin-bottom:8px">' + (_tttG.xName||'Someone') + ' is waiting for an opponent</div>' +
-        '<button onclick="tttJoinFromHub()" style="width:100%;padding:10px;border-radius:10px;border:none;background:linear-gradient(135deg,#1565c0,#42a5f5);color:#fff;font-family:Cinzel,serif;font-size:12px;cursor:pointer">Join Game →</button>' +
+  // ── Lobby banners — check _lobbyState for all games ──────────────────────
+  var _lobbyGameDefs = [
+    { id:'tictactoe',  color:'#42a5f5', icon:'⭕', label:'TIC TAC TOE',     fn:'tttJoinFromHub'      },
+    { id:'connect4',   color:'#ef5350', icon:'🔴', label:'CONNECT FOUR',    fn:'c4JoinFromHub'       },
+    { id:'memory',     color:'#26a69a', icon:'🃏', label:'MEMORY MATCH',    fn:'memJoinFromHub'      },
+    { id:'gbingo',     color:'#66bb6a', icon:'🍀', label:'GRATITUDE BINGO', fn:'gbingoJoinFromHub'   },
+    { id:'moodmirror', color:'#ffa726', icon:'🪞', label:'MOOD MIRROR',     fn:'mmJoinFromHub'       },
+  ];
+  _lobbyGameDefs.forEach(function(gd) {
+    var lp = lobbyPlayers(gd.id);
+    var lpOthers = lp.filter(function(p){ return p.id !== myId; });
+    var lpMe     = lp.some(function(p){ return p.id === myId; });
+    if (lpOthers.length > 0 && !lpMe) {
+      var waiter = lpOthers[0].name || 'Someone';
+      activeBanners +=
+        '<div style="background:' + gd.color + '12;border:1.5px solid ' + gd.color + '40;border-radius:14px;padding:12px 14px">' +
+          '<div style="font-family:Cinzel,serif;font-size:11px;color:' + gd.color + ';letter-spacing:.5px;margin-bottom:5px">' + gd.icon + ' ' + gd.label + ' — OPEN LOBBY</div>' +
+          '<div style="font-size:11px;color:' + t.sub + ';margin-bottom:8px">' + waiter + ' is waiting for a player</div>' +
+          '<button onclick="' + gd.fn + '()" style="width:100%;padding:9px;border-radius:8px;border:none;background:' + gd.color + ';color:#fff;font-family:Cinzel,serif;font-size:11px;font-weight:700;cursor:pointer">Join Game →</button>' +
         '</div>';
     }
-  }
-  var _c4G = _c4State;
-  if (_c4G && (_c4G.phase === 'waiting' || _c4G.phase === 'playing')) {
-    var iInC4  = (_c4G.redId === myId || _c4G.yellId === myId);
-    var c4Open = _c4G.phase === 'waiting' && !(_c4G.redId && _c4G.yellId);
-    var c4OtherPlayer = (_c4G.redId && _c4G.redId !== myId) || (_c4G.yellId && _c4G.yellId !== myId);
-    if (!iInC4 && c4OtherPlayer && c4Open) {
-      activeBanners += '<div style="background:rgba(239,83,80,.1);border:1.5px solid rgba(239,83,80,.3);border-radius:14px;padding:12px 16px">' +
-        '<div style="font-family:Cinzel,serif;font-size:12px;color:#ef5350;margin-bottom:6px;letter-spacing:.5px">🔴 CONNECT FOUR — OPEN LOBBY</div>' +
-        '<div style="font-size:12px;color:' + t.sub + ';margin-bottom:8px">' + (_c4G.redName||'Someone') + ' is waiting for an opponent</div>' +
-        '<button onclick="c4JoinFromHub()" style="width:100%;padding:10px;border-radius:10px;border:none;background:linear-gradient(135deg,#b71c1c,#ef5350);color:#fff;font-family:Cinzel,serif;font-size:12px;cursor:pointer">Join Game →</button>' +
-        '</div>';
-    }
-  }
+  });
 
   // Game cards grid
   var gameCards = GAME_HUB_CATEGORIES.map(function(g) {
@@ -6427,12 +6427,17 @@ function saveGFarm(f) {
     const avatar = (state.profiles[rid] && state.profiles[rid].avatar) || '';
 
     // Always update the leaderboard summary
+    var _p = state.profiles[rid] || {};
     window.FB.setPlayerScores(rid, {
       xp,
       farmLvl:      f.lvl || 1,
       farmCoins:    (f.stats && f.stats.totalCoins) || 0,
       farmHarvests: (f.stats && f.stats.harvests) || 0,
-      memBest, displayName, avatar
+      memBest,
+      tttWins:  _p.tttWins  || 0,
+      c4Wins:   _p.c4Wins   || 0,
+      gamesXP:  _p.gamesXP  || 0,
+      displayName, avatar
     });
 
     // Write full farm state to Firebase at most once per 30s to avoid excessive writes
@@ -7619,8 +7624,12 @@ function miloCheckDailyChallenge() {
 function miloChallengeComplete() {
   if (!_miloState || _miloState.challengeDone) return;
   _miloState.challengeDone = true;
-  _miloState.happiness = Math.min(100, _miloState.happiness + 20);
-  _miloState.health    = Math.min(100, _miloState.health + 5);
+  // Boost all stats by 50 points (capped at 100)
+  _miloState.hunger    = Math.min(100, _miloState.hunger    + 50);
+  _miloState.happiness = Math.min(100, _miloState.happiness + 50);
+  _miloState.energy    = Math.min(100, _miloState.energy    + 50);
+  _miloState.health    = Math.min(100, _miloState.health    + 50);
+  miloUpdateStatBars();
   _miloDanceTimer = 110;
   miloSave();
   var danceLines = ['You did it! My flower crown is GLOWING! \uD83C\uDF1F', 'YESSS!! Zoom zoom zoom!! \uD83D\uDC30\u2728', 'I knew you could! BINKIES FOR EVERYONE! \uD83C\uDF1F'];
@@ -7669,10 +7678,10 @@ function miloRenderChallengeCard(card) {
 
 // ── Interactive treat objects Milo can be given ───────────────────
 var MILO_TREATS = {
-  carrot:  { emoji:'\uD83E\uDD55', name:'Carrot',        hunger:25, happiness:8,  health:0,  energy:0,  special:'',      lines:['NOM NOM NOM!! \uD83E\uDD55', 'CARROT!! Best day EVER!! \uD83D\uDE4C', 'My flower crown is VIBRATING with joy!! \uD83E\uDD55\u2728', 'I could eat a THOUSAND of these!! \uD83E\uDD55'] },
-  berry:   { emoji:'\uD83E\uDED0', name:'Blueberries',   hunger:12, happiness:20, health:5,  energy:5,  special:'dance', lines:['Ooh!! Blueberries!! Like my crown!! \uD83E\uDED0', 'SO fruity!! I\u2019m DANCING!! \uD83D\uDC9C', 'Purple!! My absolute colour!! \uD83E\uDED0\u2728'] },
-  herb:    { emoji:'\uD83C\uDF3F', name:'Herb Bundle',   hunger:5,  happiness:5,  health:25, energy:10, special:'',      lines:['Mmm! Medicinal and delicious! \uD83C\uDF3F', 'I feel SO healthy!! Like a new bunny!! \uD83D\uDCAA', 'This is basically a spa day \uD83C\uDF3F\u2728'] },
-  water:   { emoji:'\uD83D\uDCA7', name:'Water Bowl',    hunger:5,  happiness:5,  health:8,  energy:25, special:'',      lines:['Ahhhhh REFRESHING!! \uD83D\uDCA7', 'I feel like a NEW RABBIT!! \uD83D\uDCA7\u2728', 'Hydration!! The secret to crown-wearing beauty!! \uD83D\uDCA7'] },
+  carrot:  { emoji:'\uD83E\uDD55', name:'Carrot',        hunger:40, happiness:10, health:0,  energy:5,  special:'',      lines:['NOM NOM NOM!! \uD83E\uDD55', 'CARROT!! Best day EVER!! \uD83D\uDE4C', 'My flower crown is VIBRATING with joy!! \uD83E\uDD55\u2728', 'I could eat a THOUSAND of these!! \uD83E\uDD55'] },
+  berry:   { emoji:'\uD83E\uDED0', name:'Blueberries',   hunger:15, happiness:35, health:8,  energy:8,  special:'dance', lines:['Ooh!! Blueberries!! Like my crown!! \uD83E\uDED0', 'SO fruity!! I\u2019m DANCING!! \uD83D\uDC9C', 'Purple!! My absolute colour!! \uD83E\uDED0\u2728'] },
+  herb:    { emoji:'\uD83C\uDF3F', name:'Herb Bundle',   hunger:8,  happiness:8,  health:40, energy:15, special:'',      lines:['Mmm! Medicinal and delicious! \uD83C\uDF3F', 'I feel SO healthy!! Like a new bunny!! \uD83D\uDCAA', 'This is basically a spa day \uD83C\uDF3F\u2728'] },
+  water:   { emoji:'\uD83D\uDCA7', name:'Water Bowl',    hunger:8,  happiness:8,  health:12, energy:40, special:'',      lines:['Ahhhhh REFRESHING!! \uD83D\uDCA7', 'I feel like a NEW RABBIT!! \uD83D\uDCA7\u2728', 'Hydration!! The secret to crown-wearing beauty!! \uD83D\uDCA7'] },
   flower:  { emoji:'\uD83C\uDF38', name:'Cherry Blossom',hunger:0,  happiness:20, health:5,  energy:0,  special:'blush', lines:['A FLOWER!! For my crown?! \uD83C\uDF38', 'It matches my aesthetic PERFECTLY!! \uD83C\uDF38\u2728', 'I\u2019m blushing!! This is the nicest thing!! \uD83C\uDF38\uD83D\uDC95'] },
   toy:     { emoji:'\uD83C\uDFD0', name:'Toy Ball',      hunger:0,  happiness:28, health:0,  energy:-12,special:'dance', lines:['A BALL!! \uD83C\uDFD0 Must. Boop. Ball!!', 'PLAY TIME!! \uD83C\uDFD0\u2728 I am CHAOS!!', '\uD83C\uDFD0 This ball is my arch-nemesis!! WHEEE!!'] },
 };
@@ -8281,7 +8290,7 @@ function miloFarmRender(panel) {
       '<div class="milo-scene-wrap" id="miloSceneWrap">' +
         miloSceneSkyHTML() +
         '<div id="miloVoxelScene" style="position:absolute;inset:0;pointer-events:none;overflow:hidden"></div>' +
-        '<button onclick="miloLeaveHabitat()" class="milo-back-btn">&#x2190; Farm</button>' +
+        '<button onclick="miloLeaveHabitat()" class="milo-back-btn">🌾</button>' +
         '<div id="miloSeasonPopup"></div>' +
         '<div id="miloAlert" class="milo-alert"></div>' +
         '<div id="miloBubble" class="milo-bubble"></div>' +
@@ -8295,15 +8304,15 @@ function miloFarmRender(panel) {
 '<div id="miloStatsOverlay" style="position:absolute;bottom:0;left:0;right:0;z-index:20;padding:3px 8px 5px;background:linear-gradient(0deg,rgba(0,0,0,.55) 0%,transparent 100%)">' +
         '<div style="display:flex;gap:8px;align-items:center;margin-bottom:2px">' +
           '<span style="font-size:8px;color:rgba(255,255,255,.55);font-family:Cinzel,serif">🍎</span>' +
-          '<div style="flex:1;height:3px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden"><div style="height:100%;border-radius:2px;background:' + (s.hunger>40?'#81c784':'#ef5350') + ';width:' + Math.round(s.hunger) + '%"></div></div>' +
+          '<div style="flex:1;height:3px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden"><div id="msHunger" style="height:100%;border-radius:2px;transition:width .4s ease,background .3s;background:' + (s.hunger>40?'#81c784':'#ef5350') + ';width:' + Math.round(s.hunger) + '%"></div></div>' +
           '<span style="font-size:8px;color:rgba(255,255,255,.55);font-family:Cinzel,serif">💚</span>' +
-          '<div style="flex:1;height:3px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden"><div style="height:100%;border-radius:2px;background:' + (s.happiness>40?'#42a5f5':'#ef5350') + ';width:' + Math.round(s.happiness) + '%"></div></div>' +
+          '<div style="flex:1;height:3px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden"><div id="msHappy" style="height:100%;border-radius:2px;transition:width .4s ease,background .3s;background:' + (s.happiness>40?'#42a5f5':'#ef5350') + ';width:' + Math.round(s.happiness) + '%"></div></div>' +
         '</div>' +
         '<div style="display:flex;gap:8px;align-items:center">' +
           '<span style="font-size:8px;color:rgba(255,255,255,.55);font-family:Cinzel,serif">⚡</span>' +
-          '<div style="flex:1;height:3px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden"><div style="height:100%;border-radius:2px;background:#ffca28;width:' + Math.round(s.energy) + '%"></div></div>' +
+          '<div style="flex:1;height:3px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden"><div id="msEnergy" style="height:100%;border-radius:2px;transition:width .4s ease;background:#ffca28;width:' + Math.round(s.energy) + '%"></div></div>' +
           '<span style="font-size:8px;color:rgba(255,255,255,.55);font-family:Cinzel,serif">❤️</span>' +
-          '<div style="flex:1;height:3px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden"><div style="height:100%;border-radius:2px;background:' + (s.health>50?'#ef5350':'#ab47bc') + ';width:' + Math.round(s.health) + '%"></div></div>' +
+          '<div style="flex:1;height:3px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden"><div id="msHealth" style="height:100%;border-radius:2px;transition:width .4s ease,background .3s;background:' + (s.health>50?'#ef5350':'#ab47bc') + ';width:' + Math.round(s.health) + '%"></div></div>' +
         '</div>' +
       '</div>' +
       '</div>' +
@@ -8738,6 +8747,7 @@ function miloUpdatePos(W) {
         _miloState.happiness = Math.min(100, _miloState.happiness + (_t.happiness || 0));
         _miloState.health    = Math.min(100, _miloState.health    + (_t.health    || 0));
         _miloState.energy    = Math.min(100, Math.max(0, _miloState.energy + (_t.energy || 0)));
+        miloUpdateStatBars();
         miloSave();
       }
       // Trigger special animations — toy ball gets extra timer so it plays on after eating ends
@@ -8888,24 +8898,32 @@ function miloShowAlert(text) {
 }
 function miloUpdateStatBars() {
   var s = _miloState; if (!s) return;
-  // Legacy stat fills (not used by new overlay but keep for safety)
-  var fills = document.querySelectorAll('.milo-stat-fill');
-  if (fills.length >= 4) {
-    fills[0].style.width = s.hunger + '%';     fills[0].style.background = s.hunger > 40 ? '#81c784' : '#ef5350';
-    fills[1].style.width = s.happiness + '%';  fills[1].style.background = s.happiness > 40 ? '#42a5f5' : '#ef5350';
-    fills[2].style.width = s.energy + '%';
-    fills[3].style.width = s.health + '%';
-  }
-  // Update growth top overlay
-  var growthOverlay = document.getElementById('miloGrowthOverlay');
-  if (growthOverlay && s) {
+
+  // ── Update the 4-bar bottom overlay via stable IDs ──────────────────────
+  var msH = document.getElementById('msHunger');
+  var msHa = document.getElementById('msHappy');
+  var msE = document.getElementById('msEnergy');
+  var msHe = document.getElementById('msHealth');
+  if (msH)  { msH.style.width  = Math.round(s.hunger)    + '%'; msH.style.background  = s.hunger > 40    ? '#81c784' : '#ef5350'; }
+  if (msHa) { msHa.style.width = Math.round(s.happiness)  + '%'; msHa.style.background = s.happiness > 40 ? '#42a5f5' : '#ef5350'; }
+  if (msE)  { msE.style.width  = Math.round(s.energy)     + '%'; }
+  if (msHe) { msHe.style.width = Math.round(s.health)     + '%'; msHe.style.background = s.health > 50    ? '#ef5350' : '#ab47bc'; }
+
+  // ── Update growth top overlay bar ────────────────────────────────────────
+  var go = document.getElementById('miloGrowthOverlay');
+  if (go) {
     var _st = miloGetStage(s.age);
     var _ns = MILO_STAGES[MILO_STAGES.indexOf(_st) + 1];
     var _p  = _ns ? Math.min(100, Math.round((s.age - _st.minAge) / (_ns.minAge - _st.minAge) * 100)) : 100;
-    var _fill = growthOverlay.querySelector('div div div');
-    if (_fill) _fill.style.width = _p + '%';
+    var _gf = go.querySelector('div[style*="height:100%"]');
+    if (_gf) _gf.style.width = _p + '%';
+    // Update stage name text
+    var _spans = go.querySelectorAll('span');
+    if (_spans[0]) _spans[0].textContent = _st.emoji + ' ' + _st.name;
+    if (_spans[1]) _spans[1].textContent = 'Day ' + s.age;
   }
-  // Refresh all care buttons disabled state + sleep button label
+
+  // Refresh care buttons
   miloRefreshCareButtons();
 }
 
@@ -8964,8 +8982,9 @@ function miloOpenTreatPicker() {
       + '<div style="font-size:9px;color:rgba(255,200,100,.65);text-align:center;line-height:1.4">' + (empty ? '<span style="color:rgba(255,100,80,.7)">Get more in Shop</span>' : stats.join('·')) + '</div>'
       + '</div>';
   }).join('');
-  overlay.innerHTML = '<div style="flex:1" onclick="miloCloseTreatPicker()"></div>'
-    + '<div class="milo-gift-sheet">'
+  overlay.onclick = function(e) { if (e.target === overlay) miloCloseTreatPicker(); };
+  overlay.innerHTML = '<div style="flex:1;cursor:pointer" onclick="miloCloseTreatPicker()"></div>'
+    + '<div class="milo-gift-sheet" onclick="event.stopPropagation()">'
     +   '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">'
     +     '<div style="font-family:Cinzel,serif;font-size:13px;color:rgba(255,220,100,.9)">\uD83C\uDF38 Choose a Treat for Milo</div>'
     +     '<button onclick="miloCloseTreatPicker();miloShowShop()" style="font-family:Cinzel,serif;font-size:10px;color:rgba(255,166,38,.7);background:none;border:1px solid rgba(255,166,38,.25);border-radius:8px;padding:4px 8px;cursor:pointer">🏪 Shop</button>'
@@ -9020,8 +9039,9 @@ function miloFarmFeed() {
 
 function miloFarmPet() {
   if (!_miloState || _miloState.mood === 'sleeping') return;
-  _miloState.happiness = Math.min(100, _miloState.happiness + 18);
-  _miloState.health    = Math.min(100, _miloState.health + 3);
+  _miloState.happiness = Math.min(100, _miloState.happiness + 30);
+  _miloState.health    = Math.min(100, _miloState.health + 8);
+  miloUpdateStatBars();
   _miloBlushTimer = 50;
   // Big happy hop
   _miloScene.vx = (Math.random() > 0.5 ? 1 : -1) * 2.2;
@@ -9036,9 +9056,10 @@ function miloFarmPet() {
 function miloFarmPlay() {
   if (!_miloState || _miloState.mood === 'sleeping') return;
   if (_miloState.energy < 15) { miloShowBubble('Too tired\u2026 \uD83D\uDE34', 2000); return; }
-  _miloState.happiness = Math.min(100, _miloState.happiness + 22);
-  _miloState.energy    = Math.max(0, _miloState.energy - 15);
-  _miloState.hunger    = Math.max(0, _miloState.hunger - 8);
+  _miloState.happiness = Math.min(100, _miloState.happiness + 35);
+  _miloState.energy    = Math.max(0, _miloState.energy - 8);
+  _miloState.hunger    = Math.max(0, _miloState.hunger - 4);
+  miloUpdateStatBars();
   // Zoom around
   _miloScene.vx = (Math.random() > 0.5 ? 1 : -1) * 2.8;
   _miloScene.vy = -1.8;
@@ -9098,8 +9119,9 @@ function miloFarmTap(evt) {
 
   // Reward tap: happiness + energy + binky animation
   _miloTapCooldown = now + 5000; // 5-second reward cooldown
-  _miloState.happiness = Math.min(100, _miloState.happiness + 12);
-  _miloState.energy    = Math.min(100, _miloState.energy    + 4);
+  _miloState.happiness = Math.min(100, _miloState.happiness + 20);
+  _miloState.energy    = Math.min(100, _miloState.energy    + 8);
+  miloUpdateStatBars();
   _miloBinkyTimer = 55;
 
   var stage = miloGetStage(_miloState.age);
@@ -12701,9 +12723,22 @@ function _myProfile() {
 // ── Lobby listener ────────────────────────────────────────────────
 function initLobbyListener() {
   if (!window.FB || !window.FB.ready()) return;
-  if (window._lobbyListenerActive) return; window._lobbyListenerActive = true;
+  // No singleton guard — watchLobby now detaches + re-attaches cleanly each time
   window.FB.watchLobby(function(data) {
-    _lobbyState = data || {};
+    var _incoming = data || {};
+    // Merge: keep any locally-written players that Firebase hasn't confirmed yet
+    Object.keys(_lobbyState).forEach(function(gid) {
+      var localGame = _lobbyState[gid];
+      if (!localGame || !localGame.players) return;
+      if (!_incoming[gid]) _incoming[gid] = { players: {} };
+      if (!_incoming[gid].players) _incoming[gid].players = {};
+      Object.keys(localGame.players).forEach(function(pid) {
+        if (!_incoming[gid].players[pid]) {
+          _incoming[gid].players[pid] = localGame.players[pid];
+        }
+      });
+    });
+    _lobbyState = _incoming;
     var overlay = document.getElementById('triviaOverlay');
     var isOpen  = overlay && !overlay.classList.contains('hidden');
     if (isOpen) {
@@ -12730,6 +12765,7 @@ function lobbyJoin(gameId) {
   if (!r) return;
   var p = _myProfile();
   if (!p) return;
+  initLobbyListener(); // ensure live stream is active before joining
   var entry = Object.assign({}, p, { joinedAt: Date.now() });
   // Always update local state immediately
   if (!_lobbyState[gameId]) _lobbyState[gameId] = { gameId: gameId, players: {} };
@@ -12982,6 +13018,7 @@ function _closeHubOverlay() {
 
 function openGame(id) {
   _closeHubOverlay();
+  initLobbyListener(); // ensure live lobby stream before opening any game
   document.getElementById('triviaOverlay').classList.remove('hidden');
   if (id === 'trivia') {
     _gameView = 'trivia-cats';
@@ -13030,6 +13067,14 @@ function c4JoinFromHub() {
 }
 
 function memoryJoinFromHub() {
+  _closeHubOverlay();
+  document.getElementById('triviaOverlay').classList.remove('hidden');
+  _gameView = 'memory';
+  memoryOpenLobby();
+  renderTriviaPanel();
+}
+
+function memJoinFromHub() {
   _closeHubOverlay();
   document.getElementById('triviaOverlay').classList.remove('hidden');
   _gameView = 'memory';
@@ -13336,6 +13381,10 @@ function renderGameHub(panel, r, isDark, ts) {
 }
 
 function triviaJoinActive() {
+  var overlay = document.getElementById('triviaOverlay');
+  if (overlay) overlay.classList.remove('hidden');
+  initTriviaListener();
+  initLobbyListener();
   _gameView = 'playing';
   renderTriviaPanel();
 }
@@ -13846,7 +13895,7 @@ function renderGameLobbyPanel(panel, r, isDark, opts) {
 // ── Firebase listener ─────────────────────────────────────────────
 function initTTTListener() {
   if (!window.FB || !window.FB.ready()) return;
-  if (window._tttListenerActive) return; window._tttListenerActive = true;
+  // Listener re-attaches cleanly via unsub — no singleton guard needed
   window.FB.watchTTT(function(data) {
     _tttState = data;
     var overlay = document.getElementById('triviaOverlay');
@@ -13909,8 +13958,7 @@ function _tttWrite(data) {
 function _tttClear() {
   _tttState = null;
   _tttMine  = null;
-  window._tttListenerActive = false;
-  if (window.FB && window.FB.ready()) window.FB.clearTTT();
+    if (window.FB && window.FB.ready()) window.FB.clearTTT();
 }
 
 function tttInit() { initTTTListener(); }
@@ -13929,15 +13977,25 @@ function tttBeginGame() {
   if (!r) return;
   var players = lobbyPlayers(C_TTT);
   if (players.length < 2) {
-    showToast('⏳', 'Starting…', 'Waiting for lobby sync');
+    showToast('⏳', 'Starting…', 'Waiting for both players…');
     setTimeout(function() {
       var retry = lobbyPlayers(C_TTT);
       if (retry.length >= 2) { tttBeginGame(); }
-      else { showToast('⚠️', 'Not enough players', 'Make sure both players have joined the lobby'); }
+      else {
+        // One more retry after another 2s before giving up
+        setTimeout(function() {
+          var retry2 = lobbyPlayers(C_TTT);
+          if (retry2.length >= 2) { tttBeginGame(); }
+          else { showToast('⚠️', 'Not enough players', 'Make sure the other player has opened Tic Tac Toe'); }
+        }, 2000);
+      }
     }, 1500);
     return;
   }
   var p1 = players[0], p2 = players[1];
+  // Clear lobby so ghost players can't interfere with new games
+  if (window.FB && window.FB.ready()) window.FB.clearLobby(C_TTT);
+  if (_lobbyState[C_TTT]) delete _lobbyState[C_TTT];
   var gs = {
     phase: 'playing', hostId: p1.id,
     board: [null,null,null,null,null,null,null,null,null],
@@ -13959,8 +14017,7 @@ function tttBeginGame() {
   _tttWrite(gs);
   setTimeout(function() {
     if (window.FB && window.FB.ready()) window.FB.clearLobby(C_TTT);
-    window._lobbyListenerActive = false;
-    if (_lobbyState[C_TTT]) delete _lobbyState[C_TTT];
+        if (_lobbyState[C_TTT]) delete _lobbyState[C_TTT];
   }, 3000);
   _gameView = 'tictactoe';
   renderTriviaPanel();
@@ -13984,8 +14041,9 @@ function renderTTTPanel(panel, r, isDark) {
     var players = lobbyPlayers(C_TTT);
     var myId = r ? r.id : null;
 
-    // Joining spinner
-    if (!gs && players.length === 0) {
+    // Joining spinner — only show if even the local player hasn't registered yet
+    var _myInLobby = players.some(function(p){ return p.id === myId; });
+    if (!gs && players.length === 0 && !_myInLobby) {
       panel.innerHTML =
         _tttHeader('tttQuit()') +
         '<div style="flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px">' +
@@ -14413,14 +14471,65 @@ function tttMove(idx) {
     sfxTone(523,'sine',0.15,0.2,0,0.01,0.1);
     sfxTone(659,'sine',0.12,0.2,0.1,0.01,0.1);
     sfxTone(784,'sine',0.10,0.3,0.2,0.01,0.15);
-    if (winner === mySide) recordGameResult('ttt','win');
-    else if (winner === 'draw') recordGameResult('ttt','draw');
-    else recordGameResult('ttt','loss');
+    if (!gs.solo && !_tttResultRecorded) {
+      _tttResultRecorded = true;
+      if (winner === mySide) recordGameResult('ttt','win');
+      else if (winner === 'draw') recordGameResult('ttt','draw');
+      else recordGameResult('ttt','loss');
+    }
   } else {
     sfxTone(440,'triangle',0.08,0.08,0,0.005,0.04);
   }
 }
 
+
+// ── Record game result and sync to leaderboard ──────────────────────────────
+function recordGameResult(gameId, result, opts) {
+  var r = state.activeProfile;
+  if (!r) return;
+  var rid = r.id;
+  if (!state.profiles[rid]) state.profiles[rid] = {};
+  var p = state.profiles[rid];
+  // Add gamesXP
+  var xpGain = result === 'win' ? 30 : result === 'draw' ? 10 : 5;
+  if (opts && opts.perfect) xpGain += 20;
+  p.gamesXP = (p.gamesXP || 0) + xpGain;
+  p.xp = (p.xp || 0) + xpGain;
+  // Track per-game wins
+  if (result === 'win') {
+    if (gameId === 'ttt')     p.tttWins  = (p.tttWins  || 0) + 1;
+    if (gameId === 'c4')      p.c4Wins   = (p.c4Wins   || 0) + 1;
+    if (gameId === 'memory')  p.memWins  = (p.memWins  || 0) + 1;
+    if (gameId === 'trivia')  p.trivWins = (p.trivWins || 0) + 1;
+  }
+  // Persist locally
+  try { localStorage.setItem('hs_profile_' + rid, JSON.stringify(p)); } catch(e) {}
+  // Sync leaderboard scores to Firebase
+  if (window.FB && window.FB.ready()) {
+    var f = gFarm || {};
+    var memBest = p.memBest || 0;
+    var displayName = (state.profiles[rid] && state.profiles[rid].displayName) || '';
+    var avatar = (state.profiles[rid] && state.profiles[rid].avatar) || '';
+    window.FB.setPlayerScores(rid, {
+      xp:          p.xp || 0,
+      farmLvl:     (f.lvl) || 1,
+      farmCoins:   (f.stats && f.stats.totalCoins) || 0,
+      farmHarvests:(f.stats && f.stats.harvests) || 0,
+      memBest,
+      tttWins:  p.tttWins  || 0,
+      c4Wins:   p.c4Wins   || 0,
+      gamesXP:  p.gamesXP  || 0,
+      displayName, avatar
+    });
+    window.FB.setPlayerXP(rid, p.xp || 0);
+  }
+  // Show XP toast
+  if (result === 'win') {
+    showToast('🏆', 'You won!', '+' + xpGain + ' XP');
+  } else if (result === 'draw') {
+    showToast('🤝', 'Draw!', '+' + xpGain + ' XP');
+  }
+}
 
 function _detachGameListener(key) {
   if (window._fbUnsub && window._fbUnsub[key]) {
@@ -14457,8 +14566,7 @@ function tttQuit() {
   }
   _tttState = null;
   _tttMine = null;
-  window._tttListenerActive = false; // allow re-subscription next open
-  _gameView = 'hub';
+    _gameView = 'hub';
   renderTriviaPanel();
 }
 
@@ -14466,9 +14574,7 @@ function tttRematch() {
   var wasSolo = _tttState && _tttState.solo;
   _tttState = null;
   _tttMine  = null;
-  window._tttListenerActive = false;
-  window._lobbyListenerActive = false;
-  document.getElementById('triviaOverlay').classList.remove('hidden');
+      document.getElementById('triviaOverlay').classList.remove('hidden');
   _gameView = 'tictactoe';
   if (wasSolo) {
     tttStartSolo(); // restart solo game immediately
@@ -14494,13 +14600,15 @@ function tttRematch() {
 const C4_ROWS = 6, C4_COLS = 7;
 const C_C4    = 'connect4';
 let   _c4State = null;
+var   _c4ResultRecorded      = false;
+var   _gbResultRecorded      = false;
+var   _mmResultRecorded      = false;
+var   _charadesResultRecorded = false;
 
 // ── Firebase wiring ───────────────────────────────────────────────
 function initC4Listener() {
   if (!window.FB || !window.FB.ready()) return;
-  if (window._c4ListenerActive) return;
-  window._c4ListenerActive = true;
-
+  // Re-attaches cleanly via unsub
   window.FB.watchC4(function(data) {
     _c4State = data;
     var overlay = document.getElementById('triviaOverlay');
@@ -14544,8 +14652,7 @@ function _c4Write(data) {
 function _c4Clear() {
   _c4State = null;
   _c4DropPending = false;
-  window._c4ListenerActive = false;
-  if (window.FB && window.FB.ready()) window.FB.clearC4();
+    if (window.FB && window.FB.ready()) window.FB.clearC4();
   // Reset lobby state for this game
   if (_lobbyState[C_C4]) delete _lobbyState[C_C4];
 }
@@ -14555,6 +14662,7 @@ function c4Init()      { initC4Listener(); }
 function c4OpenLobby() {
   var r = state.activeProfile;
   if (!r) return;
+  _c4ResultRecorded = false;
   initC4Listener();
   initLobbyListener();
   lobbyJoin(C_C4);
@@ -14581,6 +14689,8 @@ function c4BeginGame() {
   }
 
   var p1 = players[0], p2 = players[1];
+    if (window.FB && window.FB.ready()) window.FB.clearLobby(C_C4);
+  if (_lobbyState[C_C4]) delete _lobbyState[C_C4];
   var gs = {
     phase:      'playing',
     board:      Array(C4_ROWS * C4_COLS).fill(null),
@@ -14606,8 +14716,7 @@ function c4BeginGame() {
 
   setTimeout(function() {
     if (window.FB && window.FB.ready()) window.FB.clearLobby(C_C4);
-    window._lobbyListenerActive = false;
-    if (_lobbyState[C_C4]) delete _lobbyState[C_C4];
+        if (_lobbyState[C_C4]) delete _lobbyState[C_C4];
   }, 3000);
 
   _gameView = 'connect4';
@@ -14664,8 +14773,15 @@ function c4Drop(col) {
     sfxTone(523,'sine',0.15,0.2,0,0.01,0.1);
     sfxTone(659,'sine',0.12,0.18,0.1,0.01,0.1);
     sfxTone(880,'sine',0.10,0.15,0.2,0.01,0.12);
+    if (!gs.solo && !_c4ResultRecorded) {
+      _c4ResultRecorded = true;
+      if (winner === mySide) recordGameResult('c4','win');
+      else if (winner === 'draw') recordGameResult('c4','draw');
+      else recordGameResult('c4','loss');
+    }
   } else if (isDraw) {
     sfxTone(440,'sine',0.1,0.15,0,0.01,0.1);
+    if (!gs.solo && !_c4ResultRecorded) { _c4ResultRecorded = true; recordGameResult('c4','draw'); }
   } else {
     sfxClick && sfxClick();
   }
@@ -14952,17 +15068,15 @@ function c4Quit() {
     _c4Clear();
   }
   _c4State  = null;
-  window._c4ListenerActive = false; // allow re-subscription next open
-  _gameView = 'hub';
+    _gameView = 'hub';
   renderTriviaPanel();
 }
 
 function c4Rematch() {
   var wasSolo = _c4State && _c4State.solo;
   _c4State  = null;
-  window._c4ListenerActive = false;
-  window._lobbyListenerActive = false;
-  var overlay = document.getElementById('triviaOverlay');
+  _c4ResultRecorded = false;
+      var overlay = document.getElementById('triviaOverlay');
   if (overlay) overlay.classList.remove('hidden');
   _gameView = 'connect4';
   if (wasSolo) {
@@ -15152,7 +15266,7 @@ function _chWrite(st) {
 
 function initCharadesListener() {
   if (!window.FB || !window.FB.ready()) return;
-  if (window._charadesListenerActive) return; window._charadesListenerActive = true;
+  // Re-attaches cleanly via unsub
   window.FB.watchCharades(function(data) {
     var r = state.activeProfile;
     var overlay = document.getElementById('triviaOverlay');
@@ -15184,6 +15298,7 @@ function initCharadesListener() {
 }
 
 function charadesOpenSetup() {
+  _charadesResultRecorded = false;
   _chUsed = new Set();
   var r = state.activeProfile;
   _chHostId = r ? r.id : null;
@@ -15329,8 +15444,7 @@ function charadesStartTurn() {
 }
 
 function charadesQuit() {
-  window._charadesListenerActive = false;
-  charadesStopTimer();
+    charadesStopTimer();
   if (window.FB && window.FB.ready()) window.FB.clearCharades();
   _chState = null;
   _gameView = 'hub';
@@ -15592,6 +15706,7 @@ function renderCharadesPanel(panel, r, isDark) {
 
   // ── GAME OVER ──────────────────────────────────────────────────
   } else if (gs.phase === 'gameover') {
+    if (!_charadesResultRecorded) { _charadesResultRecorded = true; recordGameResult('charades','complete'); }
     var sorted = gs.teams.slice().sort(function(a,b){ return b.score - a.score; });
     var winner = sorted[0];
     var isTie  = sorted.length > 1 && sorted[0].score === sorted[1].score;
@@ -17751,8 +17866,6 @@ function _memShuffle(arr) {
 
 function initMemoryListener() {
   if (!window.FB || !window.FB.ready()) return;
-  if (window._memListenerActive) return;
-  window._memListenerActive = true;
   window.FB.watchMemory(function(data) {
     var r = state.activeProfile;
     var overlay = document.getElementById('triviaOverlay');
@@ -17778,13 +17891,14 @@ function memoryOpenLobby() {
   lobbyJoin(C_MEM);
 }
 
-function memoryBeginGame() {
+function memoryBeginGame(_retry) {
   var r = state.activeProfile;
   if (!r) return;
   var players = lobbyPlayers(C_MEM);
   if (players.length < 2) {
-    showToast('⏳','Starting…','Waiting for lobby sync');
-    setTimeout(memoryBeginGame, 1500); return;
+    if ((_retry||0) >= 2) { showToast('⚠️','Not enough players','Make sure the other player has joined'); return; }
+    showToast('⏳','Waiting for players…','Syncing lobby…');
+    setTimeout(function(){ memoryBeginGame((_retry||0)+1); }, 1800); return;
   }
   var p1 = players[0], p2 = players[1];
   var pairs = MEM_MATCH_EMOJIS.concat(MEM_MATCH_EMOJIS);
@@ -17794,6 +17908,8 @@ function memoryBeginGame() {
   var scores = {};
   scores[p1.id] = 0;
   scores[p2.id] = 0;
+    if (window.FB && window.FB.ready()) window.FB.clearLobby(C_MEM);
+  if (_lobbyState[C_MEM]) delete _lobbyState[C_MEM];
   var gs = {
     phase: 'playing',
     board: board,
@@ -17948,6 +18064,7 @@ function memoryQuit() {
 }
 
 function memoryRematch() {
+  _memResultRecorded = false;
   if (_memState && _memState.solo) {
     memoryStartSolo();
     return;
@@ -18145,8 +18262,6 @@ var _gbingoState = null;
 
 function initGBingoListener() {
   if (!window.FB || !window.FB.ready()) return;
-  if (window._gbingoListenerActive) return;
-  window._gbingoListenerActive = true;
   window.FB.watchGBingo(function(data) {
     var r = state.activeProfile;
     var overlay = document.getElementById('triviaOverlay');
@@ -18155,7 +18270,12 @@ function initGBingoListener() {
     // from hijacking the login screen on every session
     var _gbAge = data && data.startedAt ? (Date.now() - data.startedAt) : Infinity;
     var _gbRecent = _gbAge < 2 * 60 * 60 * 1000;
+    if (data && data.phase === 'done' && r && !_gbResultRecorded && data.players && data.players[r.id]) {
+      _gbResultRecorded = true;
+      recordGameResult('gbingo', data.winner === r.id ? 'win' : 'loss');
+    }
     if (data && data.phase === 'playing' && r && data.players && data.players[r.id] && _gbRecent) {
+      _gbResultRecorded = false;
       if (overlay && overlay.classList.contains('hidden')) overlay.classList.remove('hidden');
       _gameView = 'gbingo';
     }
@@ -18171,13 +18291,14 @@ function gbingoOpenLobby() {
   lobbyJoin(C_GBINGO);
 }
 
-function gbingoBeginGame() {
+function gbingoBeginGame(_retry) {
   var r = state.activeProfile;
   if (!r) return;
   var players = lobbyPlayers(C_GBINGO);
   if (players.length < 2) {
-    showToast('⏳','Starting…','Waiting for lobby sync');
-    setTimeout(gbingoBeginGame, 1500); return;
+    if ((_retry||0) >= 2) { showToast('⚠️','Not enough players','Make sure the other player has joined'); return; }
+    showToast('⏳','Waiting for players…','Syncing lobby…');
+    setTimeout(function(){ gbingoBeginGame((_retry||0)+1); }, 1800); return;
   }
   var allIdx = BINGO_PROMPTS.map(function(_,i){ return i; });
   var callOrder = _memShuffle(allIdx);
@@ -18287,6 +18408,7 @@ function gbingoQuit() {
 }
 
 function gbingoRematch() {
+  _gbResultRecorded = false;
   _gbingoState = null;
   if (window.FB) window.FB.clearGBingo();
   gbingoOpenLobby();
@@ -18417,15 +18539,18 @@ var _mmState = null;
 
 function initMoodMirrorListener() {
   if (!window.FB || !window.FB.ready()) return;
-  if (window._mmListenerActive) return;
-  window._mmListenerActive = true;
   window.FB.watchMoodMirror(function(data) {
     var r = state.activeProfile;
     var overlay = document.getElementById('triviaOverlay');
     _mmState = data;
     var _mmAge = data && data.startedAt ? (Date.now() - data.startedAt) : Infinity;
     var _mmRecent = _mmAge < 2 * 60 * 60 * 1000;
+    if (data && data.phase === 'done' && r && !_mmResultRecorded && data.players && data.players[r.id]) {
+      _mmResultRecorded = true;
+      recordGameResult('mm', data.winner === r.id ? 'win' : 'loss');
+    }
     if (data && data.phase && data.phase !== 'done' && r && data.players && data.players[r.id] && _mmRecent) {
+      _mmResultRecorded = false;
       if (overlay && overlay.classList.contains('hidden')) overlay.classList.remove('hidden');
       _gameView = 'moodmirror';
     }
@@ -18441,13 +18566,14 @@ function mmOpenLobby() {
   lobbyJoin(C_MOODMIRROR);
 }
 
-function mmBeginGame() {
+function mmBeginGame(_retry) {
   var r = state.activeProfile;
   if (!r) return;
   var players = lobbyPlayers(C_MOODMIRROR);
   if (players.length < 2) {
-    showToast('⏳','Starting…','Waiting for lobby sync');
-    setTimeout(mmBeginGame, 1500); return;
+    if ((_retry||0) >= 2) { showToast('⚠️','Not enough players','Make sure the other player has joined'); return; }
+    showToast('⏳','Waiting for players…','Syncing lobby…');
+    setTimeout(function(){ mmBeginGame((_retry||0)+1); }, 1800); return;
   }
   var playersMap = {}, scores = {}, playerOrder = [];
   players.forEach(function(p) {
@@ -18455,6 +18581,8 @@ function mmBeginGame() {
     scores[p.id] = 0;
     playerOrder.push(p.id);
   });
+    if (window.FB && window.FB.ready()) window.FB.clearLobby(C_MOODMIRROR);
+  if (_lobbyState[C_MOODMIRROR]) delete _lobbyState[C_MOODMIRROR];
   var gs = {
     phase:'picking', host:players[0].id,
     mirror:players[0].id, playerOrder:playerOrder,
@@ -18576,6 +18704,7 @@ function mmQuit() {
 }
 
 function mmRematch() {
+  _mmResultRecorded = false;
   _mmState = null;
   if (window.FB) window.FB.clearMoodMirror();
   mmOpenLobby();

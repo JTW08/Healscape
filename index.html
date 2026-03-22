@@ -23,12 +23,12 @@
 :root {
   --gold:#f5c842; --gold-lt:#ffd54f; --gold2:#c8960a;
   --ember:#ef5350;
-  --stone:#1a1714; --stone2:#221e1a; --stone3:#2e2822; --stone4:#3a332a;
+  --stone:#1a1714; --stone1:#0f0c0a; --stone2:#221e1a; --stone3:#2e2822; --stone4:#3a332a;
   --fog:rgba(255,255,255,0.07); --fog2:rgba(255,255,255,0.13);
   --text:#f0dca0; --text2:rgba(200,170,100,0.65);
   --card-bg:rgba(38,28,4,.92); --card-border:rgba(200,150,10,.2);
   --input-bg:rgba(38,28,4,.9); --input-border:rgba(200,150,10,.25);
-  --radius:14px; --tab-h:clamp(56px,8.5vh,72px); --hud-h:clamp(54px,8vh,68px);
+  --radius:14px; --tab-h:60px; --tab-h:clamp(56px,8.5vh,72px); --hud-h:58px; --hud-h:clamp(54px,8vh,68px);
 }
 /* ── LIGHT REALM THEME ── */
 [data-theme="light"] {
@@ -280,7 +280,7 @@ body::before{
 .screen.active{display:flex}
 
 /* ── BOOT ── */
-#screen-boot{align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 40%,#2a1f0e 0%,var(--stone) 70%)}
+#screen-boot{align-items:center;justify-content:center;min-height:100vh;min-height:100dvh;background:radial-gradient(ellipse at 50% 40%,#2a1f0e 0%,var(--stone) 70%)}
 .boot-castle{font-size:72px;animation:floatY 3s ease-in-out infinite}
 .boot-title{font-family:'Cinzel',serif;font-size:32px;font-weight:700;color:var(--gold-lt);letter-spacing:4px;margin:12px 0 4px;text-shadow:0 0 30px rgba(192,144,26,.6)}
 .boot-sub{font-size:14px;color:var(--text2);letter-spacing:2px;font-style:italic}
@@ -433,7 +433,7 @@ body::before{
 .tab-panel.farm-panel{padding:0;overflow:hidden;display:none;flex-direction:column;position:relative}
 .tab-panel.farm-panel.active{display:flex}
 .tab-panel.games-panel{padding:0;overflow:hidden;display:none;flex-direction:column}
-.tab-panel.games-panel.active{display:flex}
+.tab-panel.games-panel.active{display:flex;height:100%}
 .tab-panel.circle-panel{display:none}
 /* ── Circle FAB (left side, always-on) ────────────── */
 .circle-fab{position:fixed;bottom:76px;left:14px;z-index:155;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,rgba(171,71,188,.92),rgba(103,58,183,.88));border:2px solid rgba(206,147,216,.45);color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;box-shadow:0 4px 16px rgba(0,0,0,.55);transition:transform .42s cubic-bezier(.22,1.5,.36,1),opacity .2s ease;-webkit-tap-highlight-color:transparent;will-change:transform,opacity}
@@ -3037,6 +3037,7 @@ function boot() {
 
   const bar    = document.getElementById('bootBar');
   const status = document.getElementById('bootStatus');
+  if (!bar || !status) { showScreen('password'); return; }
 
   if (savedRole && sessionAge < SESSION_TTL) {
     // Session still valid — skip password AND pin, go straight in
@@ -4274,7 +4275,15 @@ function setTab(name) {
     if (!medievalMusicPlaying && !lofiMusicPlaying) startBgMusic();
   }
   if (name === 'CIRCLE') buildCircleTab();
-  if (name === 'GAMES') buildGamesOverlay();
+  if (name === 'GAMES') {
+    try { buildGamesOverlay(); }
+    catch(e) {
+      var _gp = document.getElementById('tab-GAMES');
+      if (_gp) _gp.innerHTML = '<div style="padding:32px;text-align:center;color:rgba(255,255,255,.4);font-family:Cinzel,serif;font-size:13px">Loading games…</div>';
+      console.error('buildGamesOverlay error:', e);
+      setTimeout(function(){ try { buildGamesOverlay(); } catch(e2){} }, 500);
+    }
+  }
   // Show or hide chat FABs based on which tab is active
   _updateFabVisibility(name);
 }
@@ -14553,8 +14562,12 @@ function buildGamesTab() {
 function openTriviaLobby() {
   _triviaSelected = null;
   _gameView = _triviaState ? (_triviaState.phase === 'waiting' || _triviaState.phase === 'question' || _triviaState.phase === 'reveal' || _triviaState.phase === 'end' ? 'playing' : 'hub') : 'hub';
-  document.getElementById('triviaOverlay').classList.remove('hidden');
-  renderTriviaPanel();
+  setTab('GAMES');
+  setTimeout(function() {
+    var ov = document.getElementById('triviaOverlay');
+    if (ov) ov.classList.remove('hidden');
+    renderTriviaPanel();
+  }, 50);
 }
 
 function closeTriviaOverlay() {
@@ -16102,6 +16115,7 @@ function _c4Clear() {
 // ── Lobby ──────────────────────────────────────────────────────────
 function c4Init()      { initC4Listener(); }
 function c4OpenLobby() {
+  if (typeof setTab === 'function') setTab('GAMES');
   var r = state.activeProfile;
   if (!r) return;
   _c4ResultRecorded = false;
@@ -19342,6 +19356,7 @@ function initMemoryListener() {
 }
 
 function memoryOpenLobby() {
+  if (typeof setTab === 'function') setTab('GAMES');
   initMemoryListener();
   initLobbyListener();
   lobbyJoin(C_MEM);
@@ -19751,6 +19766,7 @@ function initGBingoListener() {
 }
 
 function gbingoOpenLobby() {
+  if (typeof setTab === 'function') setTab('GAMES');
   initGBingoListener();
   initLobbyListener();
   lobbyJoin(C_GBINGO);
@@ -20026,6 +20042,7 @@ function initMoodMirrorListener() {
 }
 
 function mmOpenLobby() {
+  if (typeof setTab === 'function') setTab('GAMES');
   initMoodMirrorListener();
   initLobbyListener();
   lobbyJoin(C_MOODMIRROR);

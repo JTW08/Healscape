@@ -1,15 +1,1 @@
-{
-  "name": "HealScape",
-  "short_name": "HealScape",
-  "description": "A family wellness and healing companion app",
-  "start_url": "/Healscape/",
-  "scope": "/Healscape/",
-  "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#1a1714",
-  "theme_color": "#1a1714",
-  "icons": [
-    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
-  ]
-}
+{"name":"HealScape","short_name":"HealScape","description":"A family wellness and healing companion app","start_url":"/Healscape/","scope":"/Healscape/","display":"standalone","orientation":"portrait","background_color":"#1a1714","theme_color":"#1a1714","icons":[{"src":"icon-192.png","sizes":"192x192","type":"image/png","purpose":"any"},{"src":"icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}]}

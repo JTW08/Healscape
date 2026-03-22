@@ -23,12 +23,12 @@
 :root {
   --gold:#f5c842; --gold-lt:#ffd54f; --gold2:#c8960a;
   --ember:#ef5350;
-  --stone:#1a1714; --stone1:#0f0c0a; --stone2:#221e1a; --stone3:#2e2822; --stone4:#3a332a;
+  --stone:#1a1714; --stone2:#221e1a; --stone3:#2e2822; --stone4:#3a332a;
   --fog:rgba(255,255,255,0.07); --fog2:rgba(255,255,255,0.13);
   --text:#f0dca0; --text2:rgba(200,170,100,0.65);
   --card-bg:rgba(38,28,4,.92); --card-border:rgba(200,150,10,.2);
   --input-bg:rgba(38,28,4,.9); --input-border:rgba(200,150,10,.25);
-  --radius:14px; --tab-h:60px; --tab-h:clamp(56px,8.5vh,72px); --hud-h:58px; --hud-h:clamp(54px,8vh,68px);
+  --radius:14px; --tab-h:clamp(56px,8.5vh,72px); --hud-h:clamp(54px,8vh,68px);
 }
 /* ── LIGHT REALM THEME ── */
 [data-theme="light"] {
@@ -280,7 +280,7 @@ body::before{
 .screen.active{display:flex}
 
 /* ── BOOT ── */
-#screen-boot{align-items:center;justify-content:center;min-height:100vh;min-height:100dvh;background:radial-gradient(ellipse at 50% 40%,#2a1f0e 0%,var(--stone) 70%)}
+#screen-boot{align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 40%,#2a1f0e 0%,var(--stone) 70%)}
 .boot-castle{font-size:72px;animation:floatY 3s ease-in-out infinite}
 .boot-title{font-family:'Cinzel',serif;font-size:32px;font-weight:700;color:var(--gold-lt);letter-spacing:4px;margin:12px 0 4px;text-shadow:0 0 30px rgba(192,144,26,.6)}
 .boot-sub{font-size:14px;color:var(--text2);letter-spacing:2px;font-style:italic}
@@ -433,7 +433,7 @@ body::before{
 .tab-panel.farm-panel{padding:0;overflow:hidden;display:none;flex-direction:column;position:relative}
 .tab-panel.farm-panel.active{display:flex}
 .tab-panel.games-panel{padding:0;overflow:hidden;display:none;flex-direction:column}
-.tab-panel.games-panel.active{display:flex;height:100%}
+.tab-panel.games-panel.active{display:flex}
 .tab-panel.circle-panel{display:none}
 /* ── Circle FAB (left side, always-on) ────────────── */
 .circle-fab{position:fixed;bottom:76px;left:14px;z-index:155;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,rgba(171,71,188,.92),rgba(103,58,183,.88));border:2px solid rgba(206,147,216,.45);color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;box-shadow:0 4px 16px rgba(0,0,0,.55);transition:transform .42s cubic-bezier(.22,1.5,.36,1),opacity .2s ease;-webkit-tap-highlight-color:transparent;will-change:transform,opacity}
@@ -2212,6 +2212,14 @@ body {
       onValue(ref(db,'farm/'+rid), snap => cb(snap.val()));
     },
 
+    // ── Firebase connection state ─────────────────────────────────
+    // cb(true) = connected, cb(false) = disconnected
+    watchConnected: (cb) => {
+      if (!fbReady) return;
+      if (_unsub['connected']) { try { _unsub['connected'](); } catch(e) {} }
+      _unsub['connected'] = onValue(ref(db, '.info/connected'), snap => cb(!!snap.val()));
+    },
+
   };
 
   // Dispatch after a tick so main script's event listeners are ready
@@ -2245,6 +2253,11 @@ body {
   </script>
 </head>
 <body>
+
+<!-- Firebase offline/online indicator banner -->
+<div id="fbConnBanner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:99999;background:#b71c1c;color:#fff;font-size:13px;font-family:sans-serif;text-align:center;padding:6px 12px;letter-spacing:.4px">
+  📵 No connection — waiting to reconnect…
+</div>
 
 <!-- INSTALL PROMPT OVERLAY -->
 <div id="installPrompt" style="display:none">
@@ -3037,7 +3050,6 @@ function boot() {
 
   const bar    = document.getElementById('bootBar');
   const status = document.getElementById('bootStatus');
-  if (!bar || !status) { showScreen('password'); return; }
 
   if (savedRole && sessionAge < SESSION_TTL) {
     // Session still valid — skip password AND pin, go straight in
@@ -3050,7 +3062,7 @@ function boot() {
     const tick = setInterval(() => {
       if (i >= steps.length) {
         clearInterval(tick);
-        setTimeout(() => enterGame(savedRole), 300);
+        setTimeout(() => { try { enterGame(savedRole); } catch(e) { console.error('enterGame error:', e); showScreen('password'); } }, 300);
         return;
       }
       const [pct, txt] = steps[i++];
@@ -3071,7 +3083,7 @@ function boot() {
         clearInterval(tick);
         setTimeout(() => {
           buildProfiles(); // needed for state
-          openPin(savedRole);
+          if (typeof openPin === 'function') openPin(savedRole); else showScreen('password');
         }, 300);
         return;
       }
@@ -4043,6 +4055,7 @@ function enterGame(role) {
     initGBingoListener();
     initMoodMirrorListener();
     initCalendarListener();
+    initConnectedListener();
   } else {
     document.addEventListener('firebase-ready', function onFbReady(ev) {
       document.removeEventListener('firebase-ready', onFbReady);
@@ -4064,6 +4077,7 @@ function enterGame(role) {
         initGBingoListener();
         initMoodMirrorListener();
         initCalendarListener();
+        initConnectedListener();
       }
     });
   }
@@ -4275,15 +4289,7 @@ function setTab(name) {
     if (!medievalMusicPlaying && !lofiMusicPlaying) startBgMusic();
   }
   if (name === 'CIRCLE') buildCircleTab();
-  if (name === 'GAMES') {
-    try { buildGamesOverlay(); }
-    catch(e) {
-      var _gp = document.getElementById('tab-GAMES');
-      if (_gp) _gp.innerHTML = '<div style="padding:32px;text-align:center;color:rgba(255,255,255,.4);font-family:Cinzel,serif;font-size:13px">Loading games…</div>';
-      console.error('buildGamesOverlay error:', e);
-      setTimeout(function(){ try { buildGamesOverlay(); } catch(e2){} }, 500);
-    }
-  }
+  if (name === 'GAMES') buildGamesOverlay();
   // Show or hide chat FABs based on which tab is active
   _updateFabVisibility(name);
 }
@@ -12271,6 +12277,23 @@ function getOnlineStatus() {
   catch(e) { return {}; }
 }
 
+function initConnectedListener() {
+  if (!window.FB || !window.FB.ready()) return;
+  var _banner = document.getElementById('fbConnBanner');
+  var _wasOffline = false;
+  window.FB.watchConnected(function(connected) {
+    if (!_banner) _banner = document.getElementById('fbConnBanner');
+    if (connected) {
+      if (_banner) _banner.style.display = 'none';
+      if (_wasOffline) showToast('✅', 'Back online', 'Connected to HealScape');
+      _wasOffline = false;
+    } else {
+      if (_banner) _banner.style.display = 'block';
+      _wasOffline = true;
+    }
+  });
+}
+
 function initOnlineListener() {
   if (!window.FB || !window.FB.ready()) return;
   window.FB.watchOnline(function(data) {
@@ -14562,12 +14585,8 @@ function buildGamesTab() {
 function openTriviaLobby() {
   _triviaSelected = null;
   _gameView = _triviaState ? (_triviaState.phase === 'waiting' || _triviaState.phase === 'question' || _triviaState.phase === 'reveal' || _triviaState.phase === 'end' ? 'playing' : 'hub') : 'hub';
-  setTab('GAMES');
-  setTimeout(function() {
-    var ov = document.getElementById('triviaOverlay');
-    if (ov) ov.classList.remove('hidden');
-    renderTriviaPanel();
-  }, 50);
+  document.getElementById('triviaOverlay').classList.remove('hidden');
+  renderTriviaPanel();
 }
 
 function closeTriviaOverlay() {
@@ -15369,8 +15388,10 @@ function initTTTListener() {
       return;
     }
 
-    // Game is playing and I'm a player — always show the board on BOTH devices
-    if (_tttState.phase === 'playing' &&
+    // Game is playing and I'm a player — show board if game is fresh (< 2 hours)
+    var _tttAge = _tttState.startedAt ? (Date.now() - _tttState.startedAt) : Infinity;
+    var _tttRecent = _tttAge < 2 * 60 * 60 * 1000;
+    if (_tttState.phase === 'playing' && _tttRecent &&
         (_tttState.xId === r.id || _tttState.oId === r.id)) {
       // Ensure _tttMine is always set correctly from Firebase data
       _tttMine = (_tttState.xId === r.id) ? 'x' : 'o';
@@ -15459,6 +15480,7 @@ function tttBeginGame() {
     xAvatar: p1.avatar, oAvatar: p2.avatar,
     xColor: '#42a5f5', oColor: '#ef5350',
     turn: 'x', winner: null,
+    startedAt: Date.now(),
   };
   _tttMine = (r.id === p1.id) ? 'x' : 'o';
   // Notify P2's device to open the game immediately
@@ -16079,8 +16101,10 @@ function initC4Listener() {
       return;
     }
 
-    // Game is live or done and I'm a player → show board on BOTH devices
-    if ((_c4State.phase === 'playing' || _c4State.phase === 'done') &&
+    // Game is live or done and I'm a player → show board if fresh (< 2 hours)
+    var _c4Age = _c4State.startedAt ? (Date.now() - _c4State.startedAt) : Infinity;
+    var _c4Recent = _c4Age < 2 * 60 * 60 * 1000;
+    if (_c4Recent && (_c4State.phase === 'playing' || _c4State.phase === 'done') &&
         (_c4State.redId === r.id || _c4State.yellId === r.id)) {
       _gameView = 'connect4';
       if (overlay && overlay.classList.contains('hidden')) {
@@ -16115,7 +16139,6 @@ function _c4Clear() {
 // ── Lobby ──────────────────────────────────────────────────────────
 function c4Init()      { initC4Listener(); }
 function c4OpenLobby() {
-  if (typeof setTab === 'function') setTab('GAMES');
   var r = state.activeProfile;
   if (!r) return;
   _c4ResultRecorded = false;
@@ -16124,23 +16147,17 @@ function c4OpenLobby() {
   lobbyJoin(C_C4);
 }
 
-function c4BeginGame() {
+function c4BeginGame(_retry) {
   var r = state.activeProfile;
   if (!r) return;
 
   var players = lobbyPlayers(C_C4);
 
-  // Not enough players yet — retry once after Firebase sync delay
+  // Not enough players yet — retry up to twice (2 s apart) before giving up
   if (players.length < 2) {
+    if ((_retry||0) >= 2) { showToast('⚠️', 'Need 2 players', 'Make sure both players tapped Connect Four'); return; }
     showToast('⏳', 'Waiting for opponent…', 'Both players must be in the lobby');
-    setTimeout(function() {
-      var p2 = lobbyPlayers(C_C4);
-      if (p2.length >= 2) {
-        c4BeginGame();
-      } else {
-        showToast('⚠️', 'Need 2 players', 'Make sure both players tapped Connect Four');
-      }
-    }, 2000);
+    setTimeout(function() { c4BeginGame((_retry||0)+1); }, 2000);
     return;
   }
 
@@ -16158,6 +16175,7 @@ function c4BeginGame() {
     yellColor:  '#fdd835',   // Classic Connect Four yellow — always
     turn:       'red',
     winner:     null,
+    startedAt:  Date.now(),
   };
 
   // Notify P2's device to open immediately
@@ -16737,7 +16755,14 @@ function initCharadesListener() {
     }
 
     // If a charades game just started and we're not in it, open overlay
-    if (data.phase !== 'setup' && data.hostId && r && data.hostId !== r.id) {
+    // But don't hijack if we're already in a live game
+    var _chInLiveGame =
+      (_gameView === 'tictactoe'  && _tttState  && _tttState.phase  === 'playing') ||
+      (_gameView === 'connect4'   && _c4State   && _c4State.phase   === 'playing') ||
+      (_gameView === 'memory'     && _memState  && _memState.phase  === 'playing') ||
+      (_gameView === 'gbingo'     && _gbingoState && _gbingoState.phase === 'playing') ||
+      (_gameView === 'moodmirror' && _mmState   && _mmState.phase   === 'playing');
+    if (!_chInLiveGame && data.phase !== 'setup' && data.hostId && r && data.hostId !== r.id) {
       if (!isOpen) {
         document.getElementById('triviaOverlay').classList.remove('hidden');
         _gameView = 'charades';
@@ -19356,7 +19381,6 @@ function initMemoryListener() {
 }
 
 function memoryOpenLobby() {
-  if (typeof setTab === 'function') setTab('GAMES');
   initMemoryListener();
   initLobbyListener();
   lobbyJoin(C_MEM);
@@ -19766,7 +19790,6 @@ function initGBingoListener() {
 }
 
 function gbingoOpenLobby() {
-  if (typeof setTab === 'function') setTab('GAMES');
   initGBingoListener();
   initLobbyListener();
   lobbyJoin(C_GBINGO);
@@ -20042,7 +20065,6 @@ function initMoodMirrorListener() {
 }
 
 function mmOpenLobby() {
-  if (typeof setTab === 'function') setTab('GAMES');
   initMoodMirrorListener();
   initLobbyListener();
   lobbyJoin(C_MOODMIRROR);

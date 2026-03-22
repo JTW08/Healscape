@@ -14561,37 +14561,15 @@ function _closeHubOverlay() {
 }
 
 function openGame(id) {
-  _closeHubOverlay();
-  initLobbyListener(); // ensure live lobby stream before opening any game
-  document.getElementById('triviaOverlay').classList.remove('hidden');
-  if (id === 'trivia') {
-    _gameView = 'trivia-cats';
-    renderTriviaPanel();
-  } else if (id === 'tictactoe') {
-    _gameView = 'tictactoe';
-    tttOpenLobby();
-    renderTriviaPanel();
-  } else if (id === 'connect4') {
-    _gameView = 'connect4';
-    c4OpenLobby();
-    renderTriviaPanel();
-  } else if (id === 'charades') {
-    charadesOpenSetup();
-    _gameView = 'charades';
-    renderTriviaPanel();
-  } else if (id === 'memory') {
-    _gameView = 'memory';
-    memoryOpenLobby();
-    renderTriviaPanel();
-  } else if (id === 'gbingo') {
-    _gameView = 'gbingo';
-    gbingoOpenLobby();
-    renderTriviaPanel();
-  } else if (id === 'moodmirror') {
-    _gameView = 'moodmirror';
-    mmOpenLobby();
-    renderTriviaPanel();
-  }
+  // Each lobby opener sets _gameView + opens overlay + joins + renders.
+  // Don't duplicate those steps here — just route to the right opener.
+  if      (id === 'trivia')     { openTriviaLobby(); }
+  else if (id === 'tictactoe')  { tttOpenLobby(); }
+  else if (id === 'connect4')   { c4OpenLobby(); }
+  else if (id === 'charades')   { charadesOpenSetup(); }
+  else if (id === 'memory')     { memoryOpenLobby(); }
+  else if (id === 'gbingo')     { gbingoOpenLobby(); }
+  else if (id === 'moodmirror') { mmOpenLobby(); }
 }
 
 function tttJoinFromHub() {
@@ -14662,6 +14640,15 @@ function openTriviaLobby() {
 }
 
 function closeTriviaOverlay() {
+  // Leave any active lobby before closing — prevents false _inActiveGame check
+  var _cto_r = state.activeProfile;
+  if (_cto_r) {
+    if (_gameView === 'tictactoe')  lobbyLeave(C_TTT);
+    if (_gameView === 'connect4')   lobbyLeave(C_C4);
+    if (_gameView === 'memory')     lobbyLeave(C_MEM);
+    if (_gameView === 'gbingo')     lobbyLeave(C_GBINGO);
+    if (_gameView === 'moodmirror') lobbyLeave(C_MOODMIRROR);
+  }
   document.getElementById('triviaOverlay').classList.add('hidden');
   if (window._gameOpenedFromGamesHub) {
     window._gameOpenedFromGamesHub = false;
@@ -15483,14 +15470,18 @@ function initTTTListener() {
 
     // Game cleared — go to Games tab
     if (!data) {
-      _gameView = 'hub';
-      if (overlay && !overlay.classList.contains('hidden') && _gameView === 'tictactoe') {
+      // Only close if we're NOT currently waiting in the tictactoe lobby
+      var _inLobby = _lobbyState && _lobbyState[C_TTT] &&
+                     _lobbyState[C_TTT].players &&
+                     state.activeProfile &&
+                     _lobbyState[C_TTT].players[state.activeProfile.id];
+      if (!_inLobby && overlay && !overlay.classList.contains('hidden') && _gameView === 'tictactoe') {
+        _gameView = 'hub';
         overlay.classList.add('hidden');
         setTab('GAMES');
       }
       return;
     }
-
     var _tttAge = data.startedAt ? (Date.now() - data.startedAt) : Infinity;
     var _tttRecent = _tttAge < 2 * 60 * 60 * 1000;
     var _amPlayer = data.xId === r.id || data.oId === r.id;
@@ -15543,9 +15534,10 @@ function tttOpenLobby() {
   if (!r) return;
   _gameView = 'tictactoe';
   _ensureGameOverlayOpen();
-  initTTTListener();
   initLobbyListener();
-  lobbyJoin(C_TTT);
+  lobbyJoin(C_TTT); // join lobby BEFORE attaching game listener
+  initTTTListener();
+  setTimeout(renderTriviaPanel, 120); // defer so lobby state settles
 }
 
 function tttBeginGame() {
@@ -16137,13 +16129,12 @@ function tttQuit() {
   // Always leave the lobby cleanly
   if (r && window.FB && window.FB.ready()) window.FB.leaveLobby(C_TTT, r.id);
   if (_lobbyState[C_TTT] && _lobbyState[C_TTT].players) delete _lobbyState[C_TTT].players[r && r.id];
-  // Only delete Firebase game if it's actively playing AND I'm a player (not just spectating or in lobby)
-  // This prevents the Back button during lobby from nuking the other player's game
-  var isActivePlayer = r && _tttState &&
-    (_tttState.xId === r.id || _tttState.oId === r.id) &&
+  // Only clear Firebase game if I'm the HOST — prevents one player's quit
+  // from nuking the game on the other player's device
+  var isHost = r && _tttState && _tttState.hostId === r.id &&
     (_tttState.phase === 'playing' || _tttState.phase === 'done');
-  if (isActivePlayer && !(_tttState && _tttState.solo)) {
-    _tttClear(); // writes null to Firebase ttt path
+  if (isHost && !(_tttState && _tttState.solo)) {
+    _tttClear(); // only host clears Firebase
   }
   _tttState = null;
   _tttMine = null;
@@ -16198,14 +16189,18 @@ function initC4Listener() {
 
     // Game cleared — go to Games tab
     if (!data) {
-      if (overlay && !overlay.classList.contains('hidden') && _gameView === 'connect4') {
+      // Only close if we're NOT currently waiting in the connect4 lobby
+      var _inLobby = _lobbyState && _lobbyState[C_C4] &&
+                     _lobbyState[C_C4].players &&
+                     state.activeProfile &&
+                     _lobbyState[C_C4].players[state.activeProfile.id];
+      if (!_inLobby && overlay && !overlay.classList.contains('hidden') && _gameView === 'connect4') {
         _gameView = 'hub';
         overlay.classList.add('hidden');
         setTab('GAMES');
       }
       return;
     }
-
     var _c4Age = data.startedAt ? (Date.now() - data.startedAt) : Infinity;
     var _c4Recent = _c4Age < 2 * 60 * 60 * 1000;
     var _amPlayer = data.redId === r.id || data.yellId === r.id;
@@ -16257,9 +16252,10 @@ function c4OpenLobby() {
   _c4ResultRecorded = false;
   _gameView = 'connect4';
   _ensureGameOverlayOpen();
-  initC4Listener();
   initLobbyListener();
   lobbyJoin(C_C4);
+  initC4Listener();
+  setTimeout(renderTriviaPanel, 120);
 }
 
 function c4BeginGame(_retry) {
@@ -16865,12 +16861,18 @@ function initCharadesListener() {
 
     // Game cleared — go to Games tab
     if (!data) {
-      if (overlay && !overlay.classList.contains('hidden') && _gameView === 'charades') {
-        _gameView = 'hub'; overlay.classList.add('hidden'); setTab('GAMES');
+      // Only close if we're NOT currently waiting in the charades lobby
+      var _inLobby = _lobbyState && _lobbyState['charades'] &&
+                     _lobbyState['charades'].players &&
+                     state.activeProfile &&
+                     _lobbyState['charades'].players[state.activeProfile.id];
+      if (!_inLobby && overlay && !overlay.classList.contains('hidden') && _gameView === 'charades') {
+        _gameView = 'hub';
+        overlay.classList.add('hidden');
+        setTab('GAMES');
       }
       return;
     }
-
     var _chAge = data.startedAt ? (Date.now() - data.startedAt) : Infinity;
     var _chRecent = _chAge < 2 * 60 * 60 * 1000;
     var _amPlayer = data.players && data.players[r.id];
@@ -19502,12 +19504,18 @@ function initMemoryListener() {
 
     // Game cleared
     if (!data) {
-      if (overlay && !overlay.classList.contains('hidden') && _gameView === 'memory') {
-        _gameView = 'hub'; overlay.classList.add('hidden'); setTab('GAMES');
+      // Only close if we're NOT currently waiting in the memory lobby
+      var _inLobby = _lobbyState && _lobbyState[C_MEM] &&
+                     _lobbyState[C_MEM].players &&
+                     state.activeProfile &&
+                     _lobbyState[C_MEM].players[state.activeProfile.id];
+      if (!_inLobby && overlay && !overlay.classList.contains('hidden') && _gameView === 'memory') {
+        _gameView = 'hub';
+        overlay.classList.add('hidden');
+        setTab('GAMES');
       }
       return;
     }
-
     var _memAge = data.startedAt ? (Date.now() - data.startedAt) : Infinity;
     var _memRecent = _memAge < 2 * 60 * 60 * 1000;
     var _amPlayer = data.p1 && data.p2 && (data.p1.id === r.id || data.p2.id === r.id);
@@ -19539,9 +19547,10 @@ function memoryOpenLobby() {
   _memResultRecorded = false;
   _gameView = 'memory';
   _ensureGameOverlayOpen();
-  initMemoryListener();
   initLobbyListener();
   lobbyJoin(C_MEM);
+  initMemoryListener();
+  setTimeout(renderTriviaPanel, 120);
 }
 
 function memoryBeginGame(_retry) {
@@ -19934,12 +19943,18 @@ function initGBingoListener() {
 
     // Game cleared
     if (!data) {
-      if (overlay && !overlay.classList.contains('hidden') && _gameView === 'gbingo') {
-        _gameView = 'hub'; overlay.classList.add('hidden'); setTab('GAMES');
+      // Only close if we're NOT currently waiting in the gbingo lobby
+      var _inLobby = _lobbyState && _lobbyState[C_GBINGO] &&
+                     _lobbyState[C_GBINGO].players &&
+                     state.activeProfile &&
+                     _lobbyState[C_GBINGO].players[state.activeProfile.id];
+      if (!_inLobby && overlay && !overlay.classList.contains('hidden') && _gameView === 'gbingo') {
+        _gameView = 'hub';
+        overlay.classList.add('hidden');
+        setTab('GAMES');
       }
       return;
     }
-
     var _gbAge = data.startedAt ? (Date.now() - data.startedAt) : Infinity;
     var _gbRecent = _gbAge < 2 * 60 * 60 * 1000;
     var _amPlayer = data.players && data.players[r.id];
@@ -19971,9 +19986,10 @@ function gbingoOpenLobby() {
   _gbResultRecorded = false;
   _gameView = 'gbingo';
   _ensureGameOverlayOpen();
-  initGBingoListener();
   initLobbyListener();
   lobbyJoin(C_GBINGO);
+  initGBingoListener();
+  setTimeout(renderTriviaPanel, 120);
 }
 
 function gbingoBeginGame(_retry) {
@@ -20252,9 +20268,10 @@ function mmOpenLobby() {
   _mmResultRecorded = false;
   _gameView = 'moodmirror';
   _ensureGameOverlayOpen();
-  initMoodMirrorListener();
   initLobbyListener();
   lobbyJoin(C_MOODMIRROR);
+  initMoodMirrorListener();
+  setTimeout(renderTriviaPanel, 120);
 }
 
 function mmBeginGame(_retry) {

@@ -4037,6 +4037,7 @@ function enterGame(role) {
   // Start online heartbeat (marks online every 60s)
   if (window._onlineHb) clearInterval(window._onlineHb);
   window._onlineHb = setInterval(markOnline, 60000);
+  window._lobbyListenerActive = false; // reset so lobby listener re-registers fresh
 
   // Start Firebase real-time listeners (safe to call multiple times — onValue dedupes)
   if (window.FB && window.FB.ready()) {
@@ -5628,13 +5629,9 @@ const FRIENDS_QUEST_SECS = [
 function getQuestsForRole(rid) {
   var g = getRoleGroup(rid);
   if (g === 'friend') return FRIENDS_QUEST_SECS;
-  // Blake's personal sections are private — not shown in his quest tab
-  var BLAKE_PRIVATE_SECS = ['healing','affirm','trauma','recovery','courage'];
   return ALL_QUEST_SECS.filter(function(s) {
-    if (rid === 'blake' && BLAKE_PRIVATE_SECS.indexOf(s.id) >= 0) return false;
     if (s.roles === 'all') return true;
     if (Array.isArray(s.roles) && s.roles.includes(rid)) return true;
-    // Group mapping: jordan is a parent, sibling2-4 are siblings
     if (rid === 'jordan' && Array.isArray(s.roles) && s.roles.includes('jordan')) return true;
     return false;
   });
@@ -5647,10 +5644,16 @@ function getQuestsForRole(rid) {
 function buildQuestsTab() {
   const r = state.activeProfile;
   const panel = document.getElementById('tab-QUESTS');
+  if (!r || !panel) return;
   const sections = getQuestsForRole(r.id);
   const done = state.donePermanent[r.id] || new Set();
 
   panel.innerHTML = '<div class="section-label">Quest Sections</div>';
+
+  if (!sections || sections.length === 0) {
+    panel.innerHTML += '<div style="padding:32px;text-align:center;color:rgba(255,255,255,.4);font-size:13px;font-style:italic">No quests found. 🌱</div>';
+    return;
+  }
 
   sections.forEach((sec) => {
     const doneCount = sec.quests.filter(q => done.has(q.id)).length;
@@ -14202,10 +14205,15 @@ function _myProfile() {
 // ── Lobby listener ────────────────────────────────────────────────
 function initLobbyListener() {
   if (!window.FB || !window.FB.ready()) return;
-  // No singleton guard — watchLobby now detaches + re-attaches cleanly each time
+  // Singleton guard — only register one watchLobby callback
+  if (window._lobbyListenerActive) return;
+  window._lobbyListenerActive = true;
   window.FB.watchLobby(function(data) {
     var _incoming = data || {};
-    // Merge: keep any locally-written players that Firebase hasn't confirmed yet
+    // Merge: keep locally-written players only if very recent (< 8s, not yet confirmed by FB)
+    // This prevents ghost players from persisting if Firebase has already removed them
+    var _MERGE_TTL = 8000;
+    var _now = Date.now();
     Object.keys(_lobbyState).forEach(function(gid) {
       var localGame = _lobbyState[gid];
       if (!localGame || !localGame.players) return;
@@ -14213,7 +14221,11 @@ function initLobbyListener() {
       if (!_incoming[gid].players) _incoming[gid].players = {};
       Object.keys(localGame.players).forEach(function(pid) {
         if (!_incoming[gid].players[pid]) {
-          _incoming[gid].players[pid] = localGame.players[pid];
+          var joinedAt = (localGame.players[pid] && localGame.players[pid].joinedAt) || 0;
+          // Only keep if very recently written (within merge TTL)
+          if (_now - joinedAt < _MERGE_TTL) {
+            _incoming[gid].players[pid] = localGame.players[pid];
+          }
         }
       });
     });
@@ -14239,6 +14251,13 @@ function initLobbyListener() {
 }
 
 // ── Lobby: join / leave ───────────────────────────────────────────
+
+// Helper: ensures game overlay (#triviaOverlay) is visible before rendering a game
+function _ensureGameOverlayOpen() {
+  var ov = document.getElementById('triviaOverlay');
+  if (ov && ov.classList.contains('hidden')) ov.classList.remove('hidden');
+}
+
 function lobbyJoin(gameId) {
   var r = state.activeProfile;
   if (!r) return;
@@ -14252,13 +14271,18 @@ function lobbyJoin(gameId) {
   _lobbyState[gameId].players[r.id] = entry;
   if (window.FB && window.FB.ready()) {
     window.FB.joinLobby(gameId, r.id, entry);
-    var _gcat = GAME_HUB_CATEGORIES.find(function(g){ return g.id === gameId; }) || {};
-    window.FB.pushNotification({
-      type:'game_invite', gameId:gameId, fromId:r.id,
-      icon:  _gcat.icon  || '🎮',
-      title: (p.displayName||p.name||(r&&r.name)||'Someone') + ' wants to play ' + (_gcat.label||gameId) + '!',
-      body:  'Tap to join their lobby',
-    });
+    // Only notify others if no one else is already in this lobby
+    // (avoids spamming when player browses and immediately leaves)
+    var _existingPlayers = lobbyPlayers(gameId).filter(function(pl){ return pl.id !== r.id; });
+    if (_existingPlayers.length === 0) {
+      var _gcat = GAME_HUB_CATEGORIES.find(function(g){ return g.id === gameId; }) || {};
+      window.FB.pushNotification({
+        type:'game_invite', gameId:gameId, fromId:r.id,
+        icon:  _gcat.icon  || '🎮',
+        title: (p.displayName||p.name||(r&&r.name)||'Someone') + ' wants to play ' + (_gcat.label||gameId) + '!',
+        body:  'Tap to join their lobby',
+      });
+    }
   }
 }
 
@@ -14273,7 +14297,27 @@ function lobbyLeave(gameId) {
   }
 }
 
+function _pruneStaleLobbies() {
+  // Remove any lobby player entry older than 5 minutes (crashed/disconnected player)
+  var LOBBY_TTL = 5 * 60 * 1000;
+  var now = Date.now();
+  Object.keys(_lobbyState).forEach(function(gid) {
+    var lb = _lobbyState[gid];
+    if (!lb || !lb.players) return;
+    var staleIds = Object.keys(lb.players).filter(function(pid) {
+      var joinedAt = lb.players[pid] && lb.players[pid].joinedAt;
+      return joinedAt && (now - joinedAt) > LOBBY_TTL;
+    });
+    staleIds.forEach(function(pid) {
+      delete lb.players[pid];
+      // Also remove from Firebase
+      if (window.FB && window.FB.ready()) window.FB.leaveLobby(gid, pid);
+    });
+  });
+}
+
 function lobbyPlayers(gameId) {
+  _pruneStaleLobbies();
   var lb = _lobbyState[gameId];
   if (!lb || !lb.players) return [];
   return Object.entries(lb.players)
@@ -14591,8 +14635,11 @@ function buildGamesTab() {
 function openTriviaLobby() {
   _triviaSelected = null;
   _gameView = _triviaState ? (_triviaState.phase === 'waiting' || _triviaState.phase === 'question' || _triviaState.phase === 'reveal' || _triviaState.phase === 'end' ? 'playing' : 'hub') : 'hub';
-  document.getElementById('triviaOverlay').classList.remove('hidden');
-  renderTriviaPanel();
+  setTab('GAMES');
+  setTimeout(function() {
+    _ensureGameOverlayOpen();
+    renderTriviaPanel();
+  }, 50);
 }
 
 function closeTriviaOverlay() {
@@ -15376,6 +15423,8 @@ function initTTTListener() {
   if (!window.FB || !window.FB.ready()) return;
   // Listener re-attaches cleanly via unsub — no singleton guard needed
   window.FB.watchTTT(function(data) {
+    // Skip Firebase TTT updates if player is in a solo game — prevents collision
+    if (_tttState && _tttState.solo) return;
     _tttState = data;
     var overlay = document.getElementById('triviaOverlay');
     var isOpen  = overlay && !overlay.classList.contains('hidden');
@@ -16093,6 +16142,7 @@ function initC4Listener() {
   if (!window.FB || !window.FB.ready()) return;
   // Re-attaches cleanly via unsub
   window.FB.watchC4(function(data) {
+    if (_c4State && _c4State.solo) return; // skip during solo game
     _c4State = data;
     var overlay = document.getElementById('triviaOverlay');
     var r       = state.activeProfile;

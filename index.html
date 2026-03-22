@@ -14253,7 +14253,7 @@ function initLobbyListener() {
     var overlay = document.getElementById('triviaOverlay');
     var isOpen  = overlay && !overlay.classList.contains('hidden');
     if (isOpen) {
-      // Don't let a lobby update flash the lobby screen over an active live game board
+      // Don't re-render if in a live game (prevents lobby update flashing over board)
       var _inLiveGame =
         (_gameView === 'tictactoe'  && _tttState  && _tttState.phase  === 'playing') ||
         (_gameView === 'connect4'   && _c4State   && _c4State.phase   === 'playing') ||
@@ -14261,12 +14261,13 @@ function initLobbyListener() {
         (_gameView === 'memory'     && _memState  && _memState.phase  === 'playing') ||
         (_gameView === 'gbingo'     && _gbingoState && _gbingoState.phase === 'playing') ||
         (_gameView === 'moodmirror' && _mmState   && _mmState.phase   === 'playing');
-      if (!_inLiveGame) renderTriviaPanel();
+      // Only re-render if in a game view (lobby), not in hub (avoids kick-back)
+      if (!_inLiveGame && _gameView !== 'hub') renderTriviaPanel();
     }
-    // Refresh games tab if active
-    if (state.activeTab === 'GAMES') buildGamesOverlay();
-    // Also refresh hub banners
-    if (!isOpen && (_gameView === 'hub')) renderTriviaPanel();
+    // Refresh games tab if active AND overlay is closed
+    if (state.activeTab === 'GAMES' && !isOpen) buildGamesOverlay();
+    // Hub banners: only when overlay closed and in hub view
+    if (!isOpen && _gameView === 'hub') renderTriviaPanel();
   });
 }
 
@@ -14654,12 +14655,10 @@ function buildGamesTab() {
 // ── Overlay open/close ────────────────────────────────────────────
 function openTriviaLobby() {
   _triviaSelected = null;
-  _gameView = _triviaState ? (_triviaState.phase === 'waiting' || _triviaState.phase === 'question' || _triviaState.phase === 'reveal' || _triviaState.phase === 'end' ? 'playing' : 'hub') : 'hub';
-  setTab('GAMES');
-  setTimeout(function() {
-    _ensureGameOverlayOpen();
-    renderTriviaPanel();
-  }, 50);
+  // Set gameView to playing or trivia-cats before opening overlay
+  _gameView = _triviaState && (_triviaState.phase === 'waiting' || _triviaState.phase === 'question' || _triviaState.phase === 'reveal' || _triviaState.phase === 'end') ? 'playing' : 'trivia-cats';
+  _ensureGameOverlayOpen();
+  renderTriviaPanel();
 }
 
 function closeTriviaOverlay() {
@@ -14715,11 +14714,21 @@ function renderTriviaPanel() {
 
   // Non-trivia game views always take priority — never let _triviaState override them
   if (_gameView === 'hub') {
-    // Hub view: close overlay, show unified Games tab (avoids duplicate hub)
-    var _tov = document.getElementById('triviaOverlay');
-    if (_tov) _tov.classList.add('hidden');
-    if (state.activeTab !== 'GAMES') setTab('GAMES');
-    else { try { buildGamesOverlay(); } catch(e) {} }
+    // Hub view: close overlay and show Games tab
+    // But ONLY if we're not currently in a lobby/game
+    var _inActiveGame = _lobbyState && (
+      ((_lobbyState[C_TTT]    && _lobbyState[C_TTT].players    && Object.keys(_lobbyState[C_TTT].players).indexOf(state.activeProfile && state.activeProfile.id) >= 0)) ||
+      ((_lobbyState[C_C4]     && _lobbyState[C_C4].players     && Object.keys(_lobbyState[C_C4].players).indexOf(state.activeProfile && state.activeProfile.id) >= 0)) ||
+      ((_lobbyState[C_MEM]    && _lobbyState[C_MEM].players    && Object.keys(_lobbyState[C_MEM].players).indexOf(state.activeProfile && state.activeProfile.id) >= 0)) ||
+      ((_lobbyState[C_GBINGO] && _lobbyState[C_GBINGO].players && Object.keys(_lobbyState[C_GBINGO].players).indexOf(state.activeProfile && state.activeProfile.id) >= 0)) ||
+      ((_lobbyState[C_MOODMIRROR] && _lobbyState[C_MOODMIRROR].players && Object.keys(_lobbyState[C_MOODMIRROR].players).indexOf(state.activeProfile && state.activeProfile.id) >= 0))
+    );
+    if (!_inActiveGame) {
+      var _tov = document.getElementById('triviaOverlay');
+      if (_tov) _tov.classList.add('hidden');
+      if (state.activeTab !== 'GAMES') setTab('GAMES');
+      else { try { buildGamesOverlay(); } catch(e) {} }
+    }
     return;
   }
   if (_gameView === 'trivia-cats')      { _ensureGameOverlayOpen(); renderTriviaCatPicker(panel, r, isDark); return; }
@@ -15532,7 +15541,8 @@ function tttOpenLobby() {
   _tttResultRecorded = false;
   var r = state.activeProfile;
   if (!r) return;
-  setTab('GAMES');
+  _gameView = 'tictactoe';
+  _ensureGameOverlayOpen();
   initTTTListener();
   initLobbyListener();
   lobbyJoin(C_TTT);
@@ -16245,7 +16255,8 @@ function c4OpenLobby() {
   var r = state.activeProfile;
   if (!r) return;
   _c4ResultRecorded = false;
-  setTab('GAMES');
+  _gameView = 'connect4';
+  _ensureGameOverlayOpen();
   initC4Listener();
   initLobbyListener();
   lobbyJoin(C_C4);
@@ -19526,7 +19537,8 @@ function initMemoryListener() {
 
 function memoryOpenLobby() {
   _memResultRecorded = false;
-  setTab('GAMES');
+  _gameView = 'memory';
+  _ensureGameOverlayOpen();
   initMemoryListener();
   initLobbyListener();
   lobbyJoin(C_MEM);
@@ -19957,7 +19969,8 @@ function initGBingoListener() {
 
 function gbingoOpenLobby() {
   _gbResultRecorded = false;
-  setTab('GAMES');
+  _gameView = 'gbingo';
+  _ensureGameOverlayOpen();
   initGBingoListener();
   initLobbyListener();
   lobbyJoin(C_GBINGO);
@@ -20237,7 +20250,8 @@ function initMoodMirrorListener() {
 
 function mmOpenLobby() {
   _mmResultRecorded = false;
-  setTab('GAMES');
+  _gameView = 'moodmirror';
+  _ensureGameOverlayOpen();
   initMoodMirrorListener();
   initLobbyListener();
   lobbyJoin(C_MOODMIRROR);

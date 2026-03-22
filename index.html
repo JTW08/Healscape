@@ -23,12 +23,12 @@
 :root {
   --gold:#f5c842; --gold-lt:#ffd54f; --gold2:#c8960a;
   --ember:#ef5350;
-  --stone:#1a1714; --stone2:#221e1a; --stone3:#2e2822; --stone4:#3a332a;
+  --stone:#1a1714; --stone1:#0f0c0a; --stone2:#221e1a; --stone3:#2e2822; --stone4:#3a332a;
   --fog:rgba(255,255,255,0.07); --fog2:rgba(255,255,255,0.13);
   --text:#f0dca0; --text2:rgba(200,170,100,0.65);
   --card-bg:rgba(38,28,4,.92); --card-border:rgba(200,150,10,.2);
   --input-bg:rgba(38,28,4,.9); --input-border:rgba(200,150,10,.25);
-  --radius:14px; --tab-h:clamp(56px,8.5vh,72px); --hud-h:clamp(54px,8vh,68px);
+  --radius:14px; --tab-h:60px; --tab-h:clamp(56px,8.5vh,72px); --hud-h:58px; --hud-h:clamp(54px,8vh,68px);
 }
 /* ── LIGHT REALM THEME ── */
 [data-theme="light"] {
@@ -4045,6 +4045,10 @@ function enterGame(role) {
   if (window._onlineHb) clearInterval(window._onlineHb);
   window._onlineHb = setInterval(markOnline, 60000);
   window._lobbyListenerActive = false; // reset so lobby listener re-registers fresh
+  // Reset all BeginGame race guards for fresh session
+  window._tttBeginGuard = false; window._c4BeginGuard = false;
+  window._memBeginGuard = false; window._gbingoBeginGuard = false;
+  window._mmBeginGuard  = false;
 
   // Start Firebase real-time listeners (safe to call multiple times — onValue dedupes)
   if (window.FB && window.FB.ready()) {
@@ -4548,6 +4552,7 @@ function buildGamesOverlay() {
         '<div style="font-family:Cinzel,serif;font-size:11px;color:' + t.textCol + '">' + g.label + '</div>' +
         '<div style="font-size:9px;color:' + t.sub + ';font-family:Cinzel,serif">SOON</div></div>';
     }
+
     var soloBtnH = '';
     if (g.id === 'tictactoe') soloBtnH = '<button onclick="startSoloTTT()" style="width:100%;padding:7px 4px;border-radius:8px;border:none;background:' + g.color + ';color:#fff;font-family:Cinzel,serif;font-size:10px;cursor:pointer;font-weight:700">🤖 Solo</button>';
     if (g.id === 'connect4')  soloBtnH = '<button onclick="startSoloC4()" style="width:100%;padding:7px 4px;border-radius:8px;border:none;background:' + g.color + ';color:#fff;font-family:Cinzel,serif;font-size:10px;cursor:pointer;font-weight:700">🤖 Solo</button>';
@@ -14689,11 +14694,11 @@ function closeTriviaOverlay() {
 
 // Navigate to hub and fully clear trivia state
 function triviaGoHub() {
-  _triviaState = null;
-  _triviaSelected = null;
-  if (_triviaTimer) { clearInterval(_triviaTimer); _triviaTimer = null; }
   _gameView = 'hub';
-  renderTriviaPanel();
+  // Close overlay and go to unified Games tab
+  var ov = document.getElementById('triviaOverlay');
+  if (ov) ov.classList.add('hidden');
+  setTab('GAMES');
 }
 
 // ── Render dispatch ───────────────────────────────────────────────
@@ -14705,25 +14710,43 @@ function renderTriviaPanel() {
   const ts     = _triviaState;
 
   // Non-trivia game views always take priority — never let _triviaState override them
-  if (_gameView === 'hub')              { renderGameHub(panel, r, isDark, ts); return; }
-  if (_gameView === 'trivia-cats')      { renderTriviaCatPicker(panel, r, isDark); return; }
-  if (_gameView === 'tictactoe')        { renderTTTPanel(panel, r, isDark); return; }
-  if (_gameView === 'connect4')         { renderC4Panel(panel, r, isDark); return; }
-  if (_gameView === 'charades')         { renderCharadesPanel(panel, r, isDark); return; }
-  if (_gameView === 'memory')           { renderMemoryPanel(panel, r, isDark); return; }
-  if (_gameView === 'gbingo')           { renderGBingoPanel(panel, r, isDark); return; }
-  if (_gameView === 'moodmirror')       { renderMoodMirrorPanel(panel, r, isDark); return; }
+  if (_gameView === 'hub') {
+    // Hub view: close overlay, show unified Games tab (avoids duplicate hub)
+    var _tov = document.getElementById('triviaOverlay');
+    if (_tov) _tov.classList.add('hidden');
+    if (state.activeTab !== 'GAMES') setTab('GAMES');
+    else { try { buildGamesOverlay(); } catch(e) {} }
+    return;
+  }
+  if (_gameView === 'trivia-cats')      { _ensureGameOverlayOpen(); renderTriviaCatPicker(panel, r, isDark); return; }
+  if (_gameView === 'tictactoe')        { _ensureGameOverlayOpen(); renderTTTPanel(panel, r, isDark); return; }
+  if (_gameView === 'connect4')         { _ensureGameOverlayOpen(); renderC4Panel(panel, r, isDark); return; }
+  if (_gameView === 'charades')         { _ensureGameOverlayOpen(); renderCharadesPanel(panel, r, isDark); return; }
+  if (_gameView === 'memory')           { _ensureGameOverlayOpen(); renderMemoryPanel(panel, r, isDark); return; }
+  if (_gameView === 'gbingo')           { _ensureGameOverlayOpen(); renderGBingoPanel(panel, r, isDark); return; }
+  if (_gameView === 'moodmirror')       { _ensureGameOverlayOpen(); renderMoodMirrorPanel(panel, r, isDark); return; }
 
   // Trivia game phases — only when _gameView === 'playing'
   if (_gameView === 'playing') {
-    if (!ts)                        { renderGameHub(panel, r, isDark, null); return; }
+    if (!ts) {
+      // Trivia state cleared — go back to unified Games tab
+      _gameView = 'hub';
+      var _ov = document.getElementById('triviaOverlay');
+      if (_ov) _ov.classList.add('hidden');
+      setTab('GAMES');
+      return;
+    }
     if (ts.phase === 'waiting')     { renderTriviaWaiting(panel, r, isDark, ts); return; }
     if (ts.phase === 'question')    { renderTriviaQuestion(panel, r, isDark, ts); return; }
     if (ts.phase === 'reveal')      { renderTriviaReveal(panel, r, isDark, ts); return; }
     if (ts.phase === 'end')         { renderTriviaEnd(panel, r, isDark, ts); return; }
   }
 
-  renderGameHub(panel, r, isDark, ts);
+  // Final fallback: unknown state — go to Games tab
+  _gameView = 'hub';
+  var _fov = document.getElementById('triviaOverlay');
+  if (_fov) _fov.classList.add('hidden');
+  setTab('GAMES');
 }
 
 function renderGameHub(panel, r, isDark, ts) {
@@ -15515,8 +15538,11 @@ function tttOpenLobby() {
 }
 
 function tttBeginGame() {
+  if (window._tttBeginGuard) return; // prevent double-fire
+  window._tttBeginGuard = true;
+  setTimeout(function(){ window._tttBeginGuard = false; }, 5000); // auto-release after 5s
   var r = state.activeProfile;
-  if (!r) return;
+  if (!r) { window._tttBeginGuard = false; return; }
   var players = lobbyPlayers(C_TTT);
   if (players.length < 2) {
     showToast('⏳', 'Starting…', 'Waiting for both players…');
@@ -15557,6 +15583,7 @@ function tttBeginGame() {
       body: 'Game starting now!',
     });
   }
+  window._tttBeginGuard = false; // game started — release guard
   _tttWrite(gs);
   setTimeout(function() {
     if (window.FB && window.FB.ready()) window.FB.clearLobby(C_TTT);
@@ -16094,7 +16121,7 @@ function _detachGameListener(key) {
 }
 
 function tttQuit() {
-  var r = state.activeProfile;
+  window._tttBeginGuard = false;  var r = state.activeProfile;
   _detachGameListener('ttt');
   // Always leave the lobby cleanly
   if (r && window.FB && window.FB.ready()) window.FB.leaveLobby(C_TTT, r.id);
@@ -16215,6 +16242,8 @@ function c4OpenLobby() {
 }
 
 function c4BeginGame(_retry) {
+  if (!_retry && window._c4BeginGuard) return; // prevent double-fire
+  if (!_retry) { window._c4BeginGuard = true; setTimeout(function(){ window._c4BeginGuard = false; }, 8000); }
   var r = state.activeProfile;
   if (!r) return;
 
@@ -16595,7 +16624,7 @@ function _c4Header(onclose) {
 }
 
 function c4Quit() {
-  var r = state.activeProfile;
+  window._c4BeginGuard = false;  var r = state.activeProfile;
   _detachGameListener('c4');
   if (r && window.FB && window.FB.ready()) window.FB.leaveLobby(C_C4, r.id);
   if (_lobbyState[C_C4] && _lobbyState[C_C4].players && r) {
@@ -19454,6 +19483,8 @@ function memoryOpenLobby() {
 }
 
 function memoryBeginGame(_retry) {
+  if (!_retry && window._memBeginGuard) return; // prevent double-fire
+  if (!_retry) { window._memBeginGuard = true; setTimeout(function(){ window._memBeginGuard = false; }, 8000); }
   var r = state.activeProfile;
   if (!r) return;
   var players = lobbyPlayers(C_MEM);
@@ -19608,7 +19639,7 @@ function memoryFlip(idx) {
 }
 
 function memoryQuit() {
-  var r = state.activeProfile;
+  window._memBeginGuard = false;  var r = state.activeProfile;
   _detachGameListener('memory');
   if (_memState && _memState.solo) {
     _memState = null;
@@ -19863,6 +19894,8 @@ function gbingoOpenLobby() {
 }
 
 function gbingoBeginGame(_retry) {
+  if (!_retry && window._gbingoBeginGuard) return; // prevent double-fire
+  if (!_retry) { window._gbingoBeginGuard = true; setTimeout(function(){ window._gbingoBeginGuard = false; }, 8000); }
   var r = state.activeProfile;
   if (!r) return;
   var players = lobbyPlayers(C_GBINGO);
@@ -19970,6 +20003,7 @@ function gbingoClaim() {
 }
 
 function gbingoQuit() {
+  window._gbingoBeginGuard = false;
   var r = state.activeProfile;
   _detachGameListener('gbingo');
   if (r && window.FB && window.FB.ready()) window.FB.leaveLobby(C_GBINGO, r.id);
@@ -20138,6 +20172,8 @@ function mmOpenLobby() {
 }
 
 function mmBeginGame(_retry) {
+  if (!_retry && window._mmBeginGuard) return; // prevent double-fire
+  if (!_retry) { window._mmBeginGuard = true; setTimeout(function(){ window._mmBeginGuard = false; }, 8000); }
   var r = state.activeProfile;
   if (!r) return;
   var players = lobbyPlayers(C_MOODMIRROR);
@@ -20266,6 +20302,7 @@ function mmNextRound() {
 }
 
 function mmQuit() {
+  window._mmBeginGuard = false;
   var r = state.activeProfile;
   _detachGameListener('moodmirror');
   if (r && window.FB && window.FB.ready()) window.FB.leaveLobby(C_MOODMIRROR, r.id);

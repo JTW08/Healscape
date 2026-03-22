@@ -1,5 +1,5 @@
-// HealScape Service Worker - build 20260322_0505
-const CACHE_NAME = 'healscape-20260322_0505';
+// HealScape Service Worker - build 20260322_1124
+const CACHE_NAME = 'healscape-20260322_1124';
 const ASSETS = ['/Healscape/','/Healscape/index.html','/Healscape/manifest.json',
   '/Healscape/icon-192.png','/Healscape/icon-512.png',
   '/Healscape/milo-actions.png','/Healscape/milo-eat-carrot.png',

@@ -2248,9 +2248,9 @@ body {
     // 2. Add an Email Service (Gmail works)
     // 3. Create a template with variables: {{to_email}}, {{otp_code}}, {{user_name}}
     // 4. Replace the placeholder strings below
-    var EMAILJS_PUBLIC_KEY  = "YOUR_PUBLIC_KEY";   // Account > API Keys
-    var EMAILJS_SERVICE_ID  = "YOUR_SERVICE_ID";   // Email Services tab
-    var EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";  // Email Templates tab
+    var EMAILJS_PUBLIC_KEY  = "FsWd42NvgTzYMAWNX";
+    var EMAILJS_SERVICE_ID  = "service_4hda6nj";
+    var EMAILJS_TEMPLATE_ID = "template_2k7swlv";
     if (typeof emailjs !== "undefined") emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
   </script>
 </head>
@@ -3509,6 +3509,7 @@ function handleFourDigits() {
     if (hash === p.pinHash) {
       // Success — clear attempt counter
       _pinAttempts[pinRole.id] = 0;
+      window._pinJustVerified = true; // chat lock can skip re-prompt
       var warn = document.getElementById('pinAttemptsWarn');
       if (warn) warn.style.display = 'none';
       if (_pinChangePending) {
@@ -3546,6 +3547,7 @@ function handleFourDigits() {
     if (hash === pinFirstHash) {
       p.pinHash = hash; p.firstLogin = false;
       saveState(); _chatUnlocked = true; pinBuffer = '';
+      window._pinJustVerified = true; // chat lock can skip re-prompt
       var _cr = pinRole;
       function _afterPinConfirm() { if (!state.profiles[_cr.id].onboardDone) { obStart(_cr); } else { enterGame(_cr); } }
       var _cp = state.profiles[_cr.id];
@@ -3977,9 +3979,14 @@ function miloAiReply(userMsg) {
 function enterGame(role) {
   // Init quest focus filter (once)
   if (!_origGetQuestsForRole && typeof _initQuestFocusFilter === 'function') _initQuestFocusFilter();
-  // Reset chat lock — must re-verify PIN each new session
-  _chatUnlocked = false;
-  closeChatLock && closeChatLock();
+  // Reset chat lock — unless user just verified their PIN (login or session restore)
+  if (window._pinJustVerified) {
+    _chatUnlocked = true;  // PIN already checked — grant chat access immediately
+    window._pinJustVerified = false;
+  } else {
+    _chatUnlocked = false;
+    closeChatLock && closeChatLock();
+  }
   // ── Reset all multiplayer game state from any previous session ──
   // Critical for same-device multi-account play: clear stale state
   // so the new player gets fresh listeners and correct mySide detection
@@ -4309,6 +4316,7 @@ function setTab(name) {
 function buildDailyTab() {
   const r      = state.activeProfile;
   const panel  = document.getElementById('tab-DAILY');
+  if (!r || !panel) return;
   const dailies = getDailies(r.id);
   const doneSet = state.doneToday[r.id] || new Set();
   const allDone = dailies.every(d => doneSet.has(d.id));
@@ -5824,6 +5832,7 @@ const AFFIRMS = [
 // Sound engine replaced - see sfxTone/sfxCoins etc below
 
 function buildCalmTab() {
+  if (!state.activeProfile) return;
   // Init states
   bubbles = makeBubbles();
   bubbleCount = 0; bubbleStartTime = null; bubbleElapsed = 0;
@@ -7937,6 +7946,7 @@ function farmAchievement(msg) {
 
 // ── Render ────────────────────────────────────────────────────
 function buildFarmTab() {
+  if (!state.activeProfile) return;
   farmInit();
   // Start voxel scene after render
   setTimeout(buildFarmScene, 100);
@@ -10367,6 +10377,7 @@ const AVATARS = ['🧝','🧙','🧚','🦸','🏹','⚔️','🧜','🧛','🧞
 
 function buildSettingsTab() {
   const r = state.activeProfile;
+  if (!r) return;
   const p = state.profiles[(r && r.id)] || {};
   settingsEditName = p.displayName || (r && r.name) || '';
   settingsEditAv   = p.avatar || (r && r.icon) || '⚔️';
@@ -12264,7 +12275,7 @@ function markOnline() {
         _isFirstOnline = false;
         const role = ROLES.find(r => r.id === rid) || (_friendRoles || []).find(r => r.id === rid);
         const name = (state.profiles[rid] && state.profiles[rid].displayName) || (role && role.name) || rid;
-        window.FB.pushNotification({
+        if (window.FB && window.FB.ready()) window.FB.pushNotification({
           type:   'online',
           fromId: rid,
           icon:   (state.profiles[rid] && state.profiles[rid].avatar) || (role && role.icon) || '👋',
@@ -18327,7 +18338,7 @@ function showChatLock(pending) {
   _chatLockBuf = '';
   _chatLockRefreshDots();
   var sub = document.getElementById('chatLockSub');
-  if (sub) sub.textContent = 'Enter ' + (r.name || r.id) + '\u2019s PIN to access chat';
+  if (sub) sub.textContent = 'Enter your login PIN to unlock chat';
   document.getElementById('chatLockBackdrop').classList.add('open');
   document.getElementById('chatLockSheet').classList.add('open');
 }
@@ -18858,7 +18869,7 @@ function submitFriendSetup() {
       _saveLocalInvite(_pendingInvCode, { used: true, claimedBy: friendId });
     }
     // Announce arrival in friends circle
-    window.FB.pushNotification({
+    if (window.FB && window.FB.ready()) window.FB.pushNotification({
       type: 'friend_joined', fromId: friendId, icon: _friendSetupAv,
       title: nameVal + ' joined the Friends Realm! 🤝',
       body: 'Welcome them in the Friends Circle.',
@@ -19374,7 +19385,7 @@ function calSaveEvent() {
         var dd = new Date(date+'T12:00:00');
         return dd.toLocaleDateString('en',{month:'short',day:'numeric'});
       })();
-      window.FB.pushNotification({
+      if (window.FB && window.FB.ready()) window.FB.pushNotification({
         type: 'calendar_invite',
         fromId: r.id,
         toIds: notifTargets,

@@ -15487,10 +15487,12 @@ function initTTTListener() {
     var _amPlayer = data.xId === r.id || data.oId === r.id;
 
     // Record result exactly once when done
+    // TTT stores winner as 'x'/'o'/'draw'/null — compare to _tttMine (side), not r.id
     if (data.phase === 'done' && _amPlayer && !_tttResultRecorded) {
       _tttResultRecorded = true;
-      var _tttWon = data.winner === _tttMine;
-      recordGameResult('ttt', data.winner === null ? 'draw' : (_tttWon ? 'win' : 'loss'));
+      var _tttOutcome = data.winner === 'draw' ? 'draw'
+                      : data.winner === _tttMine ? 'win' : 'loss';
+      recordGameResult('ttt', _tttOutcome);
     }
 
     // Reset result flag when a new game starts
@@ -15498,12 +15500,10 @@ function initTTTListener() {
 
     // Auto-open for active or finished games (if recent and I'm a player)
     if (_amPlayer && _tttRecent && (data.phase === 'playing' || data.phase === 'done')) {
-      _tttMine = (data.xId === r.id) ? 'x' : 'o';
+      _tttMine = (data.xId === r.id) ? 'x' : 'o'; // always sync side
       _gameView = 'tictactoe';
-      if (overlay && overlay.classList.contains('hidden')) {
-        overlay.classList.remove('hidden');
-        window._gameOpenedFromHeroes = false;
-      }
+      _ensureGameOverlayOpen();
+      window._gameOpenedFromHeroes = false;
       if (window.FB && window.FB.ready()) window.FB.leaveLobby(C_TTT, r.id);
       renderTriviaPanel();
       return;
@@ -15532,8 +15532,9 @@ function tttOpenLobby() {
   _tttResultRecorded = false;
   var r = state.activeProfile;
   if (!r) return;
+  setTab('GAMES');
   initTTTListener();
-  initLobbyListener(); // ensure lobby subscription is active (may have been reset after prev game)
+  initLobbyListener();
   lobbyJoin(C_TTT);
 }
 
@@ -16200,10 +16201,13 @@ function initC4Listener() {
     var _amPlayer = data.redId === r.id || data.yellId === r.id;
 
     // Record result exactly once when done
+    // C4 stores winner as 'red'/'yell'/'draw'/null — compare to player's side
     if (data.phase === 'done' && _amPlayer && !_c4ResultRecorded) {
       _c4ResultRecorded = true;
-      var _c4Won = data.winner === (data.redId === r.id ? 'red' : 'yell');
-      recordGameResult('c4', data.winner === null ? 'draw' : (_c4Won ? 'win' : 'loss'));
+      var _c4MySide = data.redId === r.id ? 'red' : 'yell';
+      var _c4Outcome = data.winner === 'draw' ? 'draw'
+                     : data.winner === _c4MySide ? 'win' : 'loss';
+      recordGameResult('c4', _c4Outcome);
     }
 
     // Reset result flag when a new game starts
@@ -16212,7 +16216,7 @@ function initC4Listener() {
     // Auto-open for active or finished games
     if (_amPlayer && _c4Recent && (data.phase === 'playing' || data.phase === 'done')) {
       _gameView = 'connect4';
-      if (overlay && overlay.classList.contains('hidden')) overlay.classList.remove('hidden');
+      _ensureGameOverlayOpen();
       if (window.FB && window.FB.ready()) window.FB.leaveLobby(C_C4, r.id);
       renderTriviaPanel();
       return;
@@ -16241,6 +16245,7 @@ function c4OpenLobby() {
   var r = state.activeProfile;
   if (!r) return;
   _c4ResultRecorded = false;
+  setTab('GAMES');
   initC4Listener();
   initLobbyListener();
   lobbyJoin(C_C4);
@@ -16880,7 +16885,7 @@ function initCharadesListener() {
     if (!_inOtherGame && _chRecent && _amPlayer &&
         (data.phase === 'playing' || data.phase === 'done')) {
       _gameView = 'charades';
-      if (overlay && overlay.classList.contains('hidden')) overlay.classList.remove('hidden');
+      _ensureGameOverlayOpen();
       if (_chTimer) { clearInterval(_chTimer); _chTimer = null; }
       renderTriviaPanel();
       return;
@@ -19508,7 +19513,7 @@ function initMemoryListener() {
     // Auto-open for active or finished games
     if (_amPlayer && _memRecent && (data.phase === 'playing' || data.phase === 'done')) {
       _gameView = 'memory';
-      if (overlay && overlay.classList.contains('hidden')) overlay.classList.remove('hidden');
+      _ensureGameOverlayOpen();
       if (window.FB && window.FB.ready()) window.FB.leaveLobby(C_MEM, r.id);
       renderTriviaPanel();
       return;
@@ -19520,6 +19525,8 @@ function initMemoryListener() {
 }
 
 function memoryOpenLobby() {
+  _memResultRecorded = false;
+  setTab('GAMES');
   initMemoryListener();
   initLobbyListener();
   lobbyJoin(C_MEM);
@@ -19937,7 +19944,7 @@ function initGBingoListener() {
     // Auto-open for active or finished games
     if (_amPlayer && _gbRecent && (data.phase === 'playing' || data.phase === 'done')) {
       _gameView = 'gbingo';
-      if (overlay && overlay.classList.contains('hidden')) overlay.classList.remove('hidden');
+      _ensureGameOverlayOpen();
       if (window.FB && window.FB.ready()) window.FB.leaveLobby(C_GBINGO, r.id);
       renderTriviaPanel();
       return;
@@ -19949,6 +19956,8 @@ function initGBingoListener() {
 }
 
 function gbingoOpenLobby() {
+  _gbResultRecorded = false;
+  setTab('GAMES');
   initGBingoListener();
   initLobbyListener();
   lobbyJoin(C_GBINGO);
@@ -20217,7 +20226,7 @@ function initMoodMirrorListener() {
     }
     if (data && data.phase && data.phase !== 'done' && r && data.players && data.players[r.id] && _mmRecent) {
       _mmResultRecorded = false;
-      if (overlay && overlay.classList.contains('hidden')) overlay.classList.remove('hidden');
+      _ensureGameOverlayOpen();
       _gameView = 'moodmirror';
     }
     if (overlay && !overlay.classList.contains('hidden') && _gameView === 'moodmirror') {
@@ -20227,6 +20236,8 @@ function initMoodMirrorListener() {
 }
 
 function mmOpenLobby() {
+  _mmResultRecorded = false;
+  setTab('GAMES');
   initMoodMirrorListener();
   initLobbyListener();
   lobbyJoin(C_MOODMIRROR);
